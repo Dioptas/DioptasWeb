@@ -8,7 +8,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PlotlyExampleComponent } from './plotly-example/plotly-example.component';
+import { PatternPlotComponent } from './pattern-plot/pattern-plot.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 
@@ -17,7 +17,7 @@ import { MaterialsModule } from './shared/materials.module';
 @NgModule({
   declarations: [
     AppComponent,
-    PlotlyExampleComponent,
+    PatternPlotComponent,
     HeaderComponent
   ],
   imports: [
