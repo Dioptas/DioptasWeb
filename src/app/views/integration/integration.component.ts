@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, AfterViewInit, HostListener, ViewChild} from '@angular/core';
+import {Component, OnInit, AfterViewInit, HostListener, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-integration-view',
@@ -8,6 +8,7 @@ import {Component, OnInit, Input, AfterViewInit, HostListener, ViewChild} from '
 export class IntegrationComponent implements OnInit, AfterViewInit {
   @ViewChild('integrationContainer') integrationContainer;
   height: number;
+  patternMousePosition = {x: 0, y: 0};
 
   @HostListener('window:resize', ['$event'])
   onResize(_: any): void {
@@ -22,5 +23,9 @@ export class IntegrationComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.height = this.integrationContainer.nativeElement.clientHeight;
+  }
+
+  patternMouseMoved(mousePosition): void {
+    this.patternMousePosition = mousePosition;
   }
 }

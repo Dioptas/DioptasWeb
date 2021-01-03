@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit, EventEmitter, Output} from '@angular/core';
 import {DataGeneratorService} from '../../shared/data-generator.service';
 
 @Component({
@@ -7,6 +7,8 @@ import {DataGeneratorService} from '../../shared/data-generator.service';
   styleUrls: ['./pattern-plot.component.scss']
 })
 export class PatternPlotComponent implements OnInit {
+  @Output() mouseMoved = new EventEmitter<{ x: number, y: number }>();
+
   public graph = {
     data: [
       {x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, hoverinfo: 'none'}
@@ -14,7 +16,7 @@ export class PatternPlotComponent implements OnInit {
     layout: {
       font: {
         family: 'Arial, monospace',
-        size: 18,
+        size: 14,
         color: 'rgb(178,178,178)'
       },
       xaxis: {
@@ -46,12 +48,9 @@ export class PatternPlotComponent implements OnInit {
     style: {
       position: 'relative',
       width: '100%',
-      height: '95%',
+      height: '98%',
     }
   };
-
-  mouseX = 0;
-  mouseY = 0;
 
   constructor(private dataService: DataGeneratorService) {
   }
@@ -68,7 +67,6 @@ export class PatternPlotComponent implements OnInit {
   }
 
   onHover(event): void {
-    this.mouseX = event.xvals[0];
-    this.mouseY = event.yvals[0];
+    this.mouseMoved.emit({x: event.xvals[0], y: event.yvals[0]});
   }
 }

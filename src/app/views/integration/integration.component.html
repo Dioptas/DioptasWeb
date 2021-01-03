@@ -9,14 +9,14 @@
           <app-integration-control></app-integration-control>
         </ng-template>
         <ng-template #bottom>
-          <app-pattern-plot></app-pattern-plot>
+          <app-pattern-plot (mouseMoved)="patternMouseMoved($event)"></app-pattern-plot>
         </ng-template>
       </app-horizontal-splitter>
     </ng-template>
   </app-vertical-splitter>
-  <mat-toolbar color="">
-    Detailed information about mouse positions etc.
-  </mat-toolbar>
+  <app-integration-footer
+    [patternMousePosition]="patternMousePosition" >
+  </app-integration-footer>
 </div>
 
 

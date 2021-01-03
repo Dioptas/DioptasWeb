@@ -1,0 +1,15 @@
+#footerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 14px;
+}
+
+#footerContainer:first-child {
+  flex: 1;
+}
+
+#patternPosition {
+  text-align: left;
+}

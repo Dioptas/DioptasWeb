@@ -19,6 +19,7 @@ import { VerticalSplitterComponent } from './widgets/splitter/vertical-splitter/
 import { HorizontalSplitterComponent } from './widgets/splitter/horizontal-splitter/horizontal-splitter.component';
 import { IntegrationControlComponent } from './widgets/integration/integration-control/integration-control.component';
 import { ImageControlComponent } from './widgets/integration/integration-control/image-control/image-control.component';
+import { IntegrationFooterComponent } from './widgets/integration/integration-footer/integration-footer.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ImageControlComponent } from './widgets/integration/integration-control
     HorizontalSplitterComponent,
     IntegrationControlComponent,
     ImageControlComponent,
+    IntegrationFooterComponent,
   ],
   imports: [
     BrowserModule,
