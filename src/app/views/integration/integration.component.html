@@ -1,12 +1,12 @@
 <div class="integrationContainer" #integrationContainer>
-  <app-vertical-splitter style="width: 100%;">
+  <app-vertical-splitter style="height: 100%;">
     <ng-template #left>
       Hallo Welt
     </ng-template>
     <ng-template #right>
       <app-horizontal-splitter>
         <ng-template #top>
-          Menu
+          <app-integration-control></app-integration-control>
         </ng-template>
         <ng-template #bottom>
           <app-pattern-plot></app-pattern-plot>
@@ -14,6 +14,9 @@
       </app-horizontal-splitter>
     </ng-template>
   </app-vertical-splitter>
+  <mat-toolbar color="">
+    Detailed information about mouse positions etc.
+  </mat-toolbar>
 </div>
 
 

@@ -17,6 +17,7 @@ import {MaterialsModule} from './shared/materials.module';
 import {IntegrationComponent} from './views/integration/integration.component';
 import { VerticalSplitterComponent } from './widgets/splitter/vertical-splitter/vertical-splitter.component';
 import { HorizontalSplitterComponent } from './widgets/splitter/horizontal-splitter/horizontal-splitter.component';
+import { IntegrationControlComponent } from './widgets/integration/integration-control/integration-control.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { HorizontalSplitterComponent } from './widgets/splitter/horizontal-split
     IntegrationComponent,
     VerticalSplitterComponent,
     HorizontalSplitterComponent,
+    IntegrationControlComponent,
   ],
   imports: [
     BrowserModule,

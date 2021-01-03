@@ -9,12 +9,13 @@
   width: 50%;
 }
 
-.block-1 {
+.left {
   overflow: auto;
+  width: 50%;
   background-color: darkcyan;
 }
 
-.block-2 {
+.right {
   flex: 1;
   min-width:0;
   overflow: hidden;
