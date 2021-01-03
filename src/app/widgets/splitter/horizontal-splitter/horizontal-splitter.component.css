@@ -23,10 +23,8 @@
 .slider {
   text-align: center;
   text-orientation: revert;
-  background-color: orange;
-  border-bottom: 3px solid #000;
-  border-top: 3px solid #000;
-  height: 8px;
+  background-image: linear-gradient(to bottom, #303031, rgb(63, 63, 64), #303031);
+  height: 7px;
   cursor: row-resize;
   user-select: none;
 }

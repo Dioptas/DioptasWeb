@@ -17,7 +17,7 @@ mat-card {
 }
 
 #fileBrowsing .mat-raised-button {
-  height: 48px;
+  height: 40px;
 }
 
 #fileBrowsing > *, #filePath > * {
