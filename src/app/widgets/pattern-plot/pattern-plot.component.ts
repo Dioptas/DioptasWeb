@@ -1,8 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {DataGeneratorService} from '../shared/data-generator.service';
+import {DataGeneratorService} from '../../shared/data-generator.service';
 
 @Component({
-  selector: 'app-plotly-example',
+  selector: 'app-pattern-plot',
   templateUrl: './pattern-plot.component.html',
   styleUrls: ['./pattern-plot.component.scss']
 })

@@ -1,0 +1,19 @@
+<div class="integrationContainer" #integrationContainer>
+  <app-vertical-splitter style="width: 100%;">
+    <ng-template #left>
+      Hallo Welt
+    </ng-template>
+    <ng-template #right>
+      <app-horizontal-splitter>
+        <ng-template #top>
+          Menu
+        </ng-template>
+        <ng-template #bottom>
+          <app-pattern-plot></app-pattern-plot>
+        </ng-template>
+      </app-horizontal-splitter>
+    </ng-template>
+  </app-vertical-splitter>
+</div>
+
+
