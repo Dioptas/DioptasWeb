@@ -13,12 +13,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
 
 import { MaterialsModule } from './shared/materials.module';
+import { IntegrationViewComponent } from './integration-view/integration-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PatternPlotComponent,
-    HeaderComponent
+    HeaderComponent,
+    IntegrationViewComponent
   ],
   imports: [
     BrowserModule,

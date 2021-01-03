@@ -12,12 +12,19 @@ export class PatternPlotComponent implements OnInit {
       {x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, hoverinfo: 'none'}
     ],
     layout: {
+      font: {
+        family: 'Arial, monospace',
+        size: 18,
+        color: 'rgb(178,178,178)'
+      },
       xaxis: {
         title: '2θ (°)',
         showgrid: true,
+        gridcolor: 'rgb(100, 100, 100)'
       },
       yaxis: {
-        title: 'Intensity'
+        title: 'Intensity',
+        gridcolor: 'rgb(100, 100, 100)'
       },
       margin: {
         l: 75,
@@ -27,6 +34,8 @@ export class PatternPlotComponent implements OnInit {
         pad: 4
       },
       autosize: true,
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(0,0,0,0)'
     },
     config: {
       responsive: true,

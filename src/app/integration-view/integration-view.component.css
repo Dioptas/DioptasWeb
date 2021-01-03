@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.block {
+  width: 50%;
+}
+
+.block-1 {
+  overflow: auto;
+  background-color: darkcyan;
+}
+
+.block-2 {
+  flex: 1;
+  min-width:0;
+  overflow: hidden;
+  background-color: darkblue;
+}
+
+.slider {
+  text-align: center;
+  text-orientation: revert;
+  background-color: orange;
+  width: 10px;
+  cursor: col-resize;
+  user-select: none;
+}
