@@ -12,21 +12,21 @@
 .left {
   overflow: auto;
   width: 50%;
-  background-color: darkcyan;
 }
 
 .right {
   flex: 1;
   min-width:0;
   overflow: hidden;
-  background-color: darkblue;
 }
 
 .slider {
   text-align: center;
   text-orientation: revert;
   background-color: orange;
-  width: 10px;
+  border-left: 3px solid #000;
+  border-right: 3px solid #000;
+  width: 8px;
   cursor: col-resize;
   user-select: none;
 }

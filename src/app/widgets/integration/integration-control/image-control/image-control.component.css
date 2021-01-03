@@ -1,3 +1,40 @@
 mat-card {
   height: 100%;
 }
+
+
+#imageControlContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#fileBrowsing {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content:  flex-start;
+}
+
+#fileBrowsing .mat-raised-button {
+  height: 48px;
+}
+
+#fileBrowsing > *, #filePath > * {
+  margin-right: 10px;
+}
+
+#filePath {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+#filePath > * {
+  flex: 1;
+}
+
+.arrow {
+  min-width: 24px;
+}
+

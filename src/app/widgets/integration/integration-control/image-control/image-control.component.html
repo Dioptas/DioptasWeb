@@ -1,38 +1,43 @@
 <mat-card>
-  <button mat-raised-button>Load File(s)</button>
-  <button mat-raised-button>&lt;</button>
-  <button mat-raised-button>&gt;</button>
-  <mat-form-field style="width: 35px;">
-    <mat-label>Step</mat-label>
-    <input matInput class="form-control"
-           type="number" name="value" placeholder="step" value="1"
-           min="1"
-    >
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Browse Mode</mat-label>
-    <mat-select [(value)]="browseMode">
-      <mat-option value="name">By Name</mat-option>
-      <mat-option value="time">By Time</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
-  <mat-form-field>
-    <mat-label>Filename</mat-label>
-    <input matInput class="form-control" name="filename" autocomplete="off">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Folder</mat-label>
-    <input matInput class="form-control" name="folder" autocomplete="off">
-  </mat-form-field>
-  <mat-divider></mat-divider>
+  <div id="imageControlContainer">
+    <div id="fileBrowsing">
+      <button mat-raised-button>Load File(s)</button>
+      <button mat-raised-button class="arrow" style="margin-right:5px;">&lt;</button>
+      <button mat-raised-button class="arrow">&gt;</button>
+      <mat-form-field style="width: 35px;">
+        <mat-label>Step</mat-label>
+        <input matInput class="form-control"
+               type="number" name="value" placeholder="step" value="1"
+               min="1"
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Browse Mode</mat-label>
+        <mat-select [(value)]="browseMode">
+          <mat-option value="name">By Name</mat-option>
+          <mat-option value="time">By Time</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Batch Mode</mat-label>
-    <mat-select [(value)]="batchMode">
-      <mat-option value="integrate">integrate</mat-option>
-      <mat-option value="add">add</mat-option>
-      <mat-option value="save">image save</mat-option>
-    </mat-select>
-  </mat-form-field>
+      <mat-form-field>
+        <mat-label>Batch Mode</mat-label>
+        <mat-select [(value)]="batchMode">
+          <mat-option value="integrate">integrate</mat-option>
+          <mat-option value="add">add</mat-option>
+          <mat-option value="save">image save</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div id="filePath">
+      <mat-form-field>
+        <mat-label>Filename</mat-label>
+        <input matInput class="form-control" name="filename" autocomplete="off">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Folder</mat-label>
+        <input matInput class="form-control" name="folder" autocomplete="off">
+      </mat-form-field>
+    </div>
+  </div>
 </mat-card>
