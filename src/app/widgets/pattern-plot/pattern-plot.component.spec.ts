@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PatternPlotComponent } from './pattern-plot.component';
 
-describe('PlotlyExampleComponent', () => {
+describe('pattern-plot', () => {
   let component: PatternPlotComponent;
   let fixture: ComponentFixture<PatternPlotComponent>;
 
