@@ -6,13 +6,14 @@ import {AfterViewInit, Component, ContentChild, OnInit, TemplateRef, ViewChild} 
   styleUrls: ['./vertical-splitter.component.css']
 })
 export class VerticalSplitterComponent implements OnInit, AfterViewInit {
-  @ContentChild('left', { read: TemplateRef }) left: TemplateRef<any>;
-  @ContentChild('right', { read: TemplateRef }) right: TemplateRef<any>;
+  @ContentChild('left', {read: TemplateRef}) left: TemplateRef<any>;
+  @ContentChild('right', {read: TemplateRef}) right: TemplateRef<any>;
 
   @ViewChild('slider') slider;
   @ViewChild('leftBlock') leftBlock;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

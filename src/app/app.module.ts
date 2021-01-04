@@ -20,6 +20,7 @@ import { HorizontalSplitterComponent } from './widgets/splitter/horizontal-split
 import { IntegrationControlComponent } from './widgets/integration/integration-control/integration-control.component';
 import { ImageControlComponent } from './widgets/integration/integration-control/image-control/image-control.component';
 import { IntegrationFooterComponent } from './widgets/integration/integration-footer/integration-footer.component';
+import { ImagePlotComponent } from './widgets/image-plot/image-plot.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { IntegrationFooterComponent } from './widgets/integration/integration-fo
     IntegrationControlComponent,
     ImageControlComponent,
     IntegrationFooterComponent,
+    ImagePlotComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {createRandomImage} from '../lib/image-generation';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,16 @@ export class DataGeneratorService {
   get_graph(): { x: number[], y: number[] } {
     const x: number[] = [];
     const y: number[] = [];
-    let x_val = 0;
+    let xValue = 0;
     for (let i = 0; i < 1001; i++) {
-      x_val = i * 0.1;
-      x.push(x_val);
-      y.push(x_val * x_val);
+      xValue = i * 0.1;
+      x.push(xValue);
+      y.push(xValue * xValue);
     }
     return {x, y};
+  }
+
+  getImage(width = 1024, height = 1024): Uint16Array {
+    return createRandomImage(width, height);
   }
 }
