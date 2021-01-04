@@ -31,8 +31,8 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     const imageWidth = 1024;
     const imageHeight = 1024;
     const image = this.dataService.getImage(imageWidth, imageHeight);
-
     this.imagePlot.plotImage(image, imageWidth, imageHeight);
+
 
     this.throttleResize = _.throttle(() => {
       const width = this.graphContainer.nativeElement.clientWidth;
@@ -40,6 +40,9 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       // this.imagePlot.resize(width, 300);
       this.imagePlot.resize(width, height);
     }, 50);
+
+    setTimeout(() => this.throttleResize(), 10); // for some reason this has to be delayed
+
   }
 
   @HostListener('window:resize')

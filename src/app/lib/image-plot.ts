@@ -562,5 +562,7 @@ export default class ImagePlot {
     this.#brushLayer.call(this.#brush);
 
     this.#histogram.resize(this.histogramWidth, height);
+
+    this.plotImage(this.imageArray, this.imageWidth, this.imageHeight);
   }
 }

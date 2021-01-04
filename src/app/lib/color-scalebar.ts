@@ -88,6 +88,7 @@ export default class ColorScalebar {
   move(x, y): void {
     this.colorScaleBar
       .transition()
+      .duration(0)
       .attr('transform', 'translate(' + x + ',' + y + ')');
   }
 }
