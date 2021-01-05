@@ -10,19 +10,20 @@ export default class ImagePlot {
 
   margin = {
     top: 10,
-    right: 10,
-    bottom: 30,
-    left: 60
+    right: 30,
+    bottom: 40,
+    left: 50,
+    spacing: 10
   };
 
-  histogramWidth = 150;
+  histogramSize = 60;
   #canvasWidth = 600;
   #canvasHeight = 400;
 
   fixedAspectRatio = true;
 
-  rootSVG;
-  SVG;
+  svg;
+  rootElement;
   x;
   xAxis;
   y;
@@ -32,6 +33,8 @@ export default class ImagePlot {
 
   mouseX;
   mouseY;
+
+  #imagePlotRoot;
 
   #histogram;
   #clip;
@@ -50,25 +53,44 @@ export default class ImagePlot {
   #brushContext;
 
   get width(): number {
-    return (
-      this.canvasWidth +
-      this.margin.left +
-      this.margin.right +
-      this.histogramWidth
-    );
+    if (this.histogramOrientation === 'vertical') {
+      return (
+        this.canvasWidth +
+        this.margin.left +
+        this.margin.right +
+        this.histogramSize
+      );
+    } else {
+      return (
+        this.canvasWidth +
+        this.margin.left +
+        this.margin.right
+      );
+    }
   }
 
   set width(newWidth) {
-    this.#canvasWidth =
-      newWidth - this.margin.left - this.margin.right - this.histogramWidth;
+    if (this.histogramOrientation === 'vertical') {
+      this.#canvasWidth = newWidth - this.margin.left - this.margin.right - this.histogramSize;
+    } else {
+      this.#canvasWidth = newWidth - this.margin.left - this.margin.right;
+    }
   }
 
   get height(): number {
-    return this.canvasHeight + this.margin.top + this.margin.bottom;
+    if (this.histogramOrientation === 'vertical') {
+      return this.canvasHeight + this.margin.top + this.margin.bottom;
+    } else {
+      return this.canvasHeight + this.margin.top + this.margin.bottom + this.histogramSize;
+    }
   }
 
   set height(newHeight) {
-    this.#canvasHeight = newHeight - this.margin.top - this.margin.bottom;
+    if (this.histogramOrientation === 'vertical') {
+      this.#canvasHeight = newHeight - this.margin.top - this.margin.bottom;
+    } else {
+      this.#canvasHeight = newHeight - this.margin.top - this.margin.bottom - this.histogramSize;
+    }
   }
 
   get canvasWidth(): number {
@@ -91,13 +113,15 @@ export default class ImagePlot {
     return this.#canvasHeight;
   }
 
-  constructor(selector, width = 600, height = 400, fixedAspectRatio = true) {
+  constructor(selector, width = 600, height = 400,
+              fixedAspectRatio = true, private histogramOrientation = 'horizontal') {
     this.fixedAspectRatio = fixedAspectRatio;
     this.width = width;
     this.height = height;
 
-    this._initImagePlot(selector);
-    this._initHistogram(selector);
+    this._initSVG(selector);
+    this._initImagePlot();
+    this._initHistogram(histogramOrientation);
   }
 
   plotImage(imageArray, width, height): void {
@@ -132,8 +156,15 @@ export default class ImagePlot {
     this._update();
   }
 
-  _initImagePlot(selector): void {
-    this._initSVG(selector);
+  _initImagePlot(): void {
+    this.#imagePlotRoot = this.rootElement
+      .append('g')
+      .attr('width', this.histogramOrientation === 'horizontal' ? this.width : this.width - this.histogramSize)
+      .attr('height', this.histogramOrientation === 'horizontal' ? this.height - this.histogramSize : this.height)
+      .attr('transform',
+        'translate(0,' +
+        (this.histogramOrientation === 'horizontal' ? this.margin.spacing + this.histogramSize : 0) + ')');
+
     this._initAxes();
     this._initImage();
     this._initClip();
@@ -143,8 +174,14 @@ export default class ImagePlot {
     this._initRightClickBehavior();
   }
 
-  _initHistogram(selector, width = 400): void {
-    this.#histogram = new ImageHistogram(selector, width, this.height, 'vertical');
+  _initHistogram(histogramOrientation): void {
+    if (histogramOrientation === 'vertical') {
+      this.#histogram = new ImageHistogram(this.svg, this.histogramSize, this.#canvasHeight, histogramOrientation);
+    } else {
+      this.#histogram = new ImageHistogram(this.svg, this.#canvasWidth, this.histogramSize, histogramOrientation);
+      this.#histogram.move(this.margin.left, this.margin.top);
+    }
+
     this.#histogram.rangeChanged.subscribe(() => {
       updateRange();
     });
@@ -166,13 +203,13 @@ export default class ImagePlot {
   }
 
   _initSVG(selector): void {
-    this.rootSVG = d3
+    this.svg = d3
       .select(selector)
       .append('svg')
       .attr('width', this.canvasWidth + this.margin.left + this.margin.right)
       .attr('height', this.canvasHeight + this.margin.top + this.margin.bottom);
 
-    this.SVG = this.rootSVG
+    this.rootElement = this.svg
       .append('g')
       .attr(
         'transform',
@@ -189,7 +226,7 @@ export default class ImagePlot {
       .domain([0, this.imageWidth])
       .range([0, this.canvasWidth]);
 
-    this.xAxis = this.SVG.append('g')
+    this.xAxis = this.#imagePlotRoot.append('g')
       .attr('transform', 'translate(0, ' + this.canvasHeight + ')')
       .call(d3.axisBottom(this.x));
 
@@ -199,11 +236,11 @@ export default class ImagePlot {
       .domain([0, this.imageHeight])
       .range([this.canvasHeight, 0]);
 
-    this.yAxis = this.SVG.append('g').call(d3.axisLeft(this.y));
+    this.yAxis = this.#imagePlotRoot.append('g').call(d3.axisLeft(this.y));
   }
 
   _initClip(): void {
-    this.#clip = this.SVG.append('clipPath')
+    this.#clip = this.#imagePlotRoot.append('clipPath')
       .attr('id', 'clip')
       .append('rect')
       .attr('x', 0)
@@ -218,7 +255,7 @@ export default class ImagePlot {
   }
 
   _initCanvas(): void {
-    this.#foreignObject = this.SVG.append('foreignObject')
+    this.#foreignObject = this.#imagePlotRoot.append('foreignObject')
       .attr('clip-path', 'url(#clip)')
       .style('position', 'relative')
       .style('z-index', '-1')
@@ -276,7 +313,7 @@ export default class ImagePlot {
   }
 
   _initBrush(): void {
-    this.#brushContext = this.SVG.append('g')
+    this.#brushContext = this.#imagePlotRoot.append('g')
       .attr('id', 'brushContext')
       .attr('class', 'brushContext');
 
@@ -483,7 +520,7 @@ export default class ImagePlot {
     this.y.domain([bottom, top]);
   }
 
-  _update(duration = 500): void {
+  _update(duration = 0): void {
     this._updateAxes(duration);
     this._updateCamera();
     // this.updateData();
@@ -531,7 +568,11 @@ export default class ImagePlot {
     this.width = width;
     this.height = height;
 
-    this.rootSVG
+    this.svg
+      .attr('width', this.width) // this.canvasWidth + this.margin.left + this.margin.right)
+      .attr('height', this.height); // this.canvasHeight + this.margin.top + this.margin.bottom);
+
+    this.#imagePlotRoot
       .attr('width', this.canvasWidth + this.margin.left + this.margin.right)
       .attr('height', this.canvasHeight + this.margin.top + this.margin.bottom);
 
@@ -561,7 +602,12 @@ export default class ImagePlot {
     ]);
     this.#brushLayer.call(this.#brush);
 
-    this.#histogram.resize(this.histogramWidth, height);
+    if (this.histogramOrientation === 'vertical') {
+      this.#histogram.resize(this.histogramSize, this.canvasHeight);
+      this.#histogram.move(this.margin.left + this.canvasWidth + this.margin.spacing, this.margin.top);
+    } else {
+      this.#histogram.resize(this.canvasWidth, this.histogramSize);
+    }
 
     this.plotImage(this.imageArray, this.imageWidth, this.imageHeight);
   }

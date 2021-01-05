@@ -6,19 +6,18 @@ import ColorScalebar from './color-scalebar';
 
 export default class ImageHistogram {
   margin = {
-    top: 10,
-    right: 20,
-    bottom: 10,
-    left: 20,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     between: 0
   };
   #width = 100;
   #height = 400;
 
-  rootElement;
   histPlot;
   histPath;
-  colorScaleBar;
+  colorScaleBar: ColorScalebar;
   colorScale;
   x;
   xAxis;
@@ -30,6 +29,7 @@ export default class ImageHistogram {
   histXY;
   brush;
   brushElement;
+  rootElement;
 
   rangeChanged = new Subject();
   colorLut;
@@ -59,7 +59,6 @@ export default class ImageHistogram {
   set height(newHeight) {
     this.#height = newHeight;
     this.#plotHeight = this.#colorBarHeight = newHeight - this.margin.top - this.margin.bottom;
-    console.log(this.#plotHeight);
     if (this.orientation === 'horizontal') {
       this.#plotHeight *= 2 / 3;
       this.#colorBarHeight *= 1 / 3;
@@ -67,7 +66,7 @@ export default class ImageHistogram {
   }
 
   constructor(
-    public selector, width = 100, height = 300,
+    public parentElement, width = 100, height = 300,
     public orientation = 'vertical') {
     this.width = width;
     this.height = height;
@@ -78,7 +77,6 @@ export default class ImageHistogram {
 
     this._initRoot();
     this._initPlot();
-
     this._initClip();
     this._initScale();
     this._initBrush();
@@ -86,30 +84,38 @@ export default class ImageHistogram {
   }
 
   _initRoot(): void {
-    this.rootElement = d3
-      .select(this.selector)
-      .append('svg')
+    this.rootElement = this.parentElement
+      .append('g')
       .attr('width', this.#width)
       .attr('height', this.#height);
   }
 
   _initPlot(): void {
-    const histPlotX = this.margin.left;
-    const histPlotY = this.orientation === 'vertical' ? this.margin.top : this.#colorBarHeight + this.margin.top;
 
     this.histPlot = this.rootElement
       .append('g')
-      .attr(
-        'transform',
-        'translate(' + histPlotX + ',' + histPlotY + ')'
-      )
       .attr('width', this.#plotWidth)
       .attr('height', this.#plotHeight)
       .on('contextmenu', () => {
         d3.event.preventDefault();
       });
 
+    this._movePlot();
+
     this.histPath = this.histPlot.append('g');
+  }
+
+  _movePlot(): void {
+    const histPlotX = this.margin.left;
+    const histPlotY = this.orientation === 'vertical' ? this.margin.top : this.#colorBarHeight + this.margin.top;
+
+    this.histPlot
+      .transition().duration(0)
+      .attr(
+        'transform',
+        'translate(' + histPlotX + ',' + histPlotY + ')'
+      );
+
   }
 
   _initClip(): void {
@@ -136,19 +142,39 @@ export default class ImageHistogram {
   }
 
   _initBrush(): void {
-    this.brush = new BrushY(
-      this.histPlot,
-      [0, -this.#plotHeight / 2],
-      [this.#plotWidth, this.height * 1.5],
-      [0, this.#plotHeight],
-      'url(#histogramClip)'
-    );
+    if (this.orientation === 'vertical') {
+      this.brush = new BrushY(
+        this.histPlot,
+        [0, -this.#plotHeight / 2],
+        [this.#plotWidth, this.height * 1.5],
+        [0, this.#plotHeight],
+        'url(#histogramClip)',
+        this.orientation
+      );
+    } else {
+      this.brush = new BrushY(
+        this.histPlot,
+        [-this.#plotWidth * 0.5, 0],
+        [this.#plotWidth * 1.5, this.#plotHeight],
+        [0, 0],
+        'url(#histogramClip)',
+        this.orientation
+      );
+
+    }
     this.brush.brushEnded.subscribe(selection => this._brushed(selection));
   }
 
   _brushed(selection): void {
-    const min = this.y.invert(selection[0]);
-    const max = this.y.invert(selection[1]);
+    let min: number;
+    let max: number;
+    if (this.orientation === 'vertical') {
+      min = this.y.invert(selection[0]);
+      max = this.y.invert(selection[1]);
+    } else {
+      min = this.x.invert(selection[0]);
+      max = this.x.invert(selection[1]);
+    }
     this._updateColorScale(min, max);
   }
 
@@ -158,14 +184,15 @@ export default class ImageHistogram {
   }
 
   _initColorBar(): void {
-    const colorBarX = this.orientation === 'vertical' ? this.margin.left + this.#plotWidth : 0;
-    const colorBarY = this.orientation === 'vertical' ? this.margin.top : this.margin.top + this.#plotHeight;
+    const colorBarX = this.orientation === 'vertical' ? this.margin.left + this.#plotWidth : this.margin.left;
+    const colorBarY = this.margin.top;
     this.colorScaleBar = new ColorScalebar(
       this.rootElement,
       this.#colorBarWidth,
       this.#colorBarHeight,
       colorBarX,
-      colorBarY
+      colorBarY,
+      this.orientation
     );
   }
 
@@ -339,15 +366,22 @@ export default class ImageHistogram {
       .attr('width', this.#plotWidth)
       .attr('height', this.#plotHeight);
 
+    this._movePlot();
+
     this.x.range([0, this.#plotWidth]);
     this.y.range([this.#plotHeight, 0]);
 
 
     this._updateHistogramLine();
-
     this._resizeClip();
     this._resizeBrush();
     this._resizeColorbar();
+  }
+
+  move(x: number, y: number): void {
+    this.rootElement
+      .transition().duration(0)
+      .attr('transform', 'translate(' + x + ',' + y + ')');
   }
 
   _resizeClip(): void {
@@ -358,21 +392,32 @@ export default class ImageHistogram {
   }
 
   _resizeBrush(): void {
-    this.brush.resize(
-      [0, -this.#plotHeight / 2],
-      [this.#plotWidth, this.height * 1.5]
-    );
-    this.brush.select([
-      this.y(this.colorScale.domain()[1]),
-      this.y(this.colorScale.domain()[0])
-    ]);
+    if (this.orientation === 'vertical') {
+      this.brush.resize(
+        [0, -this.#plotHeight / 2],
+        [this.#plotWidth, this.height * 1.5]
+      );
+      this.brush.select([
+        this.y(this.colorScale.domain()[1]),
+        this.y(this.colorScale.domain()[0])
+      ]);
+    } else {
+      this.brush.resize(
+        [-this.#plotWidth * 0.5, 0],
+        [this.#plotWidth * 1.5, this.#plotHeight],
+      );
+      this.brush.select([
+        this.x(this.colorScale.domain()[0]),
+        this.x(this.colorScale.domain()[1])
+      ]);
+    }
   }
 
   _resizeColorbar(): void {
-    const colorBarX = this.orientation === 'vertical' ? this.margin.left + this.#plotWidth : 0;
-    const colorBarY = this.orientation === 'vertical' ? this.margin.top : this.margin.top + this.#plotHeight;
+    const colorBarX = this.orientation === 'vertical' ? this.margin.left + this.#plotWidth : this.margin.left;
+    const colorBarY = this.margin.top;
+
     this.colorScaleBar.resize(this.#colorBarWidth, this.#colorBarHeight);
     this.colorScaleBar.move(colorBarX, colorBarY);
   }
-
 }

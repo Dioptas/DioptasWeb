@@ -6,8 +6,12 @@ export default class BrushY {
   brushElement;
   brushEnded = new Subject();
 
-  constructor(parent, extentX, extentY, position, clipPath) {
-    this.brush = d3.brushY().extent([extentX, extentY]);
+  constructor(parent, extentX, extentY, position, clipPath, private orientation = 'vertical') {
+    if (orientation === 'vertical') {
+      this.brush = d3.brushY().extent([extentX, extentY]);
+    } else {
+      this.brush = d3.brushX().extent([extentX, extentY]);
+    }
 
     this.brushElement = parent
       .append('g')
@@ -35,7 +39,11 @@ export default class BrushY {
   _activateEvents(): void {
     this.brush.on('brush end', () => {
       const event = d3.event;
-      this.brushEnded.next([event.selection[1], event.selection[0]]);
+      if (this.orientation === 'vertical') {
+        this.brushEnded.next([event.selection[1], event.selection[0]]);
+      } else {
+        this.brushEnded.next([event.selection[0], event.selection[1]]);
+      }
     });
   }
 

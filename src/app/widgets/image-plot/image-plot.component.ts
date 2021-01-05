@@ -25,7 +25,8 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     this.imagePlot = new ImagePlot(
       '#graph',
       800, 300,
-      true
+      true,
+      'horizontal'
     );
 
     const imageWidth = 1024;
@@ -41,7 +42,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       this.imagePlot.resize(width, height);
     }, 50);
 
-    setTimeout(() => this.throttleResize(), 10); // for some reason this has to be delayed
+    setTimeout(() => this.throttleResize(), 50); // for some reason this has to be delayed
 
   }
 
