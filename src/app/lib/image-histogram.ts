@@ -257,11 +257,13 @@ export default class ImageHistogram {
       }
     }
 
+    const dataXRange = this.hist.max - +d3.min(this.hist.binCenters);
+
     if (this.orientation === 'vertical') {
       this.x.domain([dataMin, d3.max(this.hist.data)]);
-      this.y.domain([d3.min(this.hist.binCenters), this.hist.max]);
+      this.y.domain([+d3.min(this.hist.binCenters) * 0.5, this.hist.max + dataXRange]);
     } else {
-      this.x.domain([d3.min(this.hist.binCenters), this.hist.max]);
+      this.x.domain([+d3.min(this.hist.binCenters) * 0.5, this.hist.max + dataXRange]);
       this.y.domain([dataMin, d3.max(this.hist.data)]);
     }
     this._updateHistogramLine();
@@ -289,15 +291,15 @@ export default class ImageHistogram {
       .duration(0)
       .attr('d', this.histLine)
       .attr('fill', 'none')
-      .attr('stroke', 'black')
-      .attr('stroke-width', 0.5);
+      .attr('stroke', 'rgb(220, 220, 220)')
+      .attr('stroke-width', 1);
     path
       .enter()
       .append('path')
       .attr('d', this.histLine)
       .attr('fill', 'none')
-      .attr('stroke', 'black')
-      .attr('stroke-width', 0.5);
+      .attr('stroke', 'rgb(220, 220, 220)')
+      .attr('stroke-width', 1);
     path.exit().remove();
   }
 
@@ -394,8 +396,8 @@ export default class ImageHistogram {
   _resizeBrush(): void {
     if (this.orientation === 'vertical') {
       this.brush.resize(
-        [0, -this.#plotHeight / 2],
-        [this.#plotWidth, this.height * 1.5]
+        [-2, -this.#plotHeight / 2],
+        [this.#plotWidth + 2, this.height * 1.5]
       );
       this.brush.select([
         this.y(this.colorScale.domain()[1]),
@@ -403,8 +405,8 @@ export default class ImageHistogram {
       ]);
     } else {
       this.brush.resize(
-        [-this.#plotWidth * 0.5, 0],
-        [this.#plotWidth * 1.5, this.#plotHeight],
+        [-this.#plotWidth * 0.5, -2],
+        [this.#plotWidth * 1.5, this.#plotHeight + 2],
       );
       this.brush.select([
         this.x(this.colorScale.domain()[0]),
