@@ -1,0 +1,10 @@
+#actions {
+  float: right;
+}
+
+#content {
+  display: flex;
+}
+#content > * {
+  flex: 1;
+}

@@ -21,6 +21,8 @@ import { IntegrationControlComponent } from './widgets/integration/integration-c
 import { ImageControlComponent } from './widgets/integration/integration-control/image-control/image-control.component';
 import { IntegrationFooterComponent } from './widgets/integration/integration-footer/integration-footer.component';
 import { ImagePlotComponent } from './widgets/image-plot/image-plot.component';
+import { SidenavComponent } from './widgets/menu/sidenav/sidenav.component';
+import { PathDialogComponent } from './widgets/menu/path-dialog/path-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { ImagePlotComponent } from './widgets/image-plot/image-plot.component';
     ImageControlComponent,
     IntegrationFooterComponent,
     ImagePlotComponent,
+    SidenavComponent,
+    PathDialogComponent,
   ],
   imports: [
     BrowserModule,

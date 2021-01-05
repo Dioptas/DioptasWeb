@@ -1,6 +1,9 @@
 <mat-sidenav-container>
+  <mat-sidenav #drawer mode="over">
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
   <mat-sidenav-content class="sidenav-content">
-    <app-header></app-header>
+    <app-header (menuClicked)="drawer.toggle()"></app-header>
     <main class="content">
       <div class="control">
         <app-integration-view></app-integration-view>
