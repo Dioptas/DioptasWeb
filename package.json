@@ -23,11 +23,13 @@
     "@angular/router": "~11.0.1",
     "@types/d3": "^5.16.4",
     "@types/lodash": "^4.14.167",
+    "@types/socket.io-client": "^1.4.34",
     "angular-plotly.js": "^3.0.0",
     "d3": "^5.16.0",
     "lodash": "^4.17.20",
     "plotly.js": "^1.58.4",
     "rxjs": "~6.6.0",
+    "socket.io-client": "^3.0.5",
     "three": "^0.124.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

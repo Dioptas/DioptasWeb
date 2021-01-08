@@ -3,6 +3,7 @@ import * as _ from 'lodash';
 
 import ImagePlot from '../../lib/image-plot';
 import {DataGeneratorService} from '../../shared/data-generator.service';
+import {DioptasServerService} from '../../shared/dioptas-server.service';
 
 @Component({
   selector: 'app-image-plot',
@@ -15,7 +16,9 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
   throttleResize;
 
-  constructor(private dataService: DataGeneratorService) {
+  constructor(
+    private dataService: DataGeneratorService,
+    private dioptasServer: DioptasServerService) {
   }
 
   ngOnInit(): void {

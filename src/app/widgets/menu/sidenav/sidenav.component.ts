@@ -3,6 +3,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {PathDialogComponent} from '../path-dialog/path-dialog.component';
 import {MatSidenav} from '@angular/material/sidenav';
 import {SidenavService} from './sidenav.service';
+import {DioptasServerService} from '../../../shared/dioptas-server.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -14,7 +15,8 @@ export class SidenavComponent implements OnInit{
 
   constructor(
     public dialog: MatDialog,
-    public sidenavService: SidenavService
+    public sidenavService: SidenavService,
+    public dioptasServer: DioptasServerService
   ) {
   }
 
