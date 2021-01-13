@@ -41,11 +41,14 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     this.throttleResize = _.throttle(() => {
       const width = this.graphContainer.nativeElement.clientWidth;
       const height = this.graphContainer.nativeElement.clientHeight;
-      // this.imagePlot.resize(width, 300);
       this.imagePlot.resize(width, height);
     }, 50);
 
     setTimeout(() => this.throttleResize(), 50); // for some reason this has to be delayed
+
+    this.dioptasServer.imageChanged.subscribe((data) => {
+      this.imagePlot.plotImage(data.data, data.shape[1], data.shape[0]);
+    });
 
   }
 

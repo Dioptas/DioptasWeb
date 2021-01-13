@@ -1,37 +1,34 @@
 export class NumpyLoader {
-  static asciiDecode (buf) {
+  private static asciiDecode(buf): string {
     return String.fromCharCode.apply(null, new Uint8Array(buf));
   }
 
-  static readUint16LE (buffer) {
+  private static readUint16LE(buffer): number {
     const view = new DataView(buffer);
     let val = view.getUint8(0);
+    // tslint:disable-next-line:no-bitwise
     val |= view.getUint8(1) << 8;
     return val;
   }
 
-  static fromArrayBuffer (buf) {
+  static fromArrayBuffer(buf): any {
     // Check the magic number
     const magic = this.asciiDecode(buf.slice(0, 6));
-    if (magic.slice(1, 6) !== 'NUMPY') {
+    if (magic.slice(1, 6) != 'NUMPY') {
       throw new Error('unknown file type');
     }
 
-    // const version = new Uint8Array(buf.slice(6, 8));
-    let headerLength = NumpyLoader.readUint16LE(buf.slice(8, 10));
-    let headerStr = this.asciiDecode(buf.slice(10, 10 + headerLength));
-    let offsetBytes = 10 + headerLength;
-    //rest = buf.slice(10+headerLength);  XXX -- This makes a copy!!! https://www.khronos.org/registry/typedarray/specs/latest/#5
+    const version = new Uint8Array(buf.slice(6, 8));
+    const headerLength = NumpyLoader.readUint16LE(buf.slice(8, 10));
+    const headerStr = this.asciiDecode(buf.slice(10, 10 + headerLength));
+    const offsetBytes = 10 + headerLength;
+    // rest = buf.slice(10+headerLength);  XXX -- This makes a copy!!! https://www.khronos.org/registry/typedarray/specs/latest/#5
 
     // Hacky conversion of dict literal string to JS Object
-    let info = { descr: null };
-    eval(
-      'info = ' +
-      headerStr
-        .toLowerCase()
-        .replace('(', '[')
-        .replace('),', ']')
-    );
+    // tslint:disable-next-line:prefer-const
+    let info;
+    // tslint:disable-next-line:no-eval
+    eval('info = ' + headerStr.toLowerCase().replace('(', '[').replace('),', ']'));
 
     // Interpret the bytes according to the specified dtype
     let data;
@@ -58,7 +55,7 @@ export class NumpyLoader {
     return {
       shape: info.shape,
       fortran_order: info.fortran_order,
-      data: data
+      data
     };
   }
 }

@@ -310,6 +310,9 @@ export default class ImageHistogram {
     this.calcColorLut();
     for (let i = 0; i < imageArray.length; i++) {
       c = this.colorLut[imageArray[i]];
+      if (!c) {
+        c = [0, 0, 0];
+      }
       pos = i * 3;
       colorImageArray[pos] = c[0];
       colorImageArray[pos + 1] = c[1];
