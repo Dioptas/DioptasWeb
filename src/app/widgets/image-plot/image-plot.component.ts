@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
 
 import ImagePlot from '../../lib/image-plot';
@@ -11,10 +11,12 @@ import {DioptasServerService} from '../../shared/dioptas-server.service';
   styleUrls: ['./image-plot.component.css']
 })
 export class ImagePlotComponent implements OnInit, AfterViewInit {
+  @Output() mouseMoved = new EventEmitter<{ x: number, y: number }>();
   @ViewChild('graphContainer') graphContainer: ElementRef;
   imagePlot: ImagePlot;
 
   throttleResize;
+  throttleImageMouseMoved;
 
   constructor(
     private dataService: DataGeneratorService,
@@ -46,8 +48,18 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => this.throttleResize(), 50); // for some reason this has to be delayed
 
+    this.throttleImageMouseMoved = _.throttle((x, y) => {
+      this.mouseMoved.emit({x, y});
+    }, 50);
+
     this.dioptasServer.imageChanged.subscribe((data) => {
       this.imagePlot.plotImage(data.data, data.shape[1], data.shape[0]);
+    });
+
+    this.imagePlot.mouseMoved.subscribe({
+      next: ({x, y}) => {
+        this.throttleImageMouseMoved(x, y);
+      }
     });
 
   }
@@ -56,5 +68,6 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
   onResize(): void {
     this.throttleResize();
   }
+
 }
 

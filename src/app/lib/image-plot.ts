@@ -1,9 +1,12 @@
 import * as d3 from 'd3';
 import * as THREE from 'three';
+import {Subject} from 'rxjs';
 
 import ImageHistogram from './image-histogram';
 
 export default class ImagePlot {
+  mouseMoved = new Subject<{ x: number, y: number }>();
+
   imageWidth = 2048;
   imageHeight = 2048;
   imageArray;
@@ -368,6 +371,7 @@ export default class ImagePlot {
         ((boundingRect.height - (d3.event.y - boundingRect.top)) /
           boundingRect.height) *
         currentHeight;
+      this.mouseMoved.next({x: this.mouseX, y: this.mouseY});
     };
 
     this.#brushContext.on('mousemove', updateMousePosition);

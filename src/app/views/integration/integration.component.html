@@ -1,7 +1,7 @@
 <div class="integrationContainer" #integrationContainer>
   <app-vertical-splitter style="height: 100%;">
     <ng-template #left>
-      <app-image-plot></app-image-plot>
+      <app-image-plot (mouseMoved)="imageMouseMoved($event)"></app-image-plot>
     </ng-template>
     <ng-template #right>
       <app-horizontal-splitter>
@@ -15,7 +15,8 @@
     </ng-template>
   </app-vertical-splitter>
   <app-integration-footer
-    [patternMousePosition]="patternMousePosition" >
+    [patternMousePosition]="patternMousePosition"
+    [imageMousePosition]="imageMousePosition">
   </app-integration-footer>
 </div>
 
