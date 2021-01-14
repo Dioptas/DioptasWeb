@@ -1,5 +1,6 @@
 import {Component, HostListener, OnInit, EventEmitter, Output} from '@angular/core';
 import {DataGeneratorService} from '../../shared/data-generator.service';
+import {DioptasServerService} from '../../shared/dioptas-server.service';
 
 @Component({
   selector: 'app-pattern-plot',
@@ -11,7 +12,7 @@ export class PatternPlotComponent implements OnInit {
 
   public graph = {
     data: [
-      {x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, hoverinfo: 'none'}
+      {x: [1, 2, 3], y: [2, 6, 3], type: 'scatter', mode: 'lines+points', marker: {color: 'white'}, hoverinfo: 'none'}
     ],
     layout: {
       font: {
@@ -52,13 +53,20 @@ export class PatternPlotComponent implements OnInit {
     }
   };
 
-  constructor(private dataService: DataGeneratorService) {
+  constructor(
+    private dataService: DataGeneratorService,
+    private dioptasService: DioptasServerService) {
   }
 
   ngOnInit(): void {
     const graphData: { x: number[], y: number[] } = this.dataService.get_graph();
     this.graph.data[0].x = graphData.x;
     this.graph.data[0].y = graphData.y;
+
+    this.dioptasService.patternChanged.subscribe((payload) => {
+      this.graph.data[0].x = payload.x;
+      this.graph.data[0].y = payload.y;
+    });
   }
 
   @HostListener('contextmenu', ['$event'])
