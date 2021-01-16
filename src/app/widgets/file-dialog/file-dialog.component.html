@@ -1,0 +1,21 @@
+<mat-form-field>
+  <mat-label>Path</mat-label>
+  <input
+    matInput
+    class="form-control"
+    name="currentDirectory"
+    autocomplete="off"
+    [value]="currentDirectory"
+    (change)="pathInputChanged($event)"
+  >
+</mat-form-field>
+
+
+<app-file-select
+  [dirList]="dirList"
+  [showBackButton]="showBackButton"
+  (fileSelected)="onFileSelected($event)"
+  (folderSelected)="onFolderSelected($event)"
+  (backClicked)="onFolderUpSelected()"
+>
+</app-file-select>

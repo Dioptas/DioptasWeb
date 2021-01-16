@@ -8,6 +8,7 @@ import {NumpyLoader} from '../lib/numpy-loader';
 export class DioptasServerService {
   @Output() imageChanged = new EventEmitter<{ shape: any, fortran_order: boolean, data: any }>();
   @Output() patternChanged = new EventEmitter<{ x: number[], y: number[] }>();
+  @Output() updatedDirList = new EventEmitter<{ folders: string[], files: string[] }>();
 
   private socket: Socket;
 
@@ -73,6 +74,12 @@ export class DioptasServerService {
     this.webSocket.onclose = () => {
       console.log('Web socket connection is closed!');
     };
+  }
+
+  getDirList(path): void {
+    this.socket.emit('list_dir', path, (data) => {
+      this.updatedDirList.emit(data);
+    });
   }
 
 }

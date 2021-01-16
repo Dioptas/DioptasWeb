@@ -23,6 +23,8 @@ import { IntegrationFooterComponent } from './widgets/integration/integration-fo
 import { ImagePlotComponent } from './widgets/image-plot/image-plot.component';
 import { SidenavComponent } from './widgets/menu/sidenav/sidenav.component';
 import { PathDialogComponent } from './widgets/menu/path-dialog/path-dialog.component';
+import { FileSelectComponent } from './widgets/file-dialog/file-select/file-select.component';
+import { FileDialogComponent } from './widgets/file-dialog/file-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,8 @@ import { PathDialogComponent } from './widgets/menu/path-dialog/path-dialog.comp
     ImagePlotComponent,
     SidenavComponent,
     PathDialogComponent,
+    FileSelectComponent,
+    FileDialogComponent,
   ],
   imports: [
     BrowserModule,
