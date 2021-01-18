@@ -1,20 +1,51 @@
-<mat-list #file>
-  <mat-list-item *ngIf="showBackButton" (click)="backClicked.emit()">
+<!--<mat-list #file id="list">-->
+<!--  <mat-list-item *ngIf="showBackButton" (click)="backClicked.emit()">-->
+<!--    <a mat-button >-->
+<!--      <mat-icon>folder</mat-icon>-->
+<!--      ..-->
+<!--    </a>-->
+<!--  </mat-list-item>-->
+<!--  <mat-list-item *ngFor="let folder of dirList.folders; let i = index">-->
+<!--    <a mat-button (click)="folderClicked(folder)">-->
+<!--      <mat-icon>folder</mat-icon>-->
+<!--      {{folder}}-->
+<!--    </a>-->
+<!--  </mat-list-item>-->
+<!--  <mat-list-item *ngFor="let file of dirList.files">-->
+<!--    <a mat-button (click)="fileClicked(file)">-->
+<!--      <mat-icon>description</mat-icon>-->
+<!--      {{file}}-->
+<!--    </a>-->
+<!--  </mat-list-item>-->
+<!--</mat-list>-->
+
+<div #file id="list">
+  <div
+    *ngIf="showBackButton"
+    (click)="folderUpClicked.emit()"
+    class="item-container"
+  >
     <a mat-button >
       <mat-icon>folder</mat-icon>
       ..
     </a>
-  </mat-list-item>
-  <mat-list-item *ngFor="let folder of dirList.folders; let i = index">
+  </div>
+  <div
+    *ngFor="let folder of dirList.folders; let i = index"
+    class="item-container"
+  >
     <a mat-button (click)="folderClicked(folder)">
       <mat-icon>folder</mat-icon>
       {{folder}}
     </a>
-  </mat-list-item>
-  <mat-list-item *ngFor="let file of dirList.files">
+  </div>
+  <div
+    *ngFor="let file of dirList.files"
+    class="item-container"
+  >
     <a mat-button (click)="fileClicked(file)">
       <mat-icon>description</mat-icon>
       {{file}}
     </a>
-  </mat-list-item>
-</mat-list>
+  </div>
+</div>

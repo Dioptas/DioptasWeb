@@ -2,3 +2,24 @@ mat-list-option {
   display: block;
 
 }
+
+#list {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.item-container {
+  display: flex;
+}
+
+.item-container > * {
+  flex: 1;
+}
+
+.mat-button {
+  text-align: left;
+}

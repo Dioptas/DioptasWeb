@@ -8,7 +8,7 @@ import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 export class FileSelectComponent implements OnInit {
   @Output() fileSelected = new EventEmitter<string>();
   @Output() folderSelected = new EventEmitter<string>();
-  @Output() backClicked = new EventEmitter();
+  @Output() folderUpClicked = new EventEmitter();
   @Input() dirList: {folders: string[], files: string[]};
   @Input() showBackButton = true;
 

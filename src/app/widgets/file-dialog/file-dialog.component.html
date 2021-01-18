@@ -1,21 +1,30 @@
-<mat-form-field>
-  <mat-label>Path</mat-label>
-  <input
-    matInput
-    class="form-control"
-    name="currentDirectory"
-    autocomplete="off"
-    [value]="currentDirectory"
-    (change)="pathInputChanged($event)"
-  >
-</mat-form-field>
+<div>
+  <h1 mat-dialog-title>Open File</h1>
+  <mat-dialog-content id="content">
+    <mat-form-field>
+      <mat-label>Path</mat-label>
+      <input
+        matInput
+        class="form-control"
+        name="currentDirectory"
+        autocomplete="off"
+        [value]="currentDirectory"
+        (change)="pathInputChanged($event)"
+      >
+    </mat-form-field>
 
-
-<app-file-select
-  [dirList]="dirList"
-  [showBackButton]="showBackButton"
-  (fileSelected)="onFileSelected($event)"
-  (folderSelected)="onFolderSelected($event)"
-  (backClicked)="onFolderUpSelected()"
->
-</app-file-select>
+    <div id="dirList" style="height: 300px">
+      <app-file-select
+        [dirList]="dirList"
+        [showBackButton]="showBackButton"
+        (fileSelected)="onFileSelected($event)"
+        (folderSelected)="onFolderSelected($event)"
+        (folderUpClicked)="onFolderUpSelected()"
+      >
+      </app-file-select>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions id="actions">
+    <button mat-raised-button mat-dialog-close tabindex="-1">Cancel</button>
+  </mat-dialog-actions>
+</div>

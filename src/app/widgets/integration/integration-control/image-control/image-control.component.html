@@ -1,7 +1,7 @@
 <mat-card>
   <div id="imageControlContainer">
     <div id="fileBrowsing">
-      <button mat-raised-button>Load File(s)</button>
+      <button mat-raised-button (click)="showFileDialog()">Load File(s)</button>
       <button mat-raised-button class="arrow" style="margin-right:5px;">&lt;</button>
       <button mat-raised-button class="arrow">&gt;</button>
       <mat-form-field style="width: 35px;">

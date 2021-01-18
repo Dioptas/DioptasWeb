@@ -25,6 +25,7 @@ import { SidenavComponent } from './widgets/menu/sidenav/sidenav.component';
 import { PathDialogComponent } from './widgets/menu/path-dialog/path-dialog.component';
 import { FileSelectComponent } from './widgets/file-dialog/file-select/file-select.component';
 import { FileDialogComponent } from './widgets/file-dialog/file-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { FileDialogComponent } from './widgets/file-dialog/file-dialog.component
     FormsModule,
     PlotlyModule,
     AppRoutingModule,
+    MatDialogModule,
     BrowserAnimationsModule,
     MaterialsModule
   ],

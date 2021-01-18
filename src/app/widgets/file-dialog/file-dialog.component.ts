@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Output, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {MatDialogRef} from '@angular/material/dialog';
 import {DioptasServerService} from '../../shared/dioptas-server.service';
 
 @Component({
@@ -7,7 +8,6 @@ import {DioptasServerService} from '../../shared/dioptas-server.service';
   styleUrls: ['./file-dialog.component.css']
 })
 export class FileDialogComponent {
-  @Output() fileSelected = new EventEmitter<string>();
   @Input() currentDirectory = '';
 
   showBackButton = false;
@@ -26,10 +26,33 @@ export class FileDialogComponent {
   };
 
   constructor(
+    public dialogRef: MatDialogRef<FileDialogComponent>,
     private dioptasService: DioptasServerService
   ) {
-    this._getDirList();
-    this.dioptasService.updatedDirList.subscribe((dirList) => {
+    this.getDirList();
+  }
+
+  onFileSelected(file: string): void {
+    const selectedFile = this.currentDirectory === '' ? file : this.currentDirectory + '/' + file;
+    this.dialogRef.close(selectedFile);
+  }
+
+  onFolderSelected(folder: string): void {
+    if (this.currentDirectory === '') {
+      this.currentDirectory = folder;
+    } else {
+      this.currentDirectory += '/' + folder;
+    }
+    this.getDirList();
+  }
+
+  onFolderUpSelected(): void {
+    this.currentDirectory = this.currentDirectory.split('/').slice(0, -1).join('/');
+    this.getDirList();
+  }
+
+  getDirList(): void {
+    this.dioptasService.getDirList('./' + this.currentDirectory, (dirList) => {
       if (dirList === undefined) {
         this.currentDirectory = this.oldPath;
       } else {
@@ -39,32 +62,10 @@ export class FileDialogComponent {
     });
   }
 
-  onFileSelected(file: string): void {
-    this.fileSelected.emit(this.currentDirectory + file);
-  }
-
-  onFolderSelected(folder: string): void {
-    if (this.currentDirectory === '') {
-      this.currentDirectory = folder;
-    } else {
-      this.currentDirectory += '/' + folder;
-    }
-    this._getDirList();
-  }
-
-  onFolderUpSelected(): void {
-    this.currentDirectory = this.currentDirectory.split('/').slice(0, -1).join('/');
-    this._getDirList();
-  }
-
-  _getDirList(): void {
-    this.dioptasService.getDirList('./' + this.currentDirectory);
-  }
-
   pathInputChanged(event): void {
     const newPath = event.target.value;
     this.oldPath = this.currentDirectory;
     this.currentDirectory = newPath;
-    this._getDirList();
+    this.getDirList();
   }
 }
