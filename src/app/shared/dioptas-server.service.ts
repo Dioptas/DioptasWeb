@@ -14,6 +14,8 @@ export class DioptasServerService {
   private imageServerPort: number;
   private webSocket: WebSocket;
 
+  public imagePath = '';
+
   constructor() {
     this.connect();
   }
@@ -42,6 +44,11 @@ export class DioptasServerService {
 
   load_dummy2_model(): void {
     this.socket.emit('load_dummy2');
+  }
+
+  load_image(filename: string): void {
+    this.socket.emit('load_image', filename);
+    this.imagePath = filename.split('/').slice(0, -1).join('/');
   }
 
   _imgChanged(payload): void {
@@ -75,7 +82,7 @@ export class DioptasServerService {
     };
   }
 
-  getDirList(path, callback: (data) => any ): void {
+  getDirList(path, callback: (data) => any): void {
     this.socket.emit('list_dir', path, (data) => {
       callback(data);
     });

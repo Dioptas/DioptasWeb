@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {MatDialogRef} from '@angular/material/dialog';
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {DioptasServerService} from '../../shared/dioptas-server.service';
 
 @Component({
@@ -8,27 +8,23 @@ import {DioptasServerService} from '../../shared/dioptas-server.service';
   styleUrls: ['./file-dialog.component.css']
 })
 export class FileDialogComponent {
-  @Input() currentDirectory = '';
+  public currentDirectory = '';
+
+  dirList: {
+    files: string[],
+    folders: string[]
+  };
 
   showBackButton = false;
   oldPath = '.';
 
-  dirList = {
-    files: [
-      'image1.tif',
-      'image2.tif',
-      'image3.tif'],
-    folders: [
-      'folder1',
-      'folder2',
-      'folder3',
-    ]
-  };
-
   constructor(
     public dialogRef: MatDialogRef<FileDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { path: string },
     private dioptasService: DioptasServerService
   ) {
+    this.dirList = {files: [], folders: []};
+    this.currentDirectory = data.path;
     this.getDirList();
   }
 

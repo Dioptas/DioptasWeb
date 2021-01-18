@@ -25,13 +25,14 @@ export class ImageControlComponent implements OnInit {
   showFileDialog(): void {
     const dialogRef = this.dialog.open(FileDialogComponent, {
       width: '650px',
-      height: '500px'
+      height: '500px',
+      data: {path: this.dioptasService.imagePath}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result !== undefined && result !== '') {
-        this.dioptasService.load_dummy2_model();
+        this.dioptasService.load_image(result);
       }
     });
   }
