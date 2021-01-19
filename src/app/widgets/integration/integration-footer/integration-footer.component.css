@@ -12,4 +12,17 @@
 
 #patternPosition {
   text-align: left;
+  display: flex;
+  flex-direction: row;
+}
+
+
+#imagePosition {
+  display: flex;
+  flex-direction: row;
+}
+
+#imagePosition > *, #patternPosition > * {
+  display: block;
+  width: 100px;
 }

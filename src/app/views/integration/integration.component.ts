@@ -9,7 +9,7 @@ export class IntegrationComponent implements OnInit, AfterViewInit {
   @ViewChild('integrationContainer') integrationContainer;
   height: number;
   patternMousePosition = {x: 0, y: 0};
-  imageMousePosition = {x: 0, y: 0};
+  imageMousePosition = {x: 0, y: 0, intensity: 0};
 
   @HostListener('window:resize', ['$event'])
   onResize(_: any): void {

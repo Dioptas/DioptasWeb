@@ -11,7 +11,7 @@ import {DioptasServerService} from '../../shared/dioptas-server.service';
   styleUrls: ['./image-plot.component.css']
 })
 export class ImagePlotComponent implements OnInit, AfterViewInit {
-  @Output() mouseMoved = new EventEmitter<{ x: number, y: number }>();
+  @Output() mouseMoved = new EventEmitter<{ x: number, y: number, intensity: number }>();
   @ViewChild('graphContainer') graphContainer: ElementRef;
   imagePlot: ImagePlot;
 
@@ -48,17 +48,17 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => this.throttleResize(), 50); // for some reason this has to be delayed
 
-    this.throttleImageMouseMoved = _.throttle((x, y) => {
-      this.mouseMoved.emit({x, y});
-    }, 50);
+    this.throttleImageMouseMoved = _.throttle((x, y, intensity) => {
+      this.mouseMoved.emit({x, y, intensity});
+    }, 100);
 
     this.dioptasServer.imageChanged.subscribe((data) => {
       this.imagePlot.plotImage(data.data, data.shape[1], data.shape[0]);
     });
 
     this.imagePlot.mouseMoved.subscribe({
-      next: ({x, y}) => {
-        this.throttleImageMouseMoved(x, y);
+      next: ({x, y, intensity}) => {
+        this.throttleImageMouseMoved(x, y, intensity);
       }
     });
 

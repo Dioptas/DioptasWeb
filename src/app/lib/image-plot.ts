@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import ImageHistogram from './image-histogram';
 
 export default class ImagePlot {
-  mouseMoved = new Subject<{ x: number, y: number }>();
+  mouseMoved = new Subject<{ x: number, y: number, intensity: number}>();
 
   imageWidth = 2048;
   imageHeight = 2048;
@@ -36,6 +36,7 @@ export default class ImagePlot {
 
   mouseX;
   mouseY;
+  mouseIntensity;
 
   #imagePlotRoot;
 
@@ -371,7 +372,9 @@ export default class ImagePlot {
         ((boundingRect.height - (d3.event.y - boundingRect.top)) /
           boundingRect.height) *
         currentHeight;
-      this.mouseMoved.next({x: this.mouseX, y: this.mouseY});
+
+      this.mouseIntensity = this.imageArray[this.imageWidth * Math.floor(this.mouseY) + Math.floor(this.mouseX)];
+      this.mouseMoved.next({x: this.mouseX, y: this.mouseY, intensity: this.mouseIntensity});
     };
 
     this.#brushContext.on('mousemove', updateMousePosition);

@@ -26,7 +26,6 @@ export class ImageControlComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showFileDialog();
   }
 
   showFileDialog(): void {
