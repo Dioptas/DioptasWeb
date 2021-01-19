@@ -7,6 +7,7 @@ import {NumpyLoader} from '../lib/numpy-loader';
 })
 export class DioptasServerService {
   @Output() imageChanged = new EventEmitter<{ shape: any, fortran_order: boolean, data: any }>();
+  @Output() imageFileNameChanged = new EventEmitter<string>();
   @Output() patternChanged = new EventEmitter<{ x: number[], y: number[] }>();
 
   private socket: Socket;
@@ -51,9 +52,16 @@ export class DioptasServerService {
     this.imagePath = filename.split('/').slice(0, -1).join('/');
   }
 
+  load_next_image(): void {
+    this.socket.emit('load_next_image');
+  }
+
+  load_previous_image(): void {
+    this.socket.emit('load_previous_image');
+  }
+
   _imgChanged(payload): void {
-    console.log('image received');
-    console.log(payload);
+    this.imageFileNameChanged.emit(payload.filename);
     if (!this.webSocket.OPEN) {
       this.connectToImageServer(payload.serverPort);
       this.imageServerPort = payload.serverPort;

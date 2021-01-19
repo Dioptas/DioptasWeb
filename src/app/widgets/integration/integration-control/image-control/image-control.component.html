@@ -1,9 +1,23 @@
 <mat-card>
   <div id="imageControlContainer">
     <div id="fileBrowsing">
-      <button mat-raised-button (click)="showFileDialog()">Load File(s)</button>
-      <button mat-raised-button class="arrow" style="margin-right:5px;">&lt;</button>
-      <button mat-raised-button class="arrow">&gt;</button>
+
+      <button
+        mat-raised-button
+        (click)="showFileDialog()"
+      >Load File(s)
+      </button>
+
+      <button
+        mat-raised-button class="arrow" style="margin-right:5px;"
+        (click)="dioptasService.load_previous_image()"
+      >&lt;
+      </button>
+      <button
+        mat-raised-button class="arrow"
+        (click)="dioptasService.load_next_image()"
+      >&gt;
+      </button>
       <mat-form-field style="width: 35px;">
         <mat-label>Step</mat-label>
         <input matInput class="form-control"
@@ -32,11 +46,11 @@
     <div id="filePath">
       <mat-form-field>
         <mat-label>Filename</mat-label>
-        <input matInput class="form-control" name="filename" autocomplete="off">
+        <input matInput class="form-control" name="filename" autocomplete="off" [(ngModel)]="imageFileName">
       </mat-form-field>
       <mat-form-field>
         <mat-label>Folder</mat-label>
-        <input matInput class="form-control" name="folder" autocomplete="off">
+        <input matInput class="form-control" name="folder" autocomplete="off" [(ngModel)]="imageDirectory">
       </mat-form-field>
     </div>
   </div>

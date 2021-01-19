@@ -12,10 +12,17 @@ export class ImageControlComponent implements OnInit {
   browseMode = 'name';
   batchMode = 'integrate';
 
+  imageFileName = '';
+  imageDirectory = '';
+
   constructor(
     private dialog: MatDialog,
-    private dioptasService: DioptasServerService
+    public dioptasService: DioptasServerService
   ) {
+    this.dioptasService.imageFileNameChanged.subscribe((filename) => {
+      this.imageFileName = filename.split('/').pop();
+      this.imageDirectory = filename.split('/').slice(0, -1).join('/');
+    });
   }
 
   ngOnInit(): void {
