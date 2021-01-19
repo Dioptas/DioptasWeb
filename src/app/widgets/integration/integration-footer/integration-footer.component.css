@@ -19,10 +19,21 @@
 
 #imagePosition {
   display: flex;
+  flex-direction: column;
+}
+
+#imageMouseMovePosition {
+  display: flex;
   flex-direction: row;
 }
 
-#imagePosition > *, #patternPosition > * {
+#imageMouseClickPosition {
+  display: flex;
+  flex-direction: row;
+  color: greenyellow;
+}
+
+#imageMouseMovePosition > *, #imageMouseClickPosition > *, #patternPosition > * {
   display: block;
   width: 100px;
 }

@@ -1,7 +1,10 @@
 <div class="integrationContainer" #integrationContainer>
   <app-vertical-splitter style="height: 100%;">
     <ng-template #left>
-      <app-image-plot (mouseMoved)="imageMouseMoved($event)"></app-image-plot>
+      <app-image-plot
+        (mouseMoved)="footer.imageMousePosition=$event"
+        (mouseClicked)="footer.imageClickPosition=$event"
+      ></app-image-plot>
     </ng-template>
     <ng-template #right>
       <app-horizontal-splitter>
@@ -9,15 +12,12 @@
           <app-integration-control></app-integration-control>
         </ng-template>
         <ng-template #bottom>
-          <app-pattern-plot (mouseMoved)="patternMouseMoved($event)"></app-pattern-plot>
+          <app-pattern-plot (mouseMoved)="footer.patternMousePosition=$event"></app-pattern-plot>
         </ng-template>
       </app-horizontal-splitter>
     </ng-template>
   </app-vertical-splitter>
-  <app-integration-footer
-    [patternMousePosition]="patternMousePosition"
-    [imageMousePosition]="imageMousePosition">
-  </app-integration-footer>
+  <app-integration-footer #footer></app-integration-footer>
 </div>
 
 

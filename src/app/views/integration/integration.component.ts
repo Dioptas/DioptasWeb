@@ -8,8 +8,6 @@ import {Component, OnInit, AfterViewInit, HostListener, ViewChild} from '@angula
 export class IntegrationComponent implements OnInit, AfterViewInit {
   @ViewChild('integrationContainer') integrationContainer;
   height: number;
-  patternMousePosition = {x: 0, y: 0};
-  imageMousePosition = {x: 0, y: 0, intensity: 0};
 
   @HostListener('window:resize', ['$event'])
   onResize(_: any): void {
@@ -24,13 +22,5 @@ export class IntegrationComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.height = this.integrationContainer.nativeElement.clientHeight;
-  }
-
-  patternMouseMoved(mousePosition): void {
-    this.patternMousePosition = mousePosition;
-  }
-
-  imageMouseMoved(mousePosition): void {
-    this.imageMousePosition = mousePosition;
   }
 }

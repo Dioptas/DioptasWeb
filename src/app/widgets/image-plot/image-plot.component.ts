@@ -12,6 +12,7 @@ import {DioptasServerService} from '../../shared/dioptas-server.service';
 })
 export class ImagePlotComponent implements OnInit, AfterViewInit {
   @Output() mouseMoved = new EventEmitter<{ x: number, y: number, intensity: number }>();
+  @Output() mouseClicked = new EventEmitter<{ x: number, y: number, intensity: number }>();
   @ViewChild('graphContainer') graphContainer: ElementRef;
   imagePlot: ImagePlot;
 
@@ -59,6 +60,12 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     this.imagePlot.mouseMoved.subscribe({
       next: ({x, y, intensity}) => {
         this.throttleImageMouseMoved(x, y, intensity);
+      }
+    });
+
+    this.imagePlot.mouseClicked.subscribe({
+      next: ({x, y, intensity}) => {
+        this.mouseClicked.emit({x, y, intensity});
       }
     });
 

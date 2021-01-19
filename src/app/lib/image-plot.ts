@@ -5,7 +5,8 @@ import {Subject} from 'rxjs';
 import ImageHistogram from './image-histogram';
 
 export default class ImagePlot {
-  mouseMoved = new Subject<{ x: number, y: number, intensity: number}>();
+  mouseMoved = new Subject<{ x: number, y: number, intensity: number }>();
+  mouseClicked = new Subject<{ x: number, y: number, intensity: number }>();
 
   imageWidth = 2048;
   imageHeight = 2048;
@@ -378,6 +379,7 @@ export default class ImagePlot {
     };
 
     this.#brushContext.on('mousemove', updateMousePosition);
+    this.#brushContext.on('click', () => this.mouseClicked.next({x: this.mouseX, y: this.mouseY, intensity: this.mouseIntensity}));
   }
 
   _initWheel(): void {
