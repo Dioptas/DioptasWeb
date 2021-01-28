@@ -129,7 +129,7 @@ export default class ImagePlot {
     this._initHistogram(histogramOrientation);
   }
 
-  plotImage(imageArray, width, height): void {
+  plotImage(imageArray, width, height, autoRange = true): void {
     let updateDomain = false;
     if (width !== this.imageWidth || height !== this.imageHeight) {
       updateDomain = true;
@@ -139,6 +139,9 @@ export default class ImagePlot {
     this.imageHeight = height;
 
     this.#histogram.updateImage(imageArray);
+    if (autoRange) {
+      this.#histogram.autoRange();
+    }
     const colorImageArray = this.#histogram.calcColorImage(imageArray);
 
     this._updateTexture(colorImageArray, width, height);
@@ -618,6 +621,6 @@ export default class ImagePlot {
       this.#histogram.resize(this.canvasWidth, this.histogramSize);
     }
 
-    this.plotImage(this.imageArray, this.imageWidth, this.imageHeight);
+    this.plotImage(this.imageArray, this.imageWidth, this.imageHeight, false);
   }
 }

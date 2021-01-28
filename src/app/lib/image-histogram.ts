@@ -3,7 +3,7 @@ import {Subject} from 'rxjs';
 
 import BrushY from './brush-Y';
 import ColorScalebar from './color-scalebar';
-import {calcColorLut, calcImageHistogram, calcColorImage} from './image-calc';
+import {calcColorLut, calcImageHistogram, calcColorImage, calcCumulativeHistogram} from './image-calc';
 
 export default class ImageHistogram {
   margin = {
@@ -197,9 +197,26 @@ export default class ImageHistogram {
     );
   }
 
+  updateRange(min: number, max: number): void {
+    this.colorScale.domain([min, max]);
+    this.brush.select([this.x(min), this.x(max)]);
+  }
+
   updateImage(imageData): void {
     this.hist = calcImageHistogram(imageData);
     this.plotHistogram();
+  }
+
+  autoRange(): void {
+    const cumHistogram = calcCumulativeHistogram(this.hist);
+    const cumSum = cumHistogram.data[cumHistogram.data.length - 1];
+
+    let scaleIndex = cumHistogram.data.length - 1;
+    const maxScale = 0.99;
+    while (cumHistogram.data[scaleIndex] > maxScale * cumSum) {
+      scaleIndex--;
+    }
+    this.updateRange(cumHistogram.binCenters[0], cumHistogram.binCenters[scaleIndex]);
   }
 
   plotHistogram(): void {

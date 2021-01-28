@@ -1,6 +1,14 @@
 import * as d3 from 'd3';
 
-export function calcImageHistogram(imageData, bins: any = 'sqrt'): any {
+export interface Histogram {
+  data: Uint32Array;
+  binCenters: number[];
+  min: number;
+  max: number;
+  binSize: number;
+}
+
+export function calcImageHistogram(imageData, bins: any = 'sqrt'): Histogram {
   // find minimum and maximum
   let min = Infinity;
   let max = -Infinity;
@@ -8,7 +16,7 @@ export function calcImageHistogram(imageData, bins: any = 'sqrt'): any {
 
   // get histogram
   if (bins === 'sqrt') {
-    bins = Math.floor(Math.sqrt(length));
+    bins = Math.floor(Math.sqrt(length)) * 5;
   }
   const step = Math.ceil(d3.max([1, Math.sqrt(length) / 200]));
 
@@ -43,7 +51,23 @@ export function calcImageHistogram(imageData, bins: any = 'sqrt'): any {
   };
 }
 
+export function calcCumulativeHistogram(histogram: Histogram): Histogram {
+  const cumHistogram = new Uint32Array(histogram.data.length).fill(0);
+  cumHistogram[0] = histogram.data[0];
+  for (let i = 1; i < histogram.data.length; i++) {
+    cumHistogram[i] = cumHistogram[i - 1] + histogram.data[i];
+  }
+  return {
+    data: cumHistogram,
+    binCenters: histogram.binCenters,
+    min: histogram.min,
+    max: histogram.max,
+    binSize: histogram.binSize
+  };
+}
+
 export function calcColorLut(min: number, max: number, colorScale): number[] {
+  max = max + 1;
   const colorLut = new Array(max - min);
   const colorScaleMin = d3.max([
     Math.floor(colorScale.domain()[0]),
