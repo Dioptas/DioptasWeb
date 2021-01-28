@@ -228,7 +228,9 @@ export default class ImageHistogram {
     while (cumHistogram.data[scaleIndex] > maxScale * cumSum) {
       scaleIndex--;
     }
-    this.updateRange(cumHistogram.binCenters[0], cumHistogram.binCenters[scaleIndex]);
+    if (cumHistogram.min !== cumHistogram.max) { // try to catch the 0 0 case
+      this.updateRange(cumHistogram.binCenters[0], cumHistogram.binCenters[scaleIndex]);
+    }
   }
 
   plotHistogram(): void {
