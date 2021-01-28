@@ -211,7 +211,11 @@ export default class ImageHistogram {
 
   updateRange(min: number, max: number): void {
     this.colorScale.domain([min, max]);
-    this.brush.select([this.x(min), this.x(max)]);
+    if (this.orientation === 'horizontal') {
+      this.brush.select([this.x(min), this.x(max)]);
+    } else if (this.orientation === 'vertical') {
+      this.brush.select([this.y(max), this.y(min)]);
+    }
   }
 
   updateImage(imageData): void {
