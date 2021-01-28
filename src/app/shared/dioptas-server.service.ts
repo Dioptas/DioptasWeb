@@ -96,4 +96,9 @@ export class DioptasServerService {
     });
   }
 
+  getImageAngles(x: number, y: number, callback: (data) => any): void {
+    this.socket.emit('get_image_angles', x, y, (data) => {
+      callback(data);
+    });
+  }
 }

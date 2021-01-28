@@ -26,6 +26,7 @@ import { PathDialogComponent } from './widgets/menu/path-dialog/path-dialog.comp
 import { FileSelectComponent } from './widgets/file-dialog/file-select/file-select.component';
 import { FileDialogComponent } from './widgets/file-dialog/file-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import { LabeledNumberComponent } from './widgets/labeled-number/labeled-number.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     PathDialogComponent,
     FileSelectComponent,
     FileDialogComponent,
+    LabeledNumberComponent,
   ],
   imports: [
     BrowserModule,
