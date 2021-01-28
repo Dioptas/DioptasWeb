@@ -3,7 +3,7 @@ import {Subject} from 'rxjs';
 
 import BrushY from './brush-Y';
 import ColorScalebar from './color-scalebar';
-import {calcColorLut} from './image-calc';
+import {calcColorLut, calcImageHistogram, calcColorImage} from './image-calc';
 
 export default class ImageHistogram {
   margin = {
@@ -197,53 +197,8 @@ export default class ImageHistogram {
     );
   }
 
-  calculateHistogram(imageData, bins: any = 'sqrt'): any {
-    // find minimum and maximum
-    let min = Infinity;
-    let max = -Infinity;
-    const length = imageData.length;
-
-    // get histogram
-    if (bins === 'sqrt') {
-      bins = Math.floor(Math.sqrt(length));
-    }
-    const step = Math.ceil(d3.max([1, Math.sqrt(length) / 200]));
-
-    for (let i = 0; i < length; i = i + step) {
-      if (imageData[i] < min) {
-        min = imageData[i];
-      } else if (imageData[i] > max) {
-        max = imageData[i];
-      }
-    }
-
-    const binSize = (max - min) / bins;
-    const histogram = new Uint32Array(bins).fill(0);
-
-    for (let i = 0; i < imageData.length; i = i + step) {
-      histogram[Math.floor((imageData[i] - min) / binSize)]++;
-    }
-
-    // calculate bin center positions
-    const binCenters = new Array<number>(bins);
-    const binOffset = binSize / 2 + min;
-    for (let i = 0; i < bins; i++) {
-      binCenters[i] = i * binSize + binOffset;
-    }
-
-    this.hist = {
-      data: histogram,
-      binCenters,
-      min,
-      max,
-      binSize
-    };
-
-    return this.hist;
-  }
-
   updateImage(imageData): void {
-    this.calculateHistogram(imageData);
+    this.hist = calcImageHistogram(imageData);
     this.plotHistogram();
   }
 
@@ -305,21 +260,8 @@ export default class ImageHistogram {
   }
 
   calcColorImage(imageArray): Uint8Array {
-    const colorImageArray = new Uint8Array(imageArray.length * 3);
-    let pos = 0;
-    let c;
     this.colorLut = calcColorLut(this.hist.min, this.hist.max, this.colorScale);
-    for (let i = 0; i < imageArray.length; i++) {
-      c = this.colorLut[imageArray[i]];
-      if (!c) {
-        c = [0, 0, 0];
-      }
-      pos = i * 3;
-      colorImageArray[pos] = c[0];
-      colorImageArray[pos + 1] = c[1];
-      colorImageArray[pos + 2] = c[2];
-    }
-    return colorImageArray;
+    return calcColorImage(imageArray, this.colorLut);
   }
 
   resize(width, height): void {
