@@ -82,6 +82,7 @@ export default class ImageHistogram {
     this._initScale();
     this._initBrush();
     this._initColorBar();
+    this._initRightClickBehavior();
   }
 
   _initRoot(): void {
@@ -195,6 +196,17 @@ export default class ImageHistogram {
       colorBarY,
       this.orientation
     );
+  }
+
+  _initRightClickBehavior(): void {
+    const brushMouseUp = () => {
+      const event = d3.event;
+      if (event.button === 2 && event.detail === 2) { // only for right double click
+        this.autoRange();
+        this.rangeChanged.next([this.colorScale.domain()[0], this.colorScale.domain()[1]]);
+      }
+    };
+    this.brush.brushElement.on('mouseup', brushMouseUp);
   }
 
   updateRange(min: number, max: number): void {
