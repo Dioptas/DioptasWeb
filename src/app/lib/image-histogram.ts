@@ -3,6 +3,7 @@ import {Subject} from 'rxjs';
 
 import BrushY from './brush-Y';
 import ColorScalebar from './color-scalebar';
+import {calcColorLut} from './image-calc';
 
 export default class ImageHistogram {
   margin = {
@@ -202,7 +203,13 @@ export default class ImageHistogram {
     let max = -Infinity;
     const length = imageData.length;
 
-    for (let i = 0; i < length; i++) {
+    // get histogram
+    if (bins === 'sqrt') {
+      bins = Math.floor(Math.sqrt(length));
+    }
+    const step = Math.ceil(d3.max([1, Math.sqrt(length) / 200]));
+
+    for (let i = 0; i < length; i = i + step) {
       if (imageData[i] < min) {
         min = imageData[i];
       } else if (imageData[i] > max) {
@@ -210,11 +217,6 @@ export default class ImageHistogram {
       }
     }
 
-    // get histogram
-    if (bins === 'sqrt') {
-      bins = Math.floor(Math.sqrt(length));
-    }
-    const step = Math.ceil(d3.max([1, Math.sqrt(length) / 200]));
     const binSize = (max - min) / bins;
     const histogram = new Uint32Array(bins).fill(0);
 
@@ -256,7 +258,6 @@ export default class ImageHistogram {
         this.histXY.push({x: this.hist.binCenters[i], y: this.hist.data[i]});
       }
     }
-
     const dataXRange = this.hist.max - +d3.min(this.hist.binCenters);
 
     if (this.orientation === 'vertical') {
@@ -307,7 +308,7 @@ export default class ImageHistogram {
     const colorImageArray = new Uint8Array(imageArray.length * 3);
     let pos = 0;
     let c;
-    this.calcColorLut();
+    this.colorLut = calcColorLut(this.hist.min, this.hist.max, this.colorScale);
     for (let i = 0; i < imageArray.length; i++) {
       c = this.colorLut[imageArray[i]];
       if (!c) {
@@ -319,44 +320,6 @@ export default class ImageHistogram {
       colorImageArray[pos + 2] = c[2];
     }
     return colorImageArray;
-  }
-
-  calcColorLut(): void {
-    const min = this.hist.min;
-    const max = this.hist.max + 1;
-    this.colorLut = new Array(max - min);
-    const colorScaleMin = d3.max([
-      Math.floor(this.colorScale.domain()[0]),
-      min
-    ]);
-    const colorScaleMax = d3.min([
-      Math.floor(this.colorScale.domain()[1]),
-      max
-    ]);
-
-    const colorMin = this.hexToRgb(this.colorScale(colorScaleMin));
-    const colorMax = this.hexToRgb(this.colorScale(colorScaleMax));
-
-    for (let i = 0; i < colorScaleMin; i++) {
-      this.colorLut[i] = colorMin;
-    }
-    for (let i = colorScaleMin; i < colorScaleMax; i++) {
-      this.colorLut[i] = this.hexToRgb(this.colorScale(min + i));
-    }
-    for (let i = colorScaleMax; i < max; i++) {
-      this.colorLut[i] = colorMax;
-    }
-  }
-
-  hexToRgb(hex): [number, number, number] {
-    const bigint = parseInt(hex.substr(1), 16);
-    // tslint:disable-next-line:no-bitwise
-    const r = (bigint >> 16) & 255;
-    // tslint:disable-next-line:no-bitwise
-    const g = (bigint >> 8) & 255;
-    // tslint:disable-next-line:no-bitwise
-    const b = bigint & 255;
-    return [r, g, b];
   }
 
   resize(width, height): void {
