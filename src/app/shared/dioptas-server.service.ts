@@ -101,4 +101,12 @@ export class DioptasServerService {
       callback(data);
     });
   }
+
+  getPatternAngles(tth: number, callback: (data) => any): void {
+    this.socket.emit('get_pattern_angles', tth, (data) => {
+      callback(data);
+    });
+  }
+
+
 }

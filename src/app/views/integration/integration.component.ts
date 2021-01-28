@@ -10,6 +10,7 @@ export class IntegrationComponent implements AfterViewInit {
   height: number;
 
   patternMousePosition = {x: 0, y: 0};
+  patternClickPosition = {x: 0, y: 0};
   imageMousePosition = {x: 0, y: 0, intensity: 0};
   imageClickPosition = {x: 0, y: 0, intensity: 0};
 

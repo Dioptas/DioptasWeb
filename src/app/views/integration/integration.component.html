@@ -12,7 +12,10 @@
           <app-integration-control></app-integration-control>
         </ng-template>
         <ng-template #bottom>
-          <app-pattern-plot (mouseMoved)="patternMousePosition=$event"></app-pattern-plot>
+          <app-pattern-plot
+            (mouseMoved)="patternMousePosition=$event"
+            (mouseClicked)="patternClickPosition=$event"
+          ></app-pattern-plot>
         </ng-template>
       </app-horizontal-splitter>
     </ng-template>
@@ -21,6 +24,7 @@
     [imageMousePosition]="imageMousePosition"
     [imageClickPosition]="imageClickPosition"
     [patternMousePosition]="patternMousePosition"
+    [patternClickPosition]="patternClickPosition"
   ></app-integration-footer>
 </div>
 

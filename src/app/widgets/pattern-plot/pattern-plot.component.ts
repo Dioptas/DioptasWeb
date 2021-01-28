@@ -9,6 +9,7 @@ import {DioptasServerService} from '../../shared/dioptas-server.service';
 })
 export class PatternPlotComponent implements OnInit {
   @Output() mouseMoved = new EventEmitter<{ x: number, y: number }>();
+  @Output() mouseClicked = new EventEmitter<{ x: number, y: number }>();
 
   public graph = {
     data: [
@@ -76,5 +77,9 @@ export class PatternPlotComponent implements OnInit {
 
   onHover(event): void {
     this.mouseMoved.emit({x: event.xvals[0], y: event.yvals[0]});
+  }
+
+  onClick(event): void {
+    this.mouseClicked.emit({x: event.event.pointerX, y: event.event.pointerY});
   }
 }

@@ -94,15 +94,30 @@
     </div>
 
     <div id="patternPosition">
-      <app-labeled-number
-        [label]="'x:'"
-        [value]="patternMousePosition.x"
-      ></app-labeled-number>
-      <app-labeled-number
-        [label]="'y:'"
-        [value]="patternMousePosition.y"
-        [format]="'1.1-2'"
-      ></app-labeled-number>
+      <div>
+        <app-labeled-number
+          [label]="'x:'"
+          [value]="patternMousePosition.x"
+        ></app-labeled-number>
+        <app-labeled-number
+          [label]="'x:'"
+          [value]="patternClickPosition.x"
+          class="clicked"
+        ></app-labeled-number>
+      </div>
+      <div>
+        <app-labeled-number
+          [label]="'y:'"
+          [value]="patternMousePosition.y"
+          [format]="'1.1-2'"
+        ></app-labeled-number>
+        <app-labeled-number
+          [label]="'y:'"
+          [value]="patternClickPosition.y"
+          [format]="'1.1-2'"
+          class="clicked"
+        ></app-labeled-number>
+      </div>
     </div>
   </div>
 </mat-toolbar>
