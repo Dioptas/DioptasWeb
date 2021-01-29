@@ -66,6 +66,9 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     this.imagePlot.mouseClicked.subscribe({
       next: ({x, y, intensity}) => {
         this.mouseClicked.emit({x, y, intensity});
+        this.dioptasServer.getAzimuthalRing(x, y, (data) => {
+          this.imagePlot.plotCircleLines(data.x, data.y);
+        });
       }
     });
 

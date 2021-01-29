@@ -108,5 +108,11 @@ export class DioptasServerService {
     });
   }
 
+  getAzimuthalRing(x, y, callback: (data) => any): void {
+    this.socket.emit('get_azimuthal_ring', x, y, (data) => {
+      callback(data);
+    });
+  }
+
 
 }
