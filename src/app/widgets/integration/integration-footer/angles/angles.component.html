@@ -1,0 +1,48 @@
+<div id="angles">
+  <div>
+    <app-labeled-number
+      [label]="'2θ:'"
+      [value]="angles.tth"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'2θ:'"
+      [value]="clickAngles.tth" class="clicked">
+    </app-labeled-number>
+  </div>
+
+  <div>
+    <app-labeled-number
+      [label]="'Q:'"
+      [value]="angles.q"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'Q:'"
+      [value]="clickAngles.q"
+      class="clicked"
+    ></app-labeled-number>
+  </div>
+
+  <div>
+    <app-labeled-number
+      [label]="'d:'"
+      [value]="angles.d"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'d:'"
+      [value]="clickAngles.d"
+      class="clicked"
+    ></app-labeled-number>
+  </div>
+
+  <div>
+    <app-labeled-number
+      [label]="'X:'"
+      [value]="angles.azi"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'X:'"
+      [value]="clickAngles.azi"
+      class="clicked"
+    ></app-labeled-number>
+  </div>
+</div>

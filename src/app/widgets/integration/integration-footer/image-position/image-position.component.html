@@ -1,0 +1,41 @@
+<div id=imagePosition>
+  <div id="imageX">
+    <app-labeled-number
+      [label]="'x:'"
+      [value]="mousePosition.x"
+      [format]="'1.0-0'"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'x:'"
+      [value]="clickPosition.x"
+      [format]="'1.0-0'"
+      class="clicked">
+    </app-labeled-number>
+  </div>
+  <div id="imageY">
+    <app-labeled-number
+      [label]="'y:'"
+      [value]="mousePosition.y"
+      [format]="'1.0-0'"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'y:'"
+      [value]="clickPosition.y"
+      [format]="'1.0-0'"
+      class="clicked"></app-labeled-number>
+  </div>
+
+  <div id="imageIntensity">
+    <app-labeled-number
+      [label]="'I:'"
+      [value]="mousePosition.intensity"
+      [format]="'1.0-0'"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'I:'"
+      [value]="clickPosition.intensity"
+      [format]="'1.0-0'"
+      class="clicked">
+    </app-labeled-number>
+  </div>
+</div>

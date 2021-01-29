@@ -1,0 +1,10 @@
+#patternPosition {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 250px;
+}
+
+#patternPosition > * {
+  min-width: 75px;
+}

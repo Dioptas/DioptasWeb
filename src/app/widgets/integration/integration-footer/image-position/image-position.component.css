@@ -1,0 +1,13 @@
+#imagePosition {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+}
+
+#imagePosition > * {
+  min-width: 60px;
+}
+
+#imagePosition > *:not(:last-child) {
+  margin-right: 7px;
+}

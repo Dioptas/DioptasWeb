@@ -13,7 +13,7 @@ export class IntegrationFooterComponent implements OnChanges {
   @Input() imageClickPosition = {x: 0, y: 0, intensity: 0};
 
   angles = {tth: 0, azi: 0, q: 0, d: 0};
-  anglesClicked = {tth: 0, azi: 0, q: 0, d: 0};
+  clickAngles = {tth: 0, azi: 0, q: 0, d: 0};
 
   constructor(private dioptasService: DioptasServerService) {
   }
@@ -27,7 +27,7 @@ export class IntegrationFooterComponent implements OnChanges {
     } else if (changes.imageClickPosition !== undefined) {
       const newPosition = changes.imageClickPosition.currentValue;
       this.dioptasService.getImageAngles(newPosition.x, newPosition.y, (data) => {
-        this.anglesClicked = data;
+        this.clickAngles = data;
       });
     } else if (changes.patternMousePosition !== undefined) {
       const newPosition = changes.patternMousePosition.currentValue;
@@ -37,7 +37,7 @@ export class IntegrationFooterComponent implements OnChanges {
     } else if (changes.patternClickPosition !== undefined) {
       this.patternClickPosition = this.patternMousePosition;
       this.dioptasService.getPatternAngles(this.patternClickPosition.x, (data) => {
-        this.anglesClicked = data;
+        this.clickAngles = data;
       });
     }
   }

@@ -6,54 +6,6 @@
   font-size: 14px;
 }
 
-#patternPosition {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 250px;
-}
-
-#patternPosition > * {
-  min-width: 75px;
-}
-
-
-#imagePosition {
-  display: flex;
-  flex-direction: row;
-  width: 250px;
-}
-
-#imagePosition > * {
-  min-width: 50px;
-}
-
-#angles {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 300px;
-}
-
-#angles > * {
-  min-width: 75px;
-}
-
-#imagePosition > *:not(:last-child), #angles > *:not(:last-child) {
-  margin-right: 7px;
-}
-
-
-#imageMouseMovePosition, #imageMouseClickPosition {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-#imageMouseClickPosition {
-  color: greenyellow;
-}
-
-.clicked {
-  color: greenyellow;
+::ng-deep .clicked {
+  color: yellowgreen;
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {FileDialogComponent} from '../../../file-dialog/file-dialog.component';
+import {FileDialogComponent} from '../../../utility/file-dialog/file-dialog.component';
 import {DioptasServerService} from '../../../../shared/dioptas-server.service';
 
 @Component({

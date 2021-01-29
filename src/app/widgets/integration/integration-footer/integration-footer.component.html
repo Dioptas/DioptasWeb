@@ -1,123 +1,16 @@
 <mat-toolbar>
   <div id="footerContainer">
-
-    <div id="imagePosition">
-      <div id="imageX">
-        <app-labeled-number
-          [label]="'x:'"
-          [value]="imageMousePosition.x"
-          [format]="'1.0-0'"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'x:'"
-          [value]="imageClickPosition.x"
-          [format]="'1.0-0'"
-          class="clicked">
-        </app-labeled-number>
-      </div>
-
-      <div id="imageY">
-        <app-labeled-number
-          [label]="'y:'"
-          [value]="imageMousePosition.y"
-          [format]="'1.0-0'"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'y:'"
-          [value]="imageClickPosition.y"
-          [format]="'1.0-0'"
-          class="clicked"></app-labeled-number>
-      </div>
-
-      <div id="imageIntensity">
-        <app-labeled-number
-          [label]="'I:'"
-          [value]="imageMousePosition.intensity"
-          [format]="'1.0-0'"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'I:'"
-          [value]="imageClickPosition.intensity"
-          [format]="'1.0-0'"
-          class="clicked">
-        </app-labeled-number>
-      </div>
-    </div>
-
-    <div id="angles">
-      <div>
-        <app-labeled-number
-          [label]="'2θ:'"
-          [value]="angles.tth"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'2θ:'"
-          [value]="anglesClicked.tth" class="clicked">
-        </app-labeled-number>
-      </div>
-
-      <div>
-        <app-labeled-number
-          [label]="'Q:'"
-          [value]="angles.q"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'Q:'"
-          [value]="anglesClicked.q"
-          class="clicked"
-        ></app-labeled-number>
-      </div>
-
-      <div>
-        <app-labeled-number
-          [label]="'d:'"
-          [value]="angles.d"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'d:'"
-          [value]="anglesClicked.d"
-          class="clicked"
-        ></app-labeled-number>
-      </div>
-
-      <div>
-        <app-labeled-number
-          [label]="'X:'"
-          [value]="angles.azi"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'X:'"
-          [value]="anglesClicked.azi"
-          class="clicked"
-        ></app-labeled-number>
-      </div>
-    </div>
-
-    <div id="patternPosition">
-      <div>
-        <app-labeled-number
-          [label]="'x:'"
-          [value]="patternMousePosition.x"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'x:'"
-          [value]="patternClickPosition.x"
-          class="clicked"
-        ></app-labeled-number>
-      </div>
-      <div>
-        <app-labeled-number
-          [label]="'y:'"
-          [value]="patternMousePosition.y"
-          [format]="'1.1-2'"
-        ></app-labeled-number>
-        <app-labeled-number
-          [label]="'y:'"
-          [value]="patternClickPosition.y"
-          [format]="'1.1-2'"
-          class="clicked"
-        ></app-labeled-number>
-      </div>
-    </div>
+    <app-image-position
+      [mousePosition]="imageMousePosition"
+      [clickPosition]="imageClickPosition"
+    ></app-image-position>
+    <app-angles
+      [angles]="angles"
+      [clickAngles]="clickAngles"
+    ></app-angles>
+    <app-pattern-position
+      [mousePosition]="patternMousePosition"
+      [clickPosition]="patternClickPosition"
+    ></app-pattern-position>
   </div>
 </mat-toolbar>

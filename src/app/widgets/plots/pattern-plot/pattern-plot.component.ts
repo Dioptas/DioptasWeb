@@ -1,6 +1,6 @@
 import {Component, HostListener, OnInit, EventEmitter, Output} from '@angular/core';
-import {DataGeneratorService} from '../../shared/data-generator.service';
-import {DioptasServerService} from '../../shared/dioptas-server.service';
+import {DataGeneratorService} from '../../../shared/data-generator.service';
+import {DioptasServerService} from '../../../shared/dioptas-server.service';
 
 @Component({
   selector: 'app-pattern-plot',

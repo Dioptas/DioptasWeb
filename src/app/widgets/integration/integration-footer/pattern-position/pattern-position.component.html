@@ -1,0 +1,26 @@
+<div id="patternPosition">
+  <div>
+    <app-labeled-number
+      [label]="'x:'"
+      [value]="mousePosition.x"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'x:'"
+      [value]="clickPosition.x"
+      class="clicked"
+    ></app-labeled-number>
+  </div>
+  <div>
+    <app-labeled-number
+      [label]="'y:'"
+      [value]="mousePosition.y"
+      [format]="'1.1-2'"
+    ></app-labeled-number>
+    <app-labeled-number
+      [label]="'y:'"
+      [value]="clickPosition.y"
+      [format]="'1.1-2'"
+      class="clicked"
+    ></app-labeled-number>
+  </div>
+</div>

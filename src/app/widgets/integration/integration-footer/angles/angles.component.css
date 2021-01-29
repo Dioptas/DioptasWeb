@@ -1,0 +1,14 @@
+#angles {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 300px;
+}
+
+#angles > * {
+  min-width: 75px;
+}
+
+#angles > *:not(:last-child) {
+  margin-right: 7px;
+}

@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DioptasServerService} from '../../shared/dioptas-server.service';
+import {DioptasServerService} from '../../../shared/dioptas-server.service';
 
 @Component({
   selector: 'app-file-dialog',
