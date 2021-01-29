@@ -9,7 +9,7 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {PatternPlotComponent} from './widgets/plots/pattern-plot/pattern-plot.component';
+import {PatternPlotPlotlyComponent} from './widgets/plots/pattern-plot-plotly/pattern-plot-plotly.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HeaderComponent} from './widgets/header/header.component';
 
@@ -30,11 +30,12 @@ import { LabeledNumberComponent } from './widgets/utility/labeled-number/labeled
 import { ImagePositionComponent } from './widgets/integration/integration-footer/image-position/image-position.component';
 import { AnglesComponent } from './widgets/integration/integration-footer/angles/angles.component';
 import { PatternPositionComponent } from './widgets/integration/integration-footer/pattern-position/pattern-position.component';
+import { PatternPlotComponent } from './widgets/plots/pattern-plot/pattern-plot.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PatternPlotComponent,
+    PatternPlotPlotlyComponent,
     HeaderComponent,
     IntegrationComponent,
     VerticalSplitterComponent,
@@ -51,6 +52,7 @@ import { PatternPositionComponent } from './widgets/integration/integration-foot
     ImagePositionComponent,
     AnglesComponent,
     PatternPositionComponent,
+    PatternPlotComponent,
   ],
   imports: [
     BrowserModule,

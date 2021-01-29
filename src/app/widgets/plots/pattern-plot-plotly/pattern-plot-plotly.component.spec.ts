@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PatternPlotComponent } from './pattern-plot.component';
+import { PatternPlotPlotlyComponent } from './pattern-plot-plotly.component';
 
-describe('PatternPlotComponent', () => {
-  let component: PatternPlotComponent;
-  let fixture: ComponentFixture<PatternPlotComponent>;
+describe('pattern-plot-plotly', () => {
+  let component: PatternPlotPlotlyComponent;
+  let fixture: ComponentFixture<PatternPlotPlotlyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PatternPlotComponent ]
+      declarations: [ PatternPlotPlotlyComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PatternPlotComponent);
+    fixture = TestBed.createComponent(PatternPlotPlotlyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

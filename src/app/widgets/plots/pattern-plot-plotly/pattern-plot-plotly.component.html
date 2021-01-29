@@ -1,0 +1,11 @@
+<plotly-plot
+  [data]="graph.data"
+  [layout]="graph.layout"
+  [config]="graph.config"
+  [style]="graph.style"
+  [useResizeHandler]="true"
+
+  (hover)="onHover($event)"
+  (plotlyClick)="onClick($event)"
+></plotly-plot>
+

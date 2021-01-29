@@ -376,8 +376,7 @@ export default class ImagePlot {
       const currentWidth = right - left;
       const currentHeight = Math.abs(top - bottom);
 
-      const brushContext = document.getElementById('brushContext');
-      const boundingRect = brushContext.getBoundingClientRect();
+      const boundingRect = this.#brushContext.node().getBoundingClientRect();
 
       this.mouseX =
         left +
