@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
 
-import ImagePlot from '../../../lib/image-plot';
+import ImagePlot from '../../../lib/plotting/image-plot';
 import {DataGeneratorService} from '../../../shared/data-generator.service';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
 

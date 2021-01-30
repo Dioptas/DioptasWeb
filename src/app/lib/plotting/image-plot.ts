@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import {Subject} from 'rxjs';
 
 import ImageHistogram from './image-histogram';
-import Line from './line';
+import Line from './items/line';
 
 export default class ImagePlot {
   mouseMoved = new Subject<{ x: number, y: number, intensity: number }>();

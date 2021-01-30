@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
-import PatternPlot from '../../../lib/pattern-plot';
+import PatternPlot from '../../../lib/plotting/pattern-plot';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
 
 @Component({
@@ -34,6 +34,8 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.setXAxisLabel('Two-Theta (°)');
     this.plot.setYAxisLabel('Intensity');
 
+    this.plot.setVerticalLine(10);
+
     this.dioptasService.patternChanged.subscribe((payload) => {
       this.plot.plot(payload.x, payload.y);
     });
@@ -52,6 +54,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.mouseClicked.subscribe({
       next: ({x, y}) => {
         this.mouseClicked.emit({x, y});
+        this.plot.setVerticalLine(x);
       }
     });
 

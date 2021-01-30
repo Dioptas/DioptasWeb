@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {createRandomImage} from '../lib/image-generation';
+import {createRandomImage} from '../lib/plotting/image-generation';
 
 @Injectable({
   providedIn: 'root'

@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
 import {Subject} from 'rxjs';
 
-import BrushY from './brush-Y';
-import ColorScalebar from './color-scalebar';
+import BrushY from './items/brush-Y';
+import ColorScalebar from './items/color-scalebar';
 import {calcColorLut, calcImageHistogram, calcColorImage, calcCumulativeHistogram} from './image-calc';
 
 export default class ImageHistogram {
