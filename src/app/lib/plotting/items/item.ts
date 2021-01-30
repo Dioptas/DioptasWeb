@@ -1,13 +1,26 @@
+import {Subject} from 'rxjs';
+
 export default interface ItemInterface {
+  autoRanged: boolean;
+  dataChanged: Subject<[]>;
+
+  xRange: { min: number, max: number };
+  yRange: { min: number, max: number };
+
   initialize(parent, xScale, yScale, clipPath): void;
 
   update(): void;
 }
 
 export class Item implements ItemInterface {
+  public autoRanged = false;
+  public dataChanged = new Subject<[]>();
   public parent;
   public xScale;
   public yScale;
+
+  public xRange = {min: 0, max: 0};
+  public yRange = {min: 0, max: 0};
 
   public root;
   private clipPath;

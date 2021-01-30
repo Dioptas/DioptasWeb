@@ -39,6 +39,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.setYAxisLabel('Intensity');
 
     this.mainLine = new LineItem();
+    this.mainLine.autoRanged = true;
     this.plot.addItem(this.mainLine);
 
     this.verticalLine = new VerticalLineItem('yellowgreen');

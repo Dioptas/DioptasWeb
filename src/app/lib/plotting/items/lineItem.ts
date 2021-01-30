@@ -17,7 +17,12 @@ export default class LineItem extends Item {
     for (let i = 0; i < x.length; i++) {
       this.XY.push({x: x[i], y: y[i]});
     }
+    this.xRange.min = Math.min(...x);
+    this.xRange.max = Math.max(...x);
+    this.yRange.min = Math.min(...y);
+    this.yRange.max = Math.max(...y);
     this.update();
+    this.dataChanged.next();
   }
 
   createLineElement(): void {

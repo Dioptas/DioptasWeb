@@ -46,6 +46,7 @@ export default class LabeledBasePlot extends BasePlot {
 
   _update(duration: number = 0): void {
     super._update(duration);
+    // the next function has to be delayed, to be able to see the actual width of the yAxis
     setTimeout(() => this._updateAxisLabelPositions(), 20);
   }
 
