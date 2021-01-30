@@ -525,7 +525,7 @@ export default class ImagePlot {
 
   _initCircleLines(): void {
     for (let i = 0; i < 4; i++) {
-      const line = new Line(this.#imagePlotRoot, this.x, this.y);
+      const line = new Line(this.#imagePlotRoot, this.x, this.y, 'yellowgreen');
       this.circleLines.push(line);
       this.lines.push(line);
     }

@@ -11,10 +11,12 @@ export default class Line {
   constructor(
     public parent,
     public xScale,
-    public yScale
+    public yScale,
+    public color = 'white',
+    public clipPath = 'clip'
   ) {
     this.path = parent.append('g')
-      .attr('clip-path', 'url(#clip)');
+      .attr('clip-path', 'url(#' + clipPath + ')');
   }
 
   setData(x, y): void {
@@ -40,12 +42,14 @@ export default class Line {
       .duration(0)
       .attr('d', this.lineElement)
       .attr('fill', 'none')
-      .attr('stroke', 'yellowgreen')
+      .attr('stroke', this.color)
       .attr('stroke-width', 2)
       .attr('pointer-events', 'none');
     path
       .enter()
       .append('path')
+      .attr('fill', 'none')
+      .attr('stroke', this.color)
       .attr('d', this.lineElement);
     path.exit().remove();
   }

@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import LabeledBasePlot from '../../../lib/labeled-base-plot';
 import * as _ from 'lodash';
+import PatternPlot from '../../../lib/pattern-plot';
+import {DioptasServerService} from '../../../shared/dioptas-server.service';
 
 @Component({
   selector: 'app-pattern-plot',
@@ -16,22 +17,28 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   throttleResize;
   throttleImageMouseMoved;
 
-  plot: LabeledBasePlot;
+  plot: PatternPlot;
 
 
-  constructor() {
+  constructor(public dioptasService: DioptasServerService) {
   }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this.plot = new LabeledBasePlot(
+    this.plot = new PatternPlot(
       '#pattern-plot',
       800, 300,
     );
     this.plot.setXAxisLabel('Two-Theta (°)');
     this.plot.setYAxisLabel('Intensity');
+
+    this.dioptasService.patternChanged.subscribe((payload) => {
+      this.plot.plot(payload.x, payload.y);
+    });
+
+
     this.throttleImageMouseMoved = _.throttle((x, y) => {
       this.mouseMoved.emit({x, y});
     }, 100);
@@ -43,7 +50,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     });
 
     this.plot.mouseClicked.subscribe({
-      next: ({x, y }) => {
+      next: ({x, y}) => {
         this.mouseClicked.emit({x, y});
       }
     });

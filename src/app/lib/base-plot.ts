@@ -2,6 +2,8 @@ import * as d3 from 'd3';
 import {Subject} from 'rxjs';
 
 export default class BasePlot {
+  static clipIndex = 0;
+
   mouseMoved = new Subject<{ x: number, y: number }>();
   mouseClicked = new Subject<{ x: number, y: number }>();
 
@@ -23,6 +25,9 @@ export default class BasePlot {
   plotWidth;
   plotHeight;
 
+  clip;
+  clipPath;
+
   brush;
   brushContext;
   brushLayer;
@@ -37,6 +42,7 @@ export default class BasePlot {
     this.plotHeight = this.height - this.margin.top - this.margin.bottom;
     this._initSVG(selector);
     this._initAxes();
+    this._initClip();
     this._initBrush();
     this._initMousePosition();
     this._initWheel();
@@ -78,6 +84,18 @@ export default class BasePlot {
       .range([this.height - this.margin.top - this.margin.bottom, 0]);
 
     this.yAxis = this.rootElement.append('g').call(d3.axisLeft(this.y));
+  }
+
+  _initClip(): void {
+    this.clipPath = 'clip' + BasePlot.clipIndex;
+    BasePlot.clipIndex++;
+    this.clip = this.rootElement.append('clipPath')
+      .attr('id', this.clipPath)
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', this.plotWidth)
+      .attr('height', this.plotHeight);
   }
 
   _initBrush(): void {
@@ -240,8 +258,7 @@ export default class BasePlot {
             this.zoom(1.7);
           } else {
             // double click
-            this._updateDomain(this.plotDomainX[0], this.plotDomainX[1], this.plotDomainY[0], this.plotDomainY[1]);
-            this._update();
+            this.autoRange();
           }
         }
         this.brushContext.node().removeEventListener('mousemove', rightDragMove);
@@ -260,6 +277,17 @@ export default class BasePlot {
   _updateDomain(left, right, bottom, top): void {
     this.x.domain([left, right]);
     this.y.domain([bottom, top]);
+  }
+
+  autoRange(): void {
+    const xMargin = 0.05 * (this.plotDomainX[1] - this.plotDomainX[0]);
+    const yMargin = 0.05 * (this.plotDomainY[1] - this.plotDomainY[0]);
+    this._updateDomain(
+      this.plotDomainX[0] - xMargin,
+      this.plotDomainX[1] + xMargin,
+      this.plotDomainY[0] - yMargin,
+      this.plotDomainY[1] + yMargin);
+    this._update();
   }
 
 
@@ -303,6 +331,10 @@ export default class BasePlot {
         'transform',
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       )
+      .attr('width', this.plotWidth)
+      .attr('height', this.plotHeight);
+
+    this.clip
       .attr('width', this.plotWidth)
       .attr('height', this.plotHeight);
 
