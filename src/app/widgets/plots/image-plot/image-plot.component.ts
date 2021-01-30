@@ -4,6 +4,7 @@ import * as _ from 'lodash';
 import ImagePlot from '../../../lib/plotting/image-plot';
 import {DataGeneratorService} from '../../../shared/data-generator.service';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
+import LineItem from '../../../lib/plotting/items/lineItem';
 
 @Component({
   selector: 'app-image-plot',
@@ -15,6 +16,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
   @Output() mouseClicked = new EventEmitter<{ x: number, y: number, intensity: number }>();
   @ViewChild('graphContainer') graphContainer: ElementRef;
   imagePlot: ImagePlot;
+  circleLineItems: LineItem[] = [];
 
   throttleResize;
   throttleImageMouseMoved;
@@ -38,7 +40,13 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     const imageWidth = 1024;
     const imageHeight = 1024;
     const image = this.dataService.getImage(imageWidth, imageHeight);
+
     this.imagePlot.plotImage(image, imageWidth, imageHeight);
+    for (let i = 0; i < 4; i++) {
+      const line = new LineItem('yellowgreen');
+      this.circleLineItems.push(line);
+      this.imagePlot.addItem(line);
+    }
 
 
     this.throttleResize = _.throttle(() => {
@@ -67,7 +75,9 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       next: ({x, y, intensity}) => {
         this.mouseClicked.emit({x, y, intensity});
         this.dioptasServer.getAzimuthalRing(x, y, (data) => {
-          this.imagePlot.plotCircleLines(data.x, data.y);
+          for (let i = 0; i < data.x.length; i++) {
+            this.circleLineItems[i].setData(data.x[i], data.y[i]);
+          }
         });
       }
     });

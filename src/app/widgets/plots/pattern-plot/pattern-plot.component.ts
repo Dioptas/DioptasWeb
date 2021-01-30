@@ -2,6 +2,8 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit
 import * as _ from 'lodash';
 import PatternPlot from '../../../lib/plotting/pattern-plot';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
+import LineItem from '../../../lib/plotting/items/lineItem';
+import VerticalLineItem from '../../../lib/plotting/items/verticalLineItem';
 
 @Component({
   selector: 'app-pattern-plot',
@@ -18,6 +20,8 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   throttleImageMouseMoved;
 
   plot: PatternPlot;
+  mainLine: LineItem;
+  verticalLine: VerticalLineItem;
 
 
   constructor(public dioptasService: DioptasServerService) {
@@ -34,10 +38,16 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.setXAxisLabel('Two-Theta (°)');
     this.plot.setYAxisLabel('Intensity');
 
-    this.plot.setVerticalLine(10);
+    this.mainLine = new LineItem();
+    this.plot.addItem(this.mainLine);
+
+    this.verticalLine = new VerticalLineItem('yellowgreen');
+    this.plot.addItem(this.verticalLine);
+
+    this.verticalLine.setData(10);
 
     this.dioptasService.patternChanged.subscribe((payload) => {
-      this.plot.plot(payload.x, payload.y);
+      this.mainLine.setData(payload.x, payload.y);
     });
 
 
@@ -54,7 +64,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.mouseClicked.subscribe({
       next: ({x, y}) => {
         this.mouseClicked.emit({x, y});
-        this.plot.setVerticalLine(x);
+        this.verticalLine.setData(x);
       }
     });
 

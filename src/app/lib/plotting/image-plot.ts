@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import {Subject} from 'rxjs';
 
 import ImageHistogram from './image-histogram';
-import Line from './items/line';
+import ItemInterface from './items/item';
 
 export default class ImagePlot {
   mouseMoved = new Subject<{ x: number, y: number, intensity: number }>();
@@ -58,8 +58,7 @@ export default class ImagePlot {
   #brushLayer;
   #brushContext;
 
-  lines: Line[] = [];
-  circleLines: Line[] = [];
+  items: ItemInterface[] = [];
 
   get width(): number {
     if (this.histogramOrientation === 'vertical') {
@@ -131,7 +130,6 @@ export default class ImagePlot {
     this._initSVG(selector);
     this._initImagePlot();
     this._initHistogram(histogramOrientation);
-    this._initCircleLines();
   }
 
   plotImage(imageArray, width, height, autoRange = true): void {
@@ -154,12 +152,6 @@ export default class ImagePlot {
       this._updateDomain(0, this.imageWidth, 0, this.imageHeight);
     }
     this._update();
-  }
-
-  plotCircleLines(x, y): void {
-    for (let i = 0; i < x.length; i++) {
-      this.circleLines[i].setData(x[i], y[i]);
-    }
   }
 
   zoom(factor): void {
@@ -523,14 +515,6 @@ export default class ImagePlot {
     this.#brushContext.on('mouseup', rightDragStop);
   }
 
-  _initCircleLines(): void {
-    for (let i = 0; i < 4; i++) {
-      const line = new Line(this.#imagePlotRoot, this.x, this.y, 'yellowgreen');
-      this.circleLines.push(line);
-      this.lines.push(line);
-    }
-  }
-
   _updateDomain(left, right, bottom, top): void {
     if (this.fixedAspectRatio) {
       const width = right - left;
@@ -550,12 +534,22 @@ export default class ImagePlot {
     this.y.domain([bottom, top]);
   }
 
+  addItem(item: ItemInterface): void {
+    this.items.push(item);
+    item.initialize(this.#imagePlotRoot, this.x, this.y, 'clip');
+  }
+
+  _updateItems(): void {
+    for (const item of this.items) {
+      item.update();
+    }
+
+  }
+
   _update(duration = 0): void {
     this._updateAxes(duration);
     this._updateCamera();
-    for (const line of this.lines) {
-      line.update();
-    }
+    this._updateItems();
   }
 
   _updateAxes(duration = 400): void {

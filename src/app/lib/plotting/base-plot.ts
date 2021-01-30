@@ -89,6 +89,7 @@ export default class BasePlot {
   _initClip(): void {
     this.clipPath = 'clip' + BasePlot.clipIndex;
     BasePlot.clipIndex++;
+    console.log(this.clipPath);
     this.clip = this.rootElement.append('clipPath')
       .attr('id', this.clipPath)
       .append('rect')

@@ -1,22 +1,15 @@
 import * as d3 from 'd3';
+import {Item} from './item';
 
-export default class Line {
+export default class LineItem extends Item {
   x: number[];
   y: number[];
 
-  private XY = [];
-  private lineElement;
-  private path;
+  protected XY = [];
+  protected lineElement;
 
-  constructor(
-    public parent,
-    public xScale,
-    public yScale,
-    public color = 'white',
-    public clipPath = 'clip'
-  ) {
-    this.path = parent.append('g')
-      .attr('clip-path', 'url(#' + clipPath + ')');
+  constructor(public color = 'white') {
+    super();
   }
 
   setData(x, y): void {
@@ -27,16 +20,18 @@ export default class Line {
     this.update();
   }
 
-  update(): void {
+  createLineElement(): void {
     this.lineElement = d3
       .line()
       // @ts-ignore
       .x(d => this.xScale(d.x))
       // @ts-ignore
       .y(d => this.yScale(d.y));
+  }
 
+  updateLine(): void {
     // Create line
-    const path = this.path.selectAll('path').data([this.XY]);
+    const path = this.root.selectAll('path').data([this.XY]);
     path
       .transition()
       .duration(0)
@@ -52,5 +47,10 @@ export default class Line {
       .attr('stroke', this.color)
       .attr('d', this.lineElement);
     path.exit().remove();
+  }
+
+  update(): void {
+    this.createLineElement();
+    this.updateLine();
   }
 }
