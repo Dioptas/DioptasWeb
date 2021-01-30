@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import BasePlot from '../../../lib/base-plot';
+import LabeledBasePlot from '../../../lib/labeled-base-plot';
 import * as _ from 'lodash';
 
 @Component({
@@ -16,7 +16,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   throttleResize;
   throttleImageMouseMoved;
 
-  plot: BasePlot;
+  plot: LabeledBasePlot;
 
 
   constructor() {
@@ -26,11 +26,12 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.plot = new BasePlot(
+    this.plot = new LabeledBasePlot(
       '#pattern-plot',
       800, 300,
     );
-
+    this.plot.setXAxisLabel('Two-Theta (°)');
+    this.plot.setYAxisLabel('Intensity');
     this.throttleImageMouseMoved = _.throttle((x, y) => {
       this.mouseMoved.emit({x, y});
     }, 100);
@@ -52,6 +53,8 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
       const height = this.plotContainer.nativeElement.clientHeight;
       this.plot.resize(width, height);
     }, 50);
+
+    setTimeout(() => this.throttleResize(), 50);
   }
 
   @HostListener('window:resize')

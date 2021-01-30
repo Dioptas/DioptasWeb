@@ -10,7 +10,7 @@ export default class BasePlot {
 
   margin = {
     left: 40,
-    right: 10,
+    right: 20,
     top: 10,
     bottom: 30
   };
@@ -29,6 +29,8 @@ export default class BasePlot {
 
   mouseX;
   mouseY;
+  plotDomainX = [0, 100];
+  plotDomainY = [0, 100];
 
   constructor(selector, public width, public height) {
     this.plotWidth = this.width - this.margin.left - this.margin.right;
@@ -62,7 +64,7 @@ export default class BasePlot {
   _initAxes(): void {
     this.x = d3
       .scaleLinear()
-      .domain([0, 100])
+      .domain(this.plotDomainX)
       .range([0, this.width - this.margin.left - this.margin.right]);
 
     this.xAxis = this.rootElement.append('g')
@@ -72,7 +74,7 @@ export default class BasePlot {
     // add Y Axis
     this.y = d3
       .scaleLinear()
-      .domain([0, 100])
+      .domain(this.plotDomainY)
       .range([this.height - this.margin.top - this.margin.bottom, 0]);
 
     this.yAxis = this.rootElement.append('g').call(d3.axisLeft(this.y));
@@ -238,7 +240,7 @@ export default class BasePlot {
             this.zoom(1.7);
           } else {
             // double click
-            this._updateDomain(0, this.plotWidth, 0, this.plotHeight);
+            this._updateDomain(this.plotDomainX[0], this.plotDomainX[1], this.plotDomainY[0], this.plotDomainY[1]);
             this._update();
           }
         }
@@ -297,6 +299,10 @@ export default class BasePlot {
 
 
     this.rootElement
+      .attr(
+        'transform',
+        'translate(' + this.margin.left + ',' + this.margin.top + ')'
+      )
       .attr('width', this.plotWidth)
       .attr('height', this.plotHeight);
 
