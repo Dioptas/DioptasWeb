@@ -1,44 +1,30 @@
-import {Component, OnChanges, Input, SimpleChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
+import {MousePositionService} from '../../../shared/mouse-position.service';
 
 @Component({
   selector: 'app-integration-footer',
   templateUrl: './integration-footer.component.html',
   styleUrls: ['./integration-footer.component.css']
 })
-export class IntegrationFooterComponent implements OnChanges {
+export class IntegrationFooterComponent {
   @Input() patternMousePosition = {x: 0, y: 0};
   @Input() patternClickPosition = {x: 0, y: 0};
   @Input() imageMousePosition = {x: 0, y: 0, intensity: 0};
   @Input() imageClickPosition = {x: 0, y: 0, intensity: 0};
 
-  angles = {tth: 0, azi: 0, q: 0, d: 0};
-  clickAngles = {tth: 0, azi: 0, q: 0, d: 0};
+  @Input() angles = {tth: 0, azi: 0, q: 0, d: 0};
+  @Input() clickAngles = {tth: 0, azi: 0, q: 0, d: 0};
 
-  constructor(private dioptasService: DioptasServerService) {
-  }
+  constructor(
+    private dioptasService: DioptasServerService,
+    private mouseService: MousePositionService) {
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.imageMousePosition !== undefined) {
-      const newPosition = changes.imageMousePosition.currentValue;
-      this.dioptasService.getImageAngles(newPosition.x, newPosition.y, (data) => {
-        this.angles = data;
-      });
-    } else if (changes.imageClickPosition !== undefined) {
-      const newPosition = changes.imageClickPosition.currentValue;
-      this.dioptasService.getImageAngles(newPosition.x, newPosition.y, (data) => {
-        this.clickAngles = data;
-      });
-    } else if (changes.patternMousePosition !== undefined) {
-      const newPosition = changes.patternMousePosition.currentValue;
-      this.dioptasService.getPatternAngles(newPosition.x, (data) => {
-        this.angles = data;
-      });
-    } else if (changes.patternClickPosition !== undefined) {
-      this.patternClickPosition = this.patternMousePosition;
-      this.dioptasService.getPatternAngles(this.patternClickPosition.x, (data) => {
-        this.clickAngles = data;
-      });
-    }
+    this.mouseService.imageMouseMoved.subscribe((data) => this.imageMousePosition = data);
+    this.mouseService.imageMouseClicked.subscribe((data) => this.imageClickPosition = data);
+    this.mouseService.angles.subscribe((data) => this.angles = data);
+    this.mouseService.anglesClicked.subscribe((data) => this.clickAngles = data);
+    this.mouseService.patternMouseMoved.subscribe((data) => this.patternMousePosition = data);
+    this.mouseService.patternMouseClicked.subscribe((data) => this.patternClickPosition = data);
   }
 }

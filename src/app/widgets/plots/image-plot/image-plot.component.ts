@@ -5,6 +5,7 @@ import ImagePlot from '../../../lib/plotting/image-plot';
 import {DataGeneratorService} from '../../../shared/data-generator.service';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
 import LineItem from '../../../lib/plotting/items/lineItem';
+import {MousePositionService} from '../../../shared/mouse-position.service';
 
 @Component({
   selector: 'app-image-plot',
@@ -23,8 +24,10 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
   constructor(
     private dataService: DataGeneratorService,
-    private dioptasServer: DioptasServerService) {
+    private dioptasServer: DioptasServerService,
+    private mouseService: MousePositionService) {
   }
+
 
   ngOnInit(): void {
   }
@@ -59,6 +62,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
     this.throttleImageMouseMoved = _.throttle((x, y, intensity) => {
       this.mouseMoved.emit({x, y, intensity});
+      this.mouseService.updateImageMousePosition(x, y, intensity);
     }, 100);
 
     this.dioptasServer.imageChanged.subscribe((data) => {
@@ -74,12 +78,17 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     this.imagePlot.mouseClicked.subscribe({
       next: ({x, y, intensity}) => {
         this.mouseClicked.emit({x, y, intensity});
-        this.dioptasServer.getAzimuthalRing(x, y, (data) => {
-          for (let i = 0; i < data.x.length; i++) {
-            this.circleLineItems[i].setData(data.x[i], data.y[i]);
-          }
-        });
+        this.mouseService.updateImageClickPosition(x, y, intensity);
+
       }
+    });
+
+    this.mouseService.anglesClicked.subscribe((angles) => {
+      this.dioptasServer.getAzimuthalRing(angles.tth, (data) => {
+        for (let i = 0; i < data.x.length; i++) {
+          this.circleLineItems[i].setData(data.x[i], data.y[i]);
+        }
+      });
     });
 
   }

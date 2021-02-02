@@ -4,6 +4,7 @@ import PatternPlot from '../../../lib/plotting/pattern-plot';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
 import LineItem from '../../../lib/plotting/items/lineItem';
 import VerticalLineItem from '../../../lib/plotting/items/verticalLineItem';
+import {MousePositionService} from '../../../shared/mouse-position.service';
 
 @Component({
   selector: 'app-pattern-plot',
@@ -24,7 +25,9 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   verticalLine: VerticalLineItem;
 
 
-  constructor(public dioptasService: DioptasServerService) {
+  constructor(
+    public dioptasService: DioptasServerService,
+    public mouseService: MousePositionService) {
   }
 
   ngOnInit(): void {
@@ -53,6 +56,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
 
 
     this.throttleImageMouseMoved = _.throttle((x, y) => {
+      this.mouseService.updatePatternMousePosition(x, y);
       this.mouseMoved.emit({x, y});
     }, 100);
 
@@ -65,8 +69,12 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.mouseClicked.subscribe({
       next: ({x, y}) => {
         this.mouseClicked.emit({x, y});
-        this.verticalLine.setData(x);
+        this.mouseService.updatePatternClickPosition(x, y);
       }
+    });
+
+    this.mouseService.anglesClicked.subscribe((data) => {
+      this.verticalLine.setData(data.tth);
     });
 
     this.throttleResize = _.throttle(() => {
