@@ -1,5 +1,6 @@
-import {EventEmitter, Injectable, Output} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {DioptasServerService} from './dioptas-server.service';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,18 +10,13 @@ export class MousePositionService {
    * Used for communication of mouse position between image and pattern plot. It further
    * automatically updates calculated angles from mouse position
    */
-  @Output() imageMouseMoved = new EventEmitter<{ x: number, y: number, intensity: number }>();
-  @Output() imageMouseClicked = new EventEmitter<{ x: number, y: number, intensity: number }>();
-  @Output() patternMouseMoved = new EventEmitter<{ x: number, y: number }>();
-  @Output() patternMouseClicked = new EventEmitter<{ x: number, y: number }>();
+  imageMousePosition = new BehaviorSubject<{ x: number, y: number, intensity: number }>({x: 0, y: 0, intensity: 0});
+  imageClickPosition = new BehaviorSubject<{ x: number, y: number, intensity: number }>({x: 0, y: 0, intensity: 0});
+  patternMousePosition = new BehaviorSubject<{ x: number, y: number }>({x: 0, y: 0});
+  patternClickPosition = new BehaviorSubject<{ x: number, y: number }>({x: 0, y: 0});
 
-  @Output() angles = new EventEmitter<{ tth: 0, azi: 0, q: 0, d: 0 }>();
-  @Output() anglesClicked = new EventEmitter<{ tth: 0, azi: 0, q: 0, d: 0 }>();
-
-  patternMousePosition = {x: 0, y: 0};
-  patternClickPosition = {x: 0, y: 0};
-  imageMousePosition = {x: 0, y: 0, intensity: 0};
-  imageClickPosition = {x: 0, y: 0, intensity: 0};
+  angles = new BehaviorSubject<{ tth: number, azi: number, q: number, d: number }>({tth: 0, azi: 0, q: 0, d: 0});
+  anglesClicked = new BehaviorSubject<{ tth: number, azi: number, q: number, d: number }>({tth: 5, azi: 0, q: 0, d: 0});
 
   constructor(private dioptasService: DioptasServerService) {
   }
@@ -33,10 +29,9 @@ export class MousePositionService {
    * @param intensity - intensity of pixel at position x, y
    */
   updateImageMousePosition(x, y, intensity = 0): void {
-    this.imageMousePosition = {x, y, intensity};
-    this.imageMouseMoved.emit({x, y, intensity});
+    this.imageMousePosition.next({x, y, intensity});
     this.dioptasService.getImageAngles(x, y, (data) => {
-      this.angles.emit(data);
+      this.angles.next(data);
     });
   }
 
@@ -48,10 +43,9 @@ export class MousePositionService {
    * @param intensity - intensity of pixel at position x,y
    */
   updateImageClickPosition(x, y, intensity: number = 0): void {
-    this.imageClickPosition = {x, y, intensity};
-    this.imageMouseClicked.emit({x, y, intensity});
+    this.imageClickPosition.next({x, y, intensity});
     this.dioptasService.getImageAngles(x, y, (data) => {
-      this.anglesClicked.emit(data);
+      this.anglesClicked.next(data);
     });
   }
 
@@ -62,10 +56,9 @@ export class MousePositionService {
    * @param y - position in y
    */
   updatePatternMousePosition(x, y): void {
-    this.patternMousePosition = {x, y};
-    this.patternMouseMoved.emit({x, y});
+    this.patternMousePosition.next({x, y});
     this.dioptasService.getPatternAngles(x, (data) => {
-      this.angles.emit(data);
+      this.angles.next(data);
     });
   }
 
@@ -76,10 +69,9 @@ export class MousePositionService {
    * @param y - position in y
    */
   updatePatternClickPosition(x, y): void {
-    this.patternClickPosition = {x, y};
-    this.patternMouseClicked.emit({x, y});
+    this.patternClickPosition.next({x, y});
     this.dioptasService.getPatternAngles(x, (data) => {
-      this.anglesClicked.emit(data);
+      this.anglesClicked.next(data);
     });
   }
 }

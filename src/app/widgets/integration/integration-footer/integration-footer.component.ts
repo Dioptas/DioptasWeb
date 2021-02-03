@@ -1,6 +1,7 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {DioptasServerService} from '../../../shared/dioptas-server.service';
 import {MousePositionService} from '../../../shared/mouse-position.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-integration-footer',
@@ -8,23 +9,23 @@ import {MousePositionService} from '../../../shared/mouse-position.service';
   styleUrls: ['./integration-footer.component.css']
 })
 export class IntegrationFooterComponent {
-  @Input() patternMousePosition = {x: 0, y: 0};
-  @Input() patternClickPosition = {x: 0, y: 0};
-  @Input() imageMousePosition = {x: 0, y: 0, intensity: 0};
-  @Input() imageClickPosition = {x: 0, y: 0, intensity: 0};
+  patternMousePosition: Observable<{ x: number; y: number }>;
+  patternClickPosition: Observable<{ x: number; y: number }>;
+  imageMousePosition: Observable<{ x: number; y: number; intensity: number }>;
+  imageClickPosition: Observable<{ x: number; y: number; intensity: number }>;
 
-  @Input() angles = {tth: 0, azi: 0, q: 0, d: 0};
-  @Input() clickAngles = {tth: 0, azi: 0, q: 0, d: 0};
+  angles: Observable<{ tth: number, azi: number, q: number, d: number }>;
+  clickAngles: Observable<{ tth: number, azi: number, q: number, d: number }>;
 
   constructor(
     private dioptasService: DioptasServerService,
     private mouseService: MousePositionService) {
 
-    this.mouseService.imageMouseMoved.subscribe((data) => this.imageMousePosition = data);
-    this.mouseService.imageMouseClicked.subscribe((data) => this.imageClickPosition = data);
-    this.mouseService.angles.subscribe((data) => this.angles = data);
-    this.mouseService.anglesClicked.subscribe((data) => this.clickAngles = data);
-    this.mouseService.patternMouseMoved.subscribe((data) => this.patternMousePosition = data);
-    this.mouseService.patternMouseClicked.subscribe((data) => this.patternClickPosition = data);
+    this.imageMousePosition = this.mouseService.imageMousePosition.asObservable();
+    this.imageClickPosition = this.mouseService.imageClickPosition.asObservable();
+    this.patternMousePosition = this.mouseService.patternMousePosition.asObservable();
+    this.patternClickPosition = this.mouseService.patternClickPosition.asObservable();
+    this.angles = this.mouseService.angles.asObservable();
+    this.clickAngles = this.mouseService.anglesClicked.asObservable();
   }
 }

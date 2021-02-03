@@ -1,16 +1,16 @@
 <mat-toolbar>
   <div id="footerContainer">
     <app-image-position
-      [mousePosition]="imageMousePosition"
-      [clickPosition]="imageClickPosition"
+      [mousePosition]="imageMousePosition | async"
+      [clickPosition]="imageClickPosition | async"
     ></app-image-position>
     <app-angles
-      [angles]="angles"
-      [clickAngles]="clickAngles"
+      [angles]="angles | async"
+      [clickAngles]="clickAngles | async"
     ></app-angles>
     <app-pattern-position
-      [mousePosition]="patternMousePosition"
-      [clickPosition]="patternClickPosition"
+      [mousePosition]="patternMousePosition | async"
+      [clickPosition]="patternClickPosition | async"
     ></app-pattern-position>
   </div>
 </mat-toolbar>

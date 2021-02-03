@@ -85,8 +85,10 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
     this.mouseService.anglesClicked.subscribe((angles) => {
       this.dioptasServer.getAzimuthalRing(angles.tth, (data) => {
-        for (let i = 0; i < data.x.length; i++) {
-          this.circleLineItems[i].setData(data.x[i], data.y[i]);
+        if (data.x) {
+          for (let i = 0; i < data.x.length; i++) {
+            this.circleLineItems[i].setData(data.x[i], data.y[i]);
+          }
         }
       });
     });
