@@ -1,14 +1,15 @@
-import {Injectable, EventEmitter, Output} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {io, Socket} from 'socket.io-client';
 import {NumpyLoader} from '../lib/numpy-loader';
+import {Subject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DioptasServerService {
-  @Output() imageChanged = new EventEmitter<{ shape: any, fortran_order: boolean, data: any }>();
-  @Output() imageFileNameChanged = new EventEmitter<string>();
-  @Output() patternChanged = new EventEmitter<{ x: number[], y: number[] }>();
+  imageData = new Subject<{ shape: any, fortran_order: boolean, data: any }>();
+  integratedPattern = new Subject<{ x: number[], y: number[] }>();
+  imageFilename = new Subject<string>();
 
   private socket: Socket;
 
@@ -29,7 +30,7 @@ export class DioptasServerService {
 
     this.socket.on('img_changed', (payload) => this._imgChanged(payload));
     this.socket.on('pattern_changed', (payload) => {
-      this.patternChanged.emit({x: payload.x, y: payload.y});
+      this.integratedPattern.next({x: payload.x, y: payload.y});
     });
 
     this.socket.emit('init_model', (serverPort) => {
@@ -61,7 +62,7 @@ export class DioptasServerService {
   }
 
   _imgChanged(payload): void {
-    this.imageFileNameChanged.emit(payload.filename);
+    this.imageFilename.next(payload.filename);
     if (!this.webSocket.OPEN) {
       this.connectToImageServer(payload.serverPort);
       this.imageServerPort = payload.serverPort;
@@ -81,7 +82,7 @@ export class DioptasServerService {
     this.webSocket.onmessage = (event) => {
       event.data.arrayBuffer().then((val) => {
           const data = NumpyLoader.fromArrayBuffer(val);
-          this.imageChanged.emit(data);
+          this.imageData.next(data);
         }
       );
     };

@@ -64,7 +64,7 @@ export class PatternPlotPlotlyComponent implements OnInit {
     this.graph.data[0].x = graphData.x;
     this.graph.data[0].y = graphData.y;
 
-    this.dioptasService.patternChanged.subscribe((payload) => {
+    this.dioptasService.integratedPattern.subscribe((payload) => {
       this.graph.data[0].x = payload.x;
       this.graph.data[0].y = payload.y;
     });

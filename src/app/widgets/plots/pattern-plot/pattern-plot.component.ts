@@ -55,7 +55,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
 
     this.verticalLine.setData(10);
 
-    this.dioptasService.patternChanged.subscribe((payload) => {
+    this.dioptasService.integratedPattern.subscribe((payload) => {
       this.mainLine.setData(payload.x, payload.y);
     });
 

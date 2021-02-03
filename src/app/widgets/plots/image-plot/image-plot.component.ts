@@ -65,7 +65,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       this.mouseService.updateImageMousePosition(x, y, intensity);
     }, 100);
 
-    this.dioptasServer.imageChanged.subscribe((data) => {
+    this.dioptasServer.imageData.subscribe((data) => {
       this.imagePlot.plotImage(data.data, data.shape[1], data.shape[0]);
     });
 

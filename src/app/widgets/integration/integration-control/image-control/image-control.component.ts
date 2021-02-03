@@ -19,7 +19,7 @@ export class ImageControlComponent implements OnInit {
     private dialog: MatDialog,
     public dioptasService: DioptasServerService
   ) {
-    this.dioptasService.imageFileNameChanged.subscribe((filename) => {
+    this.dioptasService.imageFilename.subscribe((filename) => {
       this.imageFileName = filename.split('/').pop();
       this.imageDirectory = filename.split('/').slice(0, -1).join('/');
     });
