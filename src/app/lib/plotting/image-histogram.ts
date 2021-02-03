@@ -98,8 +98,8 @@ export default class ImageHistogram {
       .append('g')
       .attr('width', this.#plotWidth)
       .attr('height', this.#plotHeight)
-      .on('contextmenu', () => {
-        d3.event.preventDefault();
+      .on('contextmenu', (event) => {
+        event.preventDefault();
       });
 
     this._movePlot();
@@ -199,8 +199,7 @@ export default class ImageHistogram {
   }
 
   _initRightClickBehavior(): void {
-    const brushMouseUp = () => {
-      const event = d3.event;
+    const brushMouseUp = (event) => {
       if (event.button === 2 && event.detail === 2) { // only for right double click
         this.autoRange();
         this.rangeChanged.next([this.colorScale.domain()[0], this.colorScale.domain()[1]]);

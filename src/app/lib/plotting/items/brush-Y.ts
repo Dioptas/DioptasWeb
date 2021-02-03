@@ -37,8 +37,7 @@ export default class BrushY {
   }
 
   _activateEvents(): void {
-    this.brush.on('brush end', () => {
-      const event = d3.event;
+    this.brush.on('brush end', (event) => {
       if (this.orientation === 'vertical') {
         this.brushEnded.next([event.selection[1], event.selection[0]]);
       } else {

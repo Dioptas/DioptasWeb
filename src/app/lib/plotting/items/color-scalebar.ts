@@ -9,8 +9,8 @@ export default class ColorScalebar {
       .attr('transform', 'translate(' + x + ',' + y + ')')
       .attr('width', this.width)
       .attr('height', this.height)
-      .on('contextmenu', () => {
-        d3.event.preventDefault();
+      .on('contextmenu', (event) => {
+        event.preventDefault();
       });
     if (orientation === 'vertical') {
       this.createVerticalColorBar();

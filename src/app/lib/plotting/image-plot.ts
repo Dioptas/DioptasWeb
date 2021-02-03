@@ -226,8 +226,8 @@ export default class ImagePlot {
         'transform',
         'translate(' + this.margin.left + ',' + this.margin.top + ')'
       )
-      .on('contextmenu', () => {
-        d3.event.preventDefault();
+      .on('contextmenu', (event) => {
+        event.preventDefault();
       });
   }
 
@@ -328,8 +328,8 @@ export default class ImagePlot {
       .attr('id', 'brushContext')
       .attr('class', 'brushContext');
 
-    const updateChartBrush = () => {
-      const extent = d3.event.selection;
+    const updateChartBrush = (event) => {
+      const extent = event.selection;
       if (extent) {
         this._updateDomain(
           this.x.invert(extent[0][0]),
@@ -359,7 +359,7 @@ export default class ImagePlot {
   }
 
   _initMousePosition(): void {
-    const updateMousePosition = () => {
+    const updateMousePosition = (event) => {
       const left = this.x.domain()[0];
       const right = this.x.domain()[1];
       const bottom = this.y.domain()[0];
@@ -372,10 +372,10 @@ export default class ImagePlot {
 
       this.mouseX =
         left +
-        ((d3.event.x - boundingRect.left) / boundingRect.width) * currentWidth;
+        ((event.x - boundingRect.left) / boundingRect.width) * currentWidth;
       this.mouseY =
         bottom +
-        ((boundingRect.height - (d3.event.y - boundingRect.top)) /
+        ((boundingRect.height - (event.y - boundingRect.top)) /
           boundingRect.height) *
         currentHeight;
 
@@ -388,7 +388,7 @@ export default class ImagePlot {
   }
 
   _initWheel(): void {
-    const wheelUpdate = () => {
+    const wheelUpdate = (event) => {
       const left = this.x.domain()[0];
       const right = this.x.domain()[1];
       const bottom = this.y.domain()[0];
@@ -402,14 +402,14 @@ export default class ImagePlot {
 
       const mouseX =
         left +
-        ((d3.event.x - boundingRect.left) / boundingRect.width) * currentWidth;
+        ((event.x - boundingRect.left) / boundingRect.width) * currentWidth;
       const mouseY =
         bottom +
-        ((boundingRect.height - (d3.event.y - boundingRect.top)) /
+        ((boundingRect.height - (event.y - boundingRect.top)) /
           boundingRect.height) *
         currentHeight;
 
-      const factor = -d3.event.deltaY / 1000;
+      const factor = -event.deltaY / 1000;
 
       const newLeft = left + (mouseX - left) * factor;
       const newRight = right - (right - mouseX) * factor;
@@ -430,8 +430,7 @@ export default class ImagePlot {
     let domainYDragStart;
     let dragging = false;
 
-    const rightDragStart = () => {
-      const event = d3.event;
+    const rightDragStart = (event) => {
       if (event.button === 2) {
         // only for right click
         if (event.detail === 1) {
@@ -491,8 +490,7 @@ export default class ImagePlot {
       lastUpdate = Date.now();
     };
 
-    const rightDragStop = () => {
-      const event = d3.event;
+    const rightDragStop = (event) => {
       if (event.button === 2) {
         // only for right click
         if (!dragging) {
