@@ -9,7 +9,6 @@ PlotlyModule.plotlyjs = PlotlyJS;
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {PatternPlotPlotlyComponent} from './widgets/plots/pattern-plot-plotly/pattern-plot-plotly.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HeaderComponent} from './widgets/header/header.component';
 
@@ -35,7 +34,6 @@ import { PatternPlotComponent } from './widgets/plots/pattern-plot/pattern-plot.
 @NgModule({
   declarations: [
     AppComponent,
-    PatternPlotPlotlyComponent,
     HeaderComponent,
     IntegrationComponent,
     VerticalSplitterComponent,
