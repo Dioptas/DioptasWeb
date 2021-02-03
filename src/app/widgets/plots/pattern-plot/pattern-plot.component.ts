@@ -24,7 +24,6 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   mainLine: LineItem;
   verticalLine: VerticalLineItem;
 
-
   constructor(
     public dioptasService: DioptasServerService,
     public mouseService: MousePositionService) {
@@ -34,6 +33,12 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this._initPlot();
+    this._initMouseEvents();
+    this._initResizeHandling();
+  }
+
+  _initPlot(): void {
     this.plot = new PatternPlot(
       '#pattern-plot',
       800, 300,
@@ -54,7 +59,9 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
       this.mainLine.setData(payload.x, payload.y);
     });
 
+  }
 
+  _initMouseEvents(): void {
     this.throttleImageMouseMoved = _.throttle((x, y) => {
       this.mouseService.updatePatternMousePosition(x, y);
       this.mouseMoved.emit({x, y});
@@ -76,7 +83,9 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.mouseService.anglesClicked.subscribe((data) => {
       this.verticalLine.setData(data.tth);
     });
+  }
 
+  _initResizeHandling(): void {
     this.throttleResize = _.throttle(() => {
       const width = this.plotContainer.nativeElement.clientWidth;
       const height = this.plotContainer.nativeElement.clientHeight;
