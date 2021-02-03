@@ -2,11 +2,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 
-import * as PlotlyJS from 'plotly.js/dist/plotly.js';
-import {PlotlyModule} from 'angular-plotly.js';
-
-PlotlyModule.plotlyjs = PlotlyJS;
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -30,6 +25,7 @@ import { ImagePositionComponent } from './widgets/integration/integration-footer
 import { AnglesComponent } from './widgets/integration/integration-footer/angles/angles.component';
 import { PatternPositionComponent } from './widgets/integration/integration-footer/pattern-position/pattern-position.component';
 import { PatternPlotComponent } from './widgets/plots/pattern-plot/pattern-plot.component';
+import { OverlayControlComponent } from './widgets/integration/integration-control/overlay-control/overlay-control.component';
 
 @NgModule({
   declarations: [
@@ -51,11 +47,11 @@ import { PatternPlotComponent } from './widgets/plots/pattern-plot/pattern-plot.
     AnglesComponent,
     PatternPositionComponent,
     PatternPlotComponent,
+    OverlayControlComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    PlotlyModule,
     AppRoutingModule,
     MatDialogModule,
     BrowserAnimationsModule,
