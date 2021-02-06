@@ -16,7 +16,6 @@ import { ImageControlComponent } from './widgets/integration/integration-control
 import { IntegrationFooterComponent } from './widgets/integration/integration-footer/integration-footer.component';
 import { ImagePlotComponent } from './widgets/plots/image-plot/image-plot.component';
 import { SidenavComponent } from './widgets/menu/sidenav/sidenav.component';
-import { PathDialogComponent } from './widgets/menu/path-dialog/path-dialog.component';
 import { FileSelectComponent } from './widgets/utility/file-dialog/file-select/file-select.component';
 import { FileDialogComponent } from './widgets/utility/file-dialog/file-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -39,7 +38,6 @@ import { OverlayControlComponent } from './widgets/integration/integration-contr
     IntegrationFooterComponent,
     ImagePlotComponent,
     SidenavComponent,
-    PathDialogComponent,
     FileSelectComponent,
     FileDialogComponent,
     LabeledNumberComponent,

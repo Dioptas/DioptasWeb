@@ -37,14 +37,14 @@ export class DioptasServerService {
       console.log('init_model');
       this.connectToImageServer(serverPort);
     });
-    setTimeout(() => this.load_dummy_model(), 1500);
+    setTimeout(() => this.load_dummy_project(), 1500);
   }
 
-  load_dummy_model(): void {
+  load_dummy_project(): void {
     this.socket.emit('load_dummy');
   }
 
-  load_dummy2_model(): void {
+  load_dummy2_project(): void {
     this.socket.emit('load_dummy2');
   }
 
