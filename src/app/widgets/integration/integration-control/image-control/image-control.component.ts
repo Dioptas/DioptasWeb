@@ -12,7 +12,7 @@ export class ImageControlComponent implements OnInit {
   browseMode = 'name';
   batchMode = 'integrate';
 
-  imageFileName = '';
+  imageFilename = '';
   imageDirectory = '';
 
   constructor(
@@ -20,7 +20,7 @@ export class ImageControlComponent implements OnInit {
     public dioptasService: DioptasServerService
   ) {
     this.dioptasService.imageFilename.subscribe((filename) => {
-      this.imageFileName = filename.split('/').pop();
+      this.imageFilename = filename.split('/').pop();
       this.imageDirectory = filename.split('/').slice(0, -1).join('/');
     });
   }
