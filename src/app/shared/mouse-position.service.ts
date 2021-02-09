@@ -28,11 +28,10 @@ export class MousePositionService {
    * @param y - position in y
    * @param intensity - intensity of pixel at position x, y
    */
-  updateImageMousePosition(x, y, intensity = 0): void {
+  async updateImageMousePosition(x, y, intensity = 0): Promise<any> {
     this.imageMousePosition.next({x, y, intensity});
-    this.dioptasService.getImageAngles(x, y, (data) => {
-      this.angles.next(data);
-    });
+    const newAngles = await this.dioptasService.getImageAngles(x, y);
+    this.angles.next(newAngles);
   }
 
   /**
@@ -42,11 +41,10 @@ export class MousePositionService {
    * @param y - position in y
    * @param intensity - intensity of pixel at position x,y
    */
-  updateImageClickPosition(x, y, intensity: number = 0): void {
+  async updateImageClickPosition(x, y, intensity: number = 0): Promise<any> {
     this.imageClickPosition.next({x, y, intensity});
-    this.dioptasService.getImageAngles(x, y, (data) => {
-      this.anglesClicked.next(data);
-    });
+    const newAngles = await this.dioptasService.getImageAngles(x, y);
+    this.anglesClicked.next(newAngles);
   }
 
   /**
@@ -55,11 +53,10 @@ export class MousePositionService {
    * @param x - position in x
    * @param y - position in y
    */
-  updatePatternMousePosition(x, y): void {
+  async updatePatternMousePosition(x, y): Promise<any> {
     this.patternMousePosition.next({x, y});
-    this.dioptasService.getPatternAngles(x, (data) => {
-      this.angles.next(data);
-    });
+    const newAngles = await this.dioptasService.getPatternAngles(x);
+    this.angles.next({...newAngles, azi: null});
   }
 
   /**
@@ -68,10 +65,9 @@ export class MousePositionService {
    * @param x - position in x
    * @param y - position in y
    */
-  updatePatternClickPosition(x, y): void {
+  async updatePatternClickPosition(x, y): Promise<any> {
     this.patternClickPosition.next({x, y});
-    this.dioptasService.getPatternAngles(x, (data) => {
-      this.anglesClicked.next(data);
-    });
+    const newAngles = await  this.dioptasService.getPatternAngles(x);
+    this.anglesClicked.next({...newAngles, azi: null});
   }
 }

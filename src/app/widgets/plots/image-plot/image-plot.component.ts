@@ -62,7 +62,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
     this.throttleImageMouseMoved = _.throttle((x, y, intensity) => {
       this.mouseMoved.emit({x, y, intensity});
-      this.mouseService.updateImageMousePosition(x, y, intensity);
+      this.mouseService.updateImageMousePosition(x, y, intensity).then();
     }, 100);
 
     this.dioptasServer.imageData.subscribe((data) => {
@@ -78,21 +78,19 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     this.imagePlot.mouseClicked.subscribe({
       next: ({x, y, intensity}) => {
         this.mouseClicked.emit({x, y, intensity});
-        this.mouseService.updateImageClickPosition(x, y, intensity);
+        this.mouseService.updateImageClickPosition(x, y, intensity).then();
 
       }
     });
 
-    this.mouseService.anglesClicked.subscribe((angles) => {
-      this.dioptasServer.getAzimuthalRing(angles.tth, (data) => {
-        if (data.x) {
-          for (let i = 0; i < data.x.length; i++) {
-            this.circleLineItems[i].setData(data.x[i], data.y[i]);
-          }
+    this.mouseService.anglesClicked.subscribe(async (angles) => {
+      const data = await this.dioptasServer.getAzimuthalRing(angles.tth);
+      if (data.x) {
+        for (let i = 0; i < data.x.length; i++) {
+          this.circleLineItems[i].setData(data.x[i], data.y[i]);
         }
-      });
+      }
     });
-
   }
 
   @HostListener('window:resize')

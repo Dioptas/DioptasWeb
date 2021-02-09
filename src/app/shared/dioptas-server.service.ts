@@ -91,29 +91,35 @@ export class DioptasServerService {
     };
   }
 
-  getDirList(path, callback: (data) => any): void {
-    this.socket.emit('list_dir', path, (data) => {
-      callback(data);
+  getDirList(path): Promise<{folders: [], files: []}> {
+    return new Promise<{folders: []; files: []}>(resolve => {
+      this.socket.emit('list_dir', path, (data) => {
+        resolve(data);
+      });
     });
   }
 
-  getImageAngles(x: number, y: number, callback: (data) => any): void {
-    this.socket.emit('get_image_angles', x, y, (data) => {
-      callback(data);
+  getImageAngles(x: number, y: number): Promise<{ tth: number, azi: number, q: number, d: number }> {
+    return new Promise<{ tth: number, azi: number, q: number, d: number }>(resolve => {
+      this.socket.emit('get_image_angles', x, y, (data) => {
+        resolve(data);
+      });
     });
   }
 
-  getPatternAngles(tth: number, callback: (data) => any): void {
-    this.socket.emit('get_pattern_angles', tth, (data) => {
-      callback(data);
+  getPatternAngles(tth: number): Promise<{ tth: number, q: number, d: number }> {
+    return new Promise<{ tth: number, q: number, d: number }>(resolve => {
+      this.socket.emit('get_pattern_angles', tth, (data) => {
+        resolve(data);
+      });
     });
   }
 
-  getAzimuthalRing(tth, callback: (data) => any): void {
-    this.socket.emit('get_azimuthal_ring', tth, (data) => {
-      callback(data);
+  getAzimuthalRing(tth): Promise<{ x: [], y: [] }> {
+    return new Promise<{ x: [], y: [] }>((resolve) => {
+      this.socket.emit('get_azimuthal_ring', tth, (data) => {
+        resolve(data);
+      });
     });
   }
-
-
 }

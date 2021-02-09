@@ -47,15 +47,14 @@ export class FileDialogComponent {
     this.getDirList();
   }
 
-  getDirList(): void {
-    this.dioptasService.getDirList('./' + this.currentDirectory, (dirList) => {
-      if (dirList === undefined) {
-        this.currentDirectory = this.oldPath;
-      } else {
-        this.dirList = dirList;
-        this.showBackButton = this.currentDirectory !== '';
-      }
-    });
+  async getDirList(): Promise<any> {
+    const dirList = await this.dioptasService.getDirList('./' + this.currentDirectory);
+    if (dirList === undefined) {
+      this.currentDirectory = this.oldPath;
+    } else {
+      this.dirList = dirList;
+      this.showBackButton = this.currentDirectory !== '';
+    }
   }
 
   pathInputChanged(event): void {
