@@ -12,8 +12,8 @@ describe('ImagePlotComponent', () => {
 
 
   beforeEach(async () => {
+    spyOn(DioptasServerService.prototype, 'connect');
     const dioptasService = new DioptasServerService();
-    spyOn(dioptasService, 'connect');
     spyOn(dioptasService, 'getAzimuthalRing').and.returnValue(
       new Promise<{ x: any, y: any }>(resolve => {
         resolve({x: [[1, 2, 3, 4], [], [], []], y: [[5, 6, 7, 8], [], [], []]});

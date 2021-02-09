@@ -19,7 +19,7 @@ export class DioptasServerService {
   public imagePath = '';
 
   constructor() {
-    this.connect();
+      this.connect();
   }
 
   connect(port: number = 8745): void {
@@ -34,7 +34,6 @@ export class DioptasServerService {
     });
 
     this.socket.emit('init_model', (serverPort) => {
-      console.log('init_model');
       this.connectToImageServer(serverPort);
     });
     setTimeout(() => this.load_dummy_project(), 1500);
@@ -70,10 +69,6 @@ export class DioptasServerService {
     this.webSocket.send('image');
   }
 
-  _patternChanged(payload): void {
-    console.log(payload);
-  }
-
   connectToImageServer(port): void {
     this.webSocket = new WebSocket('ws://127.0.0.1:' + port);
     this.webSocket.onopen = () => {
@@ -91,8 +86,8 @@ export class DioptasServerService {
     };
   }
 
-  getDirList(path): Promise<{folders: [], files: []}> {
-    return new Promise<{folders: []; files: []}>(resolve => {
+  getDirList(path): Promise<{ folders: [], files: [] }> {
+    return new Promise<{ folders: []; files: [] }>(resolve => {
       this.socket.emit('list_dir', path, (data) => {
         resolve(data);
       });

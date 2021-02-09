@@ -63,7 +63,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
 
   _initMouseEvents(): void {
     this.throttleImageMouseMoved = _.throttle((x, y) => {
-      this.mouseService.updatePatternMousePosition(x, y);
+      this.mouseService.updatePatternMousePosition(x, y).then();
       this.mouseMoved.emit({x, y});
     }, 100);
 
@@ -76,7 +76,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
     this.plot.mouseClicked.subscribe({
       next: ({x, y}) => {
         this.mouseClicked.emit({x, y});
-        this.mouseService.updatePatternClickPosition(x, y);
+        this.mouseService.updatePatternClickPosition(x, y).then();
       }
     });
 
