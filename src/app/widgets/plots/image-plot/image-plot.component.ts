@@ -33,6 +33,12 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.createImagePlot();
+    this.initResize();
+    this.initMouseEvents();
+  }
+
+  createImagePlot(): void {
     this.imagePlot = new ImagePlot(
       '#graph',
       800, 300,
@@ -50,8 +56,9 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       this.circleLineItems.push(line);
       this.imagePlot.addItem(line);
     }
+  }
 
-
+  initResize(): void {
     this.throttleResize = _.throttle(() => {
       const width = this.graphContainer.nativeElement.clientWidth;
       const height = this.graphContainer.nativeElement.clientHeight;
@@ -59,7 +66,14 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     }, 50);
 
     setTimeout(() => this.throttleResize(), 50); // for some reason this has to be delayed
+  }
 
+  @HostListener('window:resize')
+  onResize(): void {
+    this.throttleResize();
+  }
+
+  initMouseEvents(): void {
     this.throttleImageMouseMoved = _.throttle((x, y, intensity) => {
       this.mouseMoved.emit({x, y, intensity});
       this.mouseService.updateImageMousePosition(x, y, intensity).then();
@@ -79,7 +93,6 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       next: ({x, y, intensity}) => {
         this.mouseClicked.emit({x, y, intensity});
         this.mouseService.updateImageClickPosition(x, y, intensity).then();
-
       }
     });
 
@@ -92,11 +105,5 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
-  @HostListener('window:resize')
-  onResize(): void {
-    this.throttleResize();
-  }
-
 }
 

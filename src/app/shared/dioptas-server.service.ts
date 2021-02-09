@@ -7,9 +7,9 @@ import {Subject} from 'rxjs';
   providedIn: 'root'
 })
 export class DioptasServerService {
-  imageData = new Subject<{ shape: any, fortran_order: boolean, data: any }>();
-  integratedPattern = new Subject<{ x: number[], y: number[] }>();
-  imageFilename = new Subject<string>();
+  public imageData = new Subject<{ shape: any, fortran_order: boolean, data: any }>();
+  public integratedPattern = new Subject<{ x: number[], y: number[] }>();
+  public imageFilename = new Subject<string>();
 
   private socket: Socket;
 

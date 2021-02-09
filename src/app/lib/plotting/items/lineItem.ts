@@ -13,6 +13,8 @@ export default class LineItem extends Item {
   }
 
   setData(x, y): void {
+    this.x = x;
+    this.y = y;
     this.XY = [];
     for (let i = 0; i < x.length; i++) {
       this.XY.push({x: x[i], y: y[i]});
