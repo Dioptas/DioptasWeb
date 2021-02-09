@@ -5,6 +5,15 @@
   flex-grow: 0;
   flex-shrink: 0;
 }
+
+.mat-toolbar-multiple-rows {
+  min-height: 52px;
+}
+
+mat-toolbar-row {
+  height: 48px;
+}
+
 .label {
   margin-left: 5px;
 }

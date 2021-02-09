@@ -6,6 +6,11 @@
   font-size: 14px;
 }
 
+mat-toolbar {
+  line-height: 22px;
+  height: 48px;
+}
+
 ::ng-deep .clicked {
   color: yellowgreen;
 }
