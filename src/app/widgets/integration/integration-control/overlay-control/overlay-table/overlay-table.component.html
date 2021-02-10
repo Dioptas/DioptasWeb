@@ -1,0 +1,17 @@
+<mat-card class="container mat-elevation-z6">
+  <div class="header">
+    <div class="left-header"></div>
+    <div class="name">Name</div>
+    <div class="scale">Scale</div>
+    <div class="step">Step</div>
+  </div>
+  <div class="horizontal-line"></div>
+  <div *ngFor="let overlay of overlays; let i=index" class="overlay-item">
+    <app-overlay-table-item
+      [overlayItem]="overlay"
+      (selected)="overlaySelected(i)"
+      [highlighted]="selectedOverlayIndex===i"
+    ></app-overlay-table-item>
+  </div>
+
+</mat-card>

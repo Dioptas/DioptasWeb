@@ -29,9 +29,7 @@
       </button>
     </div>
     <div class="overlay-list">
-      <div *ngFor="let overlay of overlays" class="overlay-item">
-        {{overlay.name}}
-      </div>
+      <app-overlay-table [overlays]="overlays"></app-overlay-table>
     </div>
     <div class="options">
       <div class="step-sizes">

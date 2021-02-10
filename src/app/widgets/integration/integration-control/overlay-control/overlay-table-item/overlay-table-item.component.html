@@ -1,0 +1,54 @@
+<div class="container"
+     (click)="selected.emit()"
+     (dblclick)="doubleClicked()"
+     [ngClass]="{'highlighted':highlighted}"
+>
+  <mat-checkbox
+    class="visible"
+    [color]="'primary'"
+    [(ngModel)]="overlayItem.visible"
+  ></mat-checkbox>
+  <label class="color-button-container" [style]="{'background-color': colorInput.value}">
+    <input type="color" (input)="logColor()" [(ngModel)]="overlayItem.color" #colorInput>
+  </label>
+
+  <div [hidden]="editing" class="name">
+    {{overlayItem.name}}
+  </div>
+
+  <div [hidden]="!editing" class="name">
+    <mat-form-field
+      floatLabel="never"
+      class="name"
+    >
+      <input
+        matInput
+        class="form-control"
+        type="text"
+        #nameInput
+        [value]="overlayItem.name"
+        (change)="nameChanged($event)"
+        (keyup.enter)="nameChanged($event)"
+        (focusout)="nameChanged($event)"
+      >
+    </mat-form-field>
+  </div>
+
+  <mat-form-field
+    floatLabel="never"
+    class="numberFormField"
+  >
+    <input matInput class="form-control"
+           type="number" name="value" value="0"
+    >
+  </mat-form-field>
+
+  <mat-form-field
+    floatLabel="never"
+    class="numberFormField"
+  >
+    <input matInput class="form-control"
+           type="number" name="value" value="0"
+    >
+  </mat-form-field>
+</div>
