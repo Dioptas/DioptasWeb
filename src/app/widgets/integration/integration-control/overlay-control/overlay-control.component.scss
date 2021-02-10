@@ -1,0 +1,93 @@
+mat-card {
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%
+}
+
+.menu, .options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+$button-size: 36px;
+$button-padding: 4px;
+$icon-size: 18px;
+
+
+.menu button, .waterfall button {
+  width: $button-size;
+  height: $button-size;
+}
+
+.menu .mat-raised-button, .waterfall .mat-raised-button {
+  min-width: $button-size;
+  line-height: $button-size;
+  padding: $button-padding;
+  border-radius: 15px;
+}
+
+.menu .mat-icon, .waterfall, .mat-icon {
+  font-size: $icon-size;
+  width: $icon-size;
+}
+
+
+.menu button:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+.overlay-list {
+  flex-grow: 1;
+  margin: 0 10px;
+}
+
+.options {
+  color: rgba(255, 255, 255, .7);
+}
+
+.step-sizes .mat-form-field {
+  min-width: 50px;
+  max-width: 60px;
+}
+
+.step-sizes .mat-form-field:first-child {
+  margin-right: 6px;
+}
+
+.waterfall {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.waterfall > * {
+  margin-right: 6px;
+}
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line !important;
+  text-align: center;
+}
+
+.waterfall-offset {
+  width: 65px;
+}
+
+
+.set-as-background-button {
+  font-size: 14px;
+}
+
+
+.vertical-spacer {
+  flex-grow: 1;
+}

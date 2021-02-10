@@ -1,0 +1,81 @@
+<mat-card>
+  <div class="container">
+    <div class="menu">
+      <button mat-raised-button class="open"
+              matTooltip="Load overlay(s) from file(s)"
+              matTooltipShowDelay="1000"
+      >
+        <mat-icon>folder_open</mat-icon>
+      </button>
+      <button mat-raised-button class="delete"
+              matTooltip="Remove currently selected overlay"
+              matTooltipShowDelay="1000"
+      >
+        <mat-icon>delete_outlined</mat-icon>
+      </button>
+      <div class="vertical-spacer"></div>
+      <button mat-raised-button class="reset"
+              matTooltip="Remove all overlays"
+              matTooltipShowDelay="1000"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <div class="vertical-spacer"></div>
+      <button mat-raised-button class="up">
+        <mat-icon>keyboard_arrow_up</mat-icon>
+      </button>
+      <button mat-raised-button class="down">
+        <mat-icon>keyboard_arrow_down</mat-icon>
+      </button>
+    </div>
+    <div class="overlay-list">
+      <div *ngFor="let overlay of overlays" class="overlay-item">
+        {{overlay.name}}
+      </div>
+    </div>
+    <div class="options">
+      <div class="step-sizes">
+        <mat-form-field>
+          <mat-label>Scale Step</mat-label>
+          <input matInput class="form-control"
+                 type="number" name="value" placeholder="Scale Step" value="1"
+                 min="1"
+          >
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Offset Step</mat-label>
+          <input matInput class="form-control"
+                 type="number" name="value" placeholder="Offset Step" value="0"
+          >
+        </mat-form-field>
+      </div>
+      <div>Waterfall:</div>
+      <div class="waterfall">
+        <button mat-raised-button
+                matTooltip="Apply waterfall offset&#13;to all overlays"
+                matTooltipShowDelay="500"
+        >
+          <mat-icon>stacked_line_chart</mat-icon>
+        </button>
+        <mat-form-field class="waterfall-offset">
+          <mat-label>Offset</mat-label>
+          <input matInput class="form-control"
+                 type="number" name="value" placeholder="Offset Step" value="100"
+          >
+        </mat-form-field>
+        <button mat-raised-button
+                matTooltip="Reset offset of all overlays"
+                matTooltipShowDelay="500"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="vertical-spacer"></div>
+      <button mat-raised-button class="set-as-background-button"
+              matTooltip="Sets currently selected overlay&#13;as background pattern"
+              matTooltipShowDelay="500"
+      >Set as Background</button>
+    </div>
+  </div>
+</mat-card>
