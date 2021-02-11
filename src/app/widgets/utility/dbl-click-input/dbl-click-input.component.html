@@ -1,0 +1,25 @@
+<div class="container" (dblclick)="doubleClicked()">
+  <div [hidden]="editing" class="name">
+<!--  <div *ngIf="!editing" class="name">-->
+    {{value}}
+  </div>
+
+  <div [hidden]="!editing" class="name">
+<!--  <div *ngIf="editing" class="name">-->
+    <mat-form-field
+      floatLabel="never"
+      class="name"
+    >
+      <input
+        matInput
+        class="form-control"
+        type="text"
+        #input
+        [value]="value"
+        (change)="nameChanged($event)"
+        (keyup.enter)="nameChanged($event)"
+        (focusout)="nameChanged($event)"
+      >
+    </mat-form-field>
+  </div>
+</div>

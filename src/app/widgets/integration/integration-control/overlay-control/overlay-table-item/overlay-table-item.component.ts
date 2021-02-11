@@ -12,7 +12,6 @@ export class OverlayTableItemComponent implements OnInit {
   @ViewChild('nameInput') nameInput;
   @ViewChild('colorInput') colorInput;
   color: any;
-  editing = false;
 
   @Output() selected = new EventEmitter();
 
@@ -23,19 +22,4 @@ export class OverlayTableItemComponent implements OnInit {
   logColor(): void {
     console.log(this.colorInput.value);
   }
-
-
-  doubleClicked(): void {
-    this.editing = true;
-    setTimeout(() => {
-      this.nameInput.nativeElement.focus();
-      this.nameInput.nativeElement.select();
-    }, 0);
-  }
-
-  nameChanged(ev): void {
-    this.overlayItem.name = ev.target.value;
-    this.editing = false;
-  }
-
 }

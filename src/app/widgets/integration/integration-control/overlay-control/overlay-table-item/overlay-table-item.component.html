@@ -1,6 +1,5 @@
 <div class="container"
      (click)="selected.emit()"
-     (dblclick)="doubleClicked()"
      [ngClass]="{'highlighted':highlighted}"
 >
   <mat-checkbox
@@ -12,27 +11,7 @@
     <input type="color" (input)="logColor()" [(ngModel)]="overlayItem.color" #colorInput>
   </label>
 
-  <div [hidden]="editing" class="name">
-    {{overlayItem.name}}
-  </div>
-
-  <div [hidden]="!editing" class="name">
-    <mat-form-field
-      floatLabel="never"
-      class="name"
-    >
-      <input
-        matInput
-        class="form-control"
-        type="text"
-        #nameInput
-        [value]="overlayItem.name"
-        (change)="nameChanged($event)"
-        (keyup.enter)="nameChanged($event)"
-        (focusout)="nameChanged($event)"
-      >
-    </mat-form-field>
-  </div>
+  <app-dbl-click-input [(value)]="overlayItem.name" class="name"></app-dbl-click-input>
 
   <mat-form-field
     floatLabel="never"

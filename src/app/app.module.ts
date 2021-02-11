@@ -27,6 +27,7 @@ import {PatternPlotComponent} from './widgets/plots/pattern-plot/pattern-plot.co
 import {OverlayControlComponent} from './widgets/integration/integration-control/overlay-control/overlay-control.component';
 import {OverlayTableItemComponent} from './widgets/integration/integration-control/overlay-control/overlay-table-item/overlay-table-item.component';
 import {OverlayTableComponent} from './widgets/integration/integration-control/overlay-control/overlay-table/overlay-table.component';
+import { DblClickInputComponent } from './widgets/utility/dbl-click-input/dbl-click-input.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {OverlayTableComponent} from './widgets/integration/integration-control/o
     OverlayControlComponent,
     OverlayTableItemComponent,
     OverlayTableComponent,
+    DblClickInputComponent,
   ],
   imports: [
     BrowserModule,
