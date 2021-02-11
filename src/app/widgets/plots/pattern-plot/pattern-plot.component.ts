@@ -23,6 +23,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   plot: PatternPlot;
   mainLine: LineItem;
   verticalLine: VerticalLineItem;
+  overlays: LineItem[] = [];
 
   constructor(
     public dioptasService: DioptasServerService,
@@ -34,6 +35,7 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this._initPlot();
+    this._initOverlays();
     this._initMouseEvents();
     this._initResizeHandling();
   }
@@ -59,6 +61,20 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
       this.mainLine.setData(payload.x, payload.y);
     });
 
+  }
+
+  _initOverlays(): void {
+    this.dioptasService.overlays.subscribe((overlays) => {
+      for (const overlay of this.overlays) {
+        this.plot.removeItem(overlay);
+      }
+      for (const overlay of overlays) {
+        const newOverlayItem = new LineItem(overlay.color);
+        this.plot.addItem(newOverlayItem);
+        newOverlayItem.setData(overlay.x, overlay.y);
+        newOverlayItem.autoRanged = true;
+      }
+    });
   }
 
   _initMouseEvents(): void {

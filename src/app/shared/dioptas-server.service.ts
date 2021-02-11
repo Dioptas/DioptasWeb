@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {io, Socket} from 'socket.io-client';
 import {NumpyLoader} from '../lib/numpy-loader';
-import {Subject} from 'rxjs';
-import Overlay from './overlay';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {OverlayInterface} from './overlay';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,27 @@ export class DioptasServerService {
   public imageData = new Subject<{ shape: any, fortran_order: boolean, data: any }>();
   public imageFilename = new Subject<string>();
   public integratedPattern = new Subject<{ x: number[], y: number[] }>();
-  public overlays = new Subject<Overlay[]>();
+  public overlays = new BehaviorSubject<OverlayInterface[]>(
+    [
+      {
+        name: 'Herbert',
+        x: [0, 5, 10, 15, 20, 25, 40],
+        y: [0, 100, 1000, 150, 2000, 5000, 3500],
+        visible: true,
+        color: '#ed1212',
+        scaling: 1,
+        offset: 0
+      },
+      {
+        name: 'Tante Frida',
+        x: [0, 5, 10, 15, 20, 25],
+        y: [0, 300, 740, 450, 3000, -500],
+        visible: true,
+        color: '#24ff16',
+        scaling: 2,
+        offset: 100
+      }]
+  );
 
   private socket: Socket;
 
@@ -21,7 +41,7 @@ export class DioptasServerService {
   public imagePath = '';
 
   constructor() {
-      this.connect();
+    this.connect();
   }
 
   connect(port: number = 8745): void {

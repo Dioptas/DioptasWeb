@@ -18,6 +18,14 @@ export default class PatternPlot extends LabeledBasePlot {
     item.initialize(this.rootElement, this.x, this.y, this.clipPath);
   }
 
+  removeItem(item: ItemInterface): void {
+    const index = this.items.indexOf(item, 0);
+    if (index > -1) {
+      this.items.splice(index, 1);
+    }
+    item.root.remove();
+  }
+
   itemDataChanged(): void {
     if (this.enableAutoRange) {
       const xDomain = {min: +Infinity, max: -Infinity};

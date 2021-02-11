@@ -1,4 +1,5 @@
 import {Subject} from 'rxjs';
+import * as d3 from 'd3';
 
 export default interface ItemInterface {
   autoRanged: boolean;
@@ -6,6 +7,8 @@ export default interface ItemInterface {
 
   xRange: { min: number, max: number };
   yRange: { min: number, max: number };
+
+  root: d3.Selection<any, any, any, any>;
 
   initialize(parent, xScale, yScale, clipPath): void;
 

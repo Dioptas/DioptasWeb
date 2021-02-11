@@ -1,4 +1,4 @@
-export default class Overlay {
+export default class Overlay implements OverlayInterface {
   x: number[] = [];
   y: number[] = [];
   visible = true;
@@ -6,4 +6,14 @@ export default class Overlay {
   offset = 0;
   name = '';
   color = '#FF9664';
+}
+
+export interface OverlayInterface {
+  x: number[];
+  y: number[];
+  visible: boolean;
+  scaling: number;
+  offset: number;
+  name: string;
+  color: string;
 }
