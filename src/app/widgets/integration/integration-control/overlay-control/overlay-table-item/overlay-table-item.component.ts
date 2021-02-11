@@ -9,6 +9,8 @@ import Overlay from '../../../../../shared/overlay';
 export class OverlayTableItemComponent implements OnInit {
   @Input() overlayItem: Overlay;
   @Input() highlighted: boolean;
+  @Input() scaleStep = 0.1;
+  @Input() offsetStep = 100;
   @ViewChild('nameInput') nameInput;
   @ViewChild('colorInput') colorInput;
   color: any;

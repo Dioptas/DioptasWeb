@@ -8,6 +8,8 @@ import Overlay from '../../../../../shared/overlay';
 })
 export class OverlayTableComponent implements OnInit {
   @Input() overlays: Overlay[];
+  @Input() scaleStep = 0.1;
+  @Input() offsetStep = 100;
 
   selectedOverlayIndex = 0;
 

@@ -18,7 +18,8 @@
     class="numberFormField"
   >
     <input matInput class="form-control"
-           type="number" name="value" value="0"
+           type="number" name="scale" [step]="scaleStep"
+           [(ngModel)]="overlayItem.scaling"
     >
   </mat-form-field>
 
@@ -27,7 +28,8 @@
     class="numberFormField"
   >
     <input matInput class="form-control"
-           type="number" name="value" value="0"
+           type="number" name="offset" [step]="offsetStep"
+           [(ngModel)]="overlayItem.offset"
     >
   </mat-form-field>
 </div>
