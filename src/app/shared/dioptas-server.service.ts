@@ -58,7 +58,7 @@ export class DioptasServerService {
     this.socket.emit('init_model', (serverPort) => {
       this.connectToImageServer(serverPort);
     });
-    setTimeout(() => this.load_dummy_project(), 1500);
+    setTimeout(() => this.load_dummy_project(), 1000);
   }
 
   load_dummy_project(): void {
@@ -108,35 +108,27 @@ export class DioptasServerService {
     };
   }
 
-  getDirList(path): Promise<{ folders: [], files: [] }> {
-    return new Promise<{ folders: []; files: [] }>(resolve => {
-      this.socket.emit('list_dir', path, (data) => {
+  emit(event: string, ...args: any): Promise<any> {
+    return new Promise<any>(resolve => {
+      this.socket.emit(event, ...args, (data) => {
         resolve(data);
       });
     });
+  }
+
+  getDirList(path): Promise<{ folders: [], files: [] }> {
+    return this.emit('list_dir', path);
   }
 
   getImageAngles(x: number, y: number): Promise<{ tth: number, azi: number, q: number, d: number }> {
-    return new Promise<{ tth: number, azi: number, q: number, d: number }>(resolve => {
-      this.socket.emit('get_image_angles', x, y, (data) => {
-        resolve(data);
-      });
-    });
+    return this.emit('get_image_angles', x, y);
   }
 
   getPatternAngles(tth: number): Promise<{ tth: number, q: number, d: number }> {
-    return new Promise<{ tth: number, q: number, d: number }>(resolve => {
-      this.socket.emit('get_pattern_angles', tth, (data) => {
-        resolve(data);
-      });
-    });
+    return this.emit('get_pattern_angles', tth);
   }
 
   getAzimuthalRing(tth): Promise<{ x: [], y: [] }> {
-    return new Promise<{ x: [], y: [] }>((resolve) => {
-      this.socket.emit('get_azimuthal_ring', tth, (data) => {
-        resolve(data);
-      });
-    });
+    return this.emit('get_azimuthal_ring', tth);
   }
 }
