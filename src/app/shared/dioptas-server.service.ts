@@ -33,10 +33,9 @@ export class DioptasServerService {
       }]
   );
 
-  private socket: Socket;
-
-  private imageServerPort: number;
-  private webSocket: WebSocket;
+  private sioClient: Socket;
+  private imageWs: WebSocket;
+  private port;
 
   public imagePath = '';
 
@@ -45,72 +44,70 @@ export class DioptasServerService {
   }
 
   connect(port: number = 8745): void {
-    this.socket = io('127.0.0.1:' + port);
-    this.socket.on('connect', () => {
-      console.log(this.socket.id);
+    this.port = port;
+    this.sioClient = io('127.0.0.1:' + port);
+    this.sioClient.on('connect', () => {
+      console.log(this.sioClient.id);
+      this.sioClient.emit('init_model', () => {
+        this.connectToImageServer();
+      });
     });
 
-    this.socket.on('img_changed', (payload) => this._imgChanged(payload));
-    this.socket.on('pattern_changed', (payload) => {
+    this.sioClient.on('img_changed', (payload) => this.imageFilename.next(payload.filename));
+    this.sioClient.on('pattern_changed', (payload) => {
       this.integratedPattern.next({x: payload.x, y: payload.y});
-    });
-
-    this.socket.emit('init_model', (serverPort) => {
-      this.connectToImageServer(serverPort);
     });
     setTimeout(() => this.load_dummy_project(), 1000);
   }
 
   load_dummy_project(): void {
-    this.socket.emit('load_dummy');
+    this.sioClient.emit('load_dummy');
   }
 
   load_dummy2_project(): void {
-    this.socket.emit('load_dummy2');
+    this.sioClient.emit('load_dummy2');
   }
 
   load_image(filename: string): void {
-    this.socket.emit('load_image', filename);
+    this.sioClient.emit('load_image', filename);
     this.imagePath = filename.split('/').slice(0, -1).join('/');
   }
 
   load_next_image(): void {
-    this.socket.emit('load_next_image');
+    this.sioClient.emit('load_next_image');
   }
 
   load_previous_image(): void {
-    this.socket.emit('load_previous_image');
+    this.sioClient.emit('load_previous_image');
   }
 
-  _imgChanged(payload): void {
-    this.imageFilename.next(payload.filename);
-    if (!this.webSocket.OPEN) {
-      this.connectToImageServer(payload.serverPort);
-      this.imageServerPort = payload.serverPort;
-    }
-    this.webSocket.send('image');
-  }
-
-  connectToImageServer(port): void {
-    this.webSocket = new WebSocket('ws://127.0.0.1:' + port);
-    this.webSocket.onopen = () => {
-      this.webSocket.send('image');
+  connectToImageServer(): void {
+    this.imageWs = new WebSocket('ws://127.0.0.1:' + this.port + '/image');
+    this.imageWs.onopen = () => {
+      this.imageWs.send(this.sioClient.id);
     };
-    this.webSocket.onmessage = (event) => {
-      event.data.arrayBuffer().then((val) => {
-          const data = NumpyLoader.fromArrayBuffer(val);
-          this.imageData.next(data);
-        }
-      );
+    this.imageWs.onmessage = (event) => {
+      if (event.data[0] === '1') {
+        return;
+      } else if (event.data[0] === '0') {
+        console.log('Error in communication with Image WebSocket.');
+        return;
+      } else {
+        event.data.arrayBuffer().then((val) => {
+            const data = NumpyLoader.fromArrayBuffer(val);
+            this.imageData.next(data);
+          }
+        );
+      }
     };
-    this.webSocket.onclose = () => {
+    this.imageWs.onclose = () => {
       console.log('Web socket connection is closed!');
     };
   }
 
   emit(event: string, ...args: any): Promise<any> {
     return new Promise<any>(resolve => {
-      this.socket.emit(event, ...args, (data) => {
+      this.sioClient.emit(event, ...args, (data) => {
         resolve(data);
       });
     });
