@@ -2,8 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ImagePlotComponent} from './image-plot.component';
 import {DataGeneratorService} from '../../../shared/data-generator.service';
-import {MousePositionService} from '../../../shared/mouse-position.service';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
+import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
+import {DioptasServerService} from '../../../shared/model/dioptas-server.service';
 
 
 describe('ImagePlotComponent', () => {

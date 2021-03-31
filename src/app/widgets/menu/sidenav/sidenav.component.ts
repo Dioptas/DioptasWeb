@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {MatSidenav} from '@angular/material/sidenav';
 import {SidenavService} from './sidenav.service';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
+import {ServerService} from '../../../shared/model/server.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -13,17 +13,17 @@ export class SidenavComponent {
 
   constructor(
     public sidenavService: SidenavService,
-    public dioptasServer: DioptasServerService
+    public serverService: ServerService
   ) {
   }
 
   load_dummy_project(): void {
-    this.dioptasServer.load_dummy_project();
+    this.serverService.load_dummy_project();
     this.sidenavService.close();
   }
 
   load_dummy2_project(): void {
-    this.dioptasServer.load_dummy2_project();
+    this.serverService.load_dummy2_project();
     this.sidenavService.close();
   }
 }

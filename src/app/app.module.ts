@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HeaderComponent} from './widgets/header/header.component';
 
-import {MaterialsModule} from './shared/materials.module';
+import {MaterialsModule} from './shared/gui/materials.module';
 import {IntegrationComponent} from './views/integration/integration.component';
 import {VerticalSplitterComponent} from './widgets/utility/splitter/vertical-splitter/vertical-splitter.component';
 import {HorizontalSplitterComponent} from './widgets/utility/splitter/horizontal-splitter/horizontal-splitter.component';

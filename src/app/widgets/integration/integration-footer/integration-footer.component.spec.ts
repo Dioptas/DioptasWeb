@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {IntegrationFooterComponent} from './integration-footer.component';
 import {BehaviorSubject} from 'rxjs';
-import {MousePositionService} from '../../../shared/mouse-position.service';
+import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
 import {AnglesComponent} from './angles/angles.component';
 import {ImagePositionComponent} from './image-position/image-position.component';
 import {PatternPositionComponent} from './pattern-position/pattern-position.component';

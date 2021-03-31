@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
+import {ServerService} from '../../../shared/model/server.service';
 
 @Component({
   selector: 'app-file-dialog',
@@ -21,11 +21,11 @@ export class FileDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<FileDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { path: string },
-    private dioptasService: DioptasServerService
+    private serverService: ServerService
   ) {
     this.dirList = {files: [], folders: []};
     this.currentDirectory = data.path;
-    this.getDirList();
+    this.getDirList().then();
   }
 
   onFileSelected(file: string): void {
@@ -39,16 +39,16 @@ export class FileDialogComponent {
     } else {
       this.currentDirectory += '/' + folder;
     }
-    this.getDirList();
+    this.getDirList().then();
   }
 
   onFolderUpSelected(): void {
     this.currentDirectory = this.currentDirectory.split('/').slice(0, -1).join('/');
-    this.getDirList();
+    this.getDirList().then();
   }
 
   async getDirList(): Promise<any> {
-    const dirList = await this.dioptasService.getDirList('./' + this.currentDirectory);
+    const dirList = await this.serverService.getDirList('./' + this.currentDirectory);
     if (dirList === undefined) {
       this.currentDirectory = this.oldPath;
     } else {
@@ -61,6 +61,6 @@ export class FileDialogComponent {
     const newPath = event.target.value;
     this.oldPath = this.currentDirectory;
     this.currentDirectory = newPath;
-    this.getDirList();
+    this.getDirList().then();
   }
 }

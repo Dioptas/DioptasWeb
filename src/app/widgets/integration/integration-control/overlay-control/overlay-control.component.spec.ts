@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OverlayControlComponent} from './overlay-control.component';
-import {DioptasServerService} from '../../../../shared/dioptas-server.service';
+import {DioptasServerService} from '../../../../shared/model/dioptas-server.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';

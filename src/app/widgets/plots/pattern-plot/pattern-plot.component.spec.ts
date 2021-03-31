@@ -1,8 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {PatternPlotComponent} from './pattern-plot.component';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
-import {MousePositionService} from '../../../shared/mouse-position.service';
+import {DioptasServerService} from '../../../shared/model/dioptas-server.service';
+import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
 
 describe('PatternPlotComponent', () => {
   let component: PatternPlotComponent;

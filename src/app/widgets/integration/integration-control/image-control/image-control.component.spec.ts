@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 
 import {ImageControlComponent} from './image-control.component';
-import {DioptasServerService} from '../../../../shared/dioptas-server.service';
+import {DioptasServerService} from '../../../../shared/model/dioptas-server.service';
 import {BehaviorSubject, of} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';

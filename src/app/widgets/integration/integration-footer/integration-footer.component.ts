@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
-import {MousePositionService} from '../../../shared/mouse-position.service';
+import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -18,7 +17,6 @@ export class IntegrationFooterComponent {
   clickAngles: Observable<{ tth: number, azi: number, q: number, d: number }>;
 
   constructor(
-    private dioptasService: DioptasServerService,
     private mouseService: MousePositionService) {
 
     this.imageMousePosition = this.mouseService.imageMousePosition.asObservable();

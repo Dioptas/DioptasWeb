@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import * as _ from 'lodash';
 import PatternPlot from '../../../lib/plotting/pattern-plot';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
 import LineItem from '../../../lib/plotting/items/lineItem';
 import VerticalLineItem from '../../../lib/plotting/items/verticalLineItem';
-import {MousePositionService} from '../../../shared/mouse-position.service';
+import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
+import {PatternService} from '../../../shared/model/pattern.service';
+import {OverlayService} from '../../../shared/model/overlay.service';
 
 @Component({
   selector: 'app-pattern-plot',
@@ -26,7 +27,8 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   overlays: LineItem[] = [];
 
   constructor(
-    public dioptasService: DioptasServerService,
+    public patternService: PatternService,
+    public overlayService: OverlayService,
     public mouseService: MousePositionService) {
   }
 
@@ -57,14 +59,14 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
 
     this.verticalLine.setData(10);
 
-    this.dioptasService.integratedPattern.subscribe((payload) => {
+    this.patternService.integratedPattern.subscribe((payload) => {
       this.mainLine.setData(payload.x, payload.y);
     });
 
   }
 
   _initOverlays(): void {
-    this.dioptasService.overlays.subscribe((overlays) => {
+    this.overlayService.overlays.subscribe((overlays) => {
       for (const overlay of this.overlays) {
         this.plot.removeItem(overlay);
       }

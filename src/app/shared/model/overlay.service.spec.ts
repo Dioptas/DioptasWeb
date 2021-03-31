@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DioptasServerService } from './dioptas-server.service';
+import { OverlayService } from './overlay.service';
 
-describe('DioptasServerService', () => {
-  let service: DioptasServerService;
+describe('OverlayService', () => {
+  let service: OverlayService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DioptasServerService);
+    service = TestBed.inject(OverlayService);
   });
 
   it('should be created', () => {

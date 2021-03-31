@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {DioptasServerService} from '../../../../shared/dioptas-server.service';
 import Overlay from '../../../../shared/overlay';
+import {OverlayService} from '../../../../shared/model/overlay.service';
 
 @Component({
   selector: 'app-overlay-control',
@@ -10,8 +10,8 @@ import Overlay from '../../../../shared/overlay';
 export class OverlayControlComponent implements OnInit {
   overlays: Overlay[];
 
-  constructor(public dioptasService: DioptasServerService) {
-    this.dioptasService.overlays.subscribe((overlays) => {
+  constructor(public overlayService: OverlayService) {
+    this.overlayService.overlays.subscribe((overlays) => {
       this.overlays = overlays;
     });
   }

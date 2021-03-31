@@ -3,9 +3,10 @@ import * as _ from 'lodash';
 
 import ImagePlot from '../../../lib/plotting/image-plot';
 import {DataGeneratorService} from '../../../shared/data-generator.service';
-import {DioptasServerService} from '../../../shared/dioptas-server.service';
 import LineItem from '../../../lib/plotting/items/lineItem';
-import {MousePositionService} from '../../../shared/mouse-position.service';
+import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
+import {ImageService} from '../../../shared/model/image.service';
+import {CalibrationService} from '../../../shared/model/calibration.service';
 
 @Component({
   selector: 'app-image-plot',
@@ -24,7 +25,8 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
 
   constructor(
     private dataService: DataGeneratorService,
-    private dioptasServer: DioptasServerService,
+    private imageService: ImageService,
+    private calibrationService: CalibrationService,
     private mouseService: MousePositionService) {
   }
 
@@ -79,7 +81,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
       this.mouseService.updateImageMousePosition(x, y, intensity).then();
     }, 100);
 
-    this.dioptasServer.imageData.subscribe((data) => {
+    this.imageService.imageData.subscribe((data) => {
       this.imagePlot.plotImage(data.data, data.shape[1], data.shape[0]);
     });
 
@@ -97,7 +99,7 @@ export class ImagePlotComponent implements OnInit, AfterViewInit {
     });
 
     this.mouseService.anglesClicked.subscribe(async (angles) => {
-      const data = await this.dioptasServer.getAzimuthalRing(angles.tth);
+      const data = await this.calibrationService.getAzimuthalRing(angles.tth);
       if (data.x) {
         for (let i = 0; i < data.x.length; i++) {
           this.circleLineItems[i].setData(data.x[i], data.y[i]);

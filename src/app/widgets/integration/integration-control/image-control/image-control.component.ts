@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {FileDialogComponent} from '../../../utility/file-dialog/file-dialog.component';
-import {DioptasServerService} from '../../../../shared/dioptas-server.service';
+import {ImageService} from '../../../../shared/model/image.service';
+import {ServerService} from '../../../../shared/model/server.service';
 
 @Component({
   selector: 'app-image-control',
@@ -17,9 +18,10 @@ export class ImageControlComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    public dioptasService: DioptasServerService
+    public imageService: ImageService,
+    public server: ServerService
   ) {
-    this.dioptasService.imageFilename.subscribe((filename) => {
+    this.imageService.imageFilename.subscribe((filename) => {
       this.imageFilename = filename.split('/').pop();
       this.imageDirectory = filename.split('/').slice(0, -1).join('/');
     });
@@ -32,13 +34,13 @@ export class ImageControlComponent implements OnInit {
     const dialogRef = this.dialog.open(FileDialogComponent, {
       width: '650px',
       height: '500px',
-      data: {path: this.dioptasService.imagePath}
+      data: {path: this.imageService.imagePath}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result !== undefined && result !== '') {
-        this.dioptasService.load_image(result);
+        this.imageService.load_image(result);
       }
     });
   }
