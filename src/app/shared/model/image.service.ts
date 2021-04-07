@@ -15,6 +15,7 @@ export class ImageService {
   constructor(public server: ServerService) {
     this.server.connected.subscribe(() => {
       console.log('init_model');
+      this.server.sioClient.emit('init_model' );
     });
     this.server.connect();
 
