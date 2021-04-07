@@ -10,43 +10,22 @@ export class ImageService {
   public imageData = new Subject<{ shape: any, fortran_order: boolean, data: any }>();
   public imageFilename = new Subject<string>();
   public imagePath = '';
-
-  private imageWs: WebSocket;
+  public t1 = new Date();
 
   constructor(public server: ServerService) {
     this.server.connected.subscribe(() => {
       console.log('init_model');
-      this.server.sioClient.emit('init_model', () => {
-        this.connectToImageServer();
-      });
     });
     this.server.connect();
 
-    this.server.sioClient.on('img_changed', (payload) => this.imageFilename.next(payload.filename));
-  }
-
-  connectToImageServer(): void {
-    this.imageWs = new WebSocket('ws://127.0.0.1:' + this.server.port + '/image');
-    this.imageWs.onopen = () => {
-      this.imageWs.send(this.server.sid);
-    };
-    this.imageWs.onmessage = (event) => {
-      if (event.data[0] === '1') {
-        return;
-      } else if (event.data[0] === '0') {
-        console.log('Error in communication with Image WebSocket.');
-        return;
-      } else {
-        event.data.arrayBuffer().then((val) => {
-            const data = NumpyLoader.fromArrayBuffer(val);
-            this.imageData.next(data);
-          }
-        );
-      }
-    };
-    this.imageWs.onclose = () => {
-      console.log('Web socket connection is closed!');
-    };
+    this.server.sioClient.on('img_changed', (payload) => {
+      const t2 = new Date();
+      // @ts-ignore
+      console.log('Time necessary: ', t2 - this.t1);
+      this.imageFilename.next(payload.filename);
+      const data = NumpyLoader.fromArrayBuffer(payload.image);
+      this.imageData.next(data);
+    });
   }
 
   load_image(filename: string): void {
@@ -56,9 +35,11 @@ export class ImageService {
 
   load_next_image(): void {
     this.server.emit('load_next_image').then();
+    this.t1 = new Date();
   }
 
   load_previous_image(): void {
     this.server.emit('load_previous_image').then();
+    this.t1 = new Date();
   }
 }
