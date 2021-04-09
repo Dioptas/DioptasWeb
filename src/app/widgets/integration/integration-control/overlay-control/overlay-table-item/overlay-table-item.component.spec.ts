@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverlayTableItemComponent } from './overlay-table-item.component';
+import Overlay from '../../../../../shared/overlay';
 
 describe('OverlayTableItemComponent', () => {
   let component: OverlayTableItemComponent;
@@ -16,6 +17,7 @@ describe('OverlayTableItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OverlayTableItemComponent);
     component = fixture.componentInstance;
+    component.overlayItem = new Overlay();
     fixture.detectChanges();
   });
 

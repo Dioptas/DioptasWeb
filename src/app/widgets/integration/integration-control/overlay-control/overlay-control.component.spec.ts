@@ -1,27 +1,35 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OverlayControlComponent} from './overlay-control.component';
-import {DioptasServerService} from '../../../../shared/model/dioptas-server.service';
+import {ServerService} from '../../../../shared/model/server.service';
+import {OverlayService} from '../../../../shared/model/overlay.service';
+
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
+import {OverlayTableComponent} from './overlay-table/overlay-table.component';
+import {OverlayTableItemComponent} from './overlay-table-item/overlay-table-item.component';
+import {DblClickInputComponent} from '../../../utility/dbl-click-input/dbl-click-input.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 describe('OverlayControlComponent', () => {
   let component: OverlayControlComponent;
   let fixture: ComponentFixture<OverlayControlComponent>;
 
   beforeEach(async () => {
-    spyOn(DioptasServerService.prototype, 'connect');
-    const dioptasService = new DioptasServerService();
+    spyOn(ServerService.prototype, 'connect');
+    const serverService = new ServerService();
+    const overlayService = new OverlayService(serverService);
 
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, MatCardModule, MatIconModule, MatInputModule, MatFormFieldModule, FormsModule],
-      declarations: [OverlayControlComponent],
+      imports: [BrowserAnimationsModule, MatCardModule, MatIconModule, MatInputModule, MatFormFieldModule, FormsModule, MatCheckboxModule],
+      declarations: [OverlayControlComponent, OverlayTableComponent, OverlayTableItemComponent, DblClickInputComponent],
       providers: [
-        {provide: DioptasServerService, useValue: dioptasService}
+        {provide: ServerService, useValue: serverService},
+        {provide: OverlayService, useValue: overlayService}
       ]
     })
       .compileComponents();

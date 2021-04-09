@@ -9,6 +9,10 @@ export class PatternService {
   public integratedPattern = new Subject<{ x: number[], y: number[] }>();
 
   constructor(public server: ServerService) {
+    this.connectSioEvents();
+  }
+
+  connectSioEvents(): void {
     this.server.sioClient.on('pattern_changed', (payload) => {
       this.integratedPattern.next({x: payload.x, y: payload.y});
     });

@@ -6,6 +6,9 @@ describe('PatternService', () => {
   let service: PatternService;
 
   beforeEach(() => {
+
+    spyOn(PatternService.prototype, 'connectSioEvents');
+
     TestBed.configureTestingModule({});
     service = TestBed.inject(PatternService);
   });

@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {FileDialogComponent} from '../../../utility/file-dialog/file-dialog.component';
 import {ImageService} from '../../../../shared/model/image.service';
-import {ServerService} from '../../../../shared/model/server.service';
 
 @Component({
   selector: 'app-image-control',
@@ -18,8 +17,7 @@ export class ImageControlComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    public imageService: ImageService,
-    public server: ServerService
+    public imageService: ImageService
   ) {
     this.imageService.imageFilename.subscribe((filename) => {
       this.imageFilename = filename.split('/').pop();

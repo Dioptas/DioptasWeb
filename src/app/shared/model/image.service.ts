@@ -18,7 +18,10 @@ export class ImageService {
       this.server.sioClient.emit('init_model' );
     });
     this.server.connect();
+    this.connectSioEvents();
+  }
 
+  connectSioEvents(): void {
     this.server.sioClient.on('img_changed', (payload) => {
       const t2 = new Date();
       // @ts-ignore

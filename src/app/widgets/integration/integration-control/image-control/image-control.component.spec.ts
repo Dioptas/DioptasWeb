@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HarnessLoader} from '@angular/cdk/testing';
 
 import {ImageControlComponent} from './image-control.component';
-import {DioptasServerService} from '../../../../shared/model/dioptas-server.service';
+import {ImageService} from '../../../../shared/model/image.service';
 import {BehaviorSubject, of} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -22,12 +22,12 @@ describe('ImageControlComponent', () => {
 
   beforeEach(async () => {
 
-    const dioptasServiceSpy = jasmine.createSpyObj(
-      'DioptasServerService',
-      ['load_dummy_model', 'load_next_image'],
+    const imageServiceSpy = jasmine.createSpyObj(
+      'ImageService',
+      ['load_next_image'],
       ['imageFilename']
     );
-    spyPropertyGetter(dioptasServiceSpy, 'imageFilename').and.returnValue(new BehaviorSubject<string>(
+    spyPropertyGetter(imageServiceSpy, 'imageFilename').and.returnValue(new BehaviorSubject<string>(
       'test1/test2/image.tif'));
 
 
@@ -39,7 +39,7 @@ describe('ImageControlComponent', () => {
       declarations: [ImageControlComponent],
       providers: [
         {provide: MatDialog, useValue: matDialogSpy},
-        {provide: DioptasServerService, useValue: dioptasServiceSpy}
+        {provide: ImageService, useValue: imageServiceSpy}
       ]
     })
       .compileComponents();
@@ -56,7 +56,7 @@ describe('ImageControlComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get filename and directory from dioptas service', () => {
+  it('should get filename and directory from image service', () => {
     expect(component.imageFilename).toBe('image.tif');
     expect(component.imageDirectory).toBe('test1/test2');
   });

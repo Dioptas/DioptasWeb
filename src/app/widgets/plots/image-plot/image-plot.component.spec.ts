@@ -3,7 +3,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ImagePlotComponent} from './image-plot.component';
 import {DataGeneratorService} from '../../../shared/data-generator.service';
 import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
-import {DioptasServerService} from '../../../shared/model/dioptas-server.service';
+import {ServerService} from '../../../shared/model/server.service';
+import {CalibrationService} from '../../../shared/model/calibration.service';
+import {ImageService} from '../../../shared/model/image.service';
 
 
 describe('ImagePlotComponent', () => {
@@ -12,13 +14,14 @@ describe('ImagePlotComponent', () => {
 
 
   beforeEach(async () => {
-    spyOn(DioptasServerService.prototype, 'connect');
-    const dioptasService = new DioptasServerService();
-    spyOn(dioptasService, 'getAzimuthalRing').and.returnValue(
+    spyOn(ServerService.prototype, 'connect');
+    spyOn(ImageService.prototype, 'connectSioEvents');
+
+    spyOn(CalibrationService.prototype, 'getAzimuthalRing').and.returnValue(
       new Promise<{ x: any, y: any }>(resolve => {
         resolve({x: [[1, 2, 3, 4], [], [], []], y: [[5, 6, 7, 8], [], [], []]});
       }));
-    spyOn(dioptasService, 'getImageAngles').and.returnValue(
+    spyOn(CalibrationService.prototype, 'getImageAngles').and.returnValue(
       new Promise<{ tth: number, azi: number, q: number, d: number }>(resolve => {
         resolve({tth: 5, azi: 130, q: 2, d: 10});
       }));
@@ -27,7 +30,9 @@ describe('ImagePlotComponent', () => {
       declarations: [ImagePlotComponent],
       providers: [
         DataGeneratorService,
-        {provide: DioptasServerService, useValue: dioptasService},
+        ServerService,
+        ImageService,
+        CalibrationService,
         MousePositionService
       ]
     })
