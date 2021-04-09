@@ -6,13 +6,8 @@
 }
 
 .block {
-  width: 50%;
+  /*width: 50%;*/
   overflow:auto;
-}
-
-.left {
-  overflow: auto;
-  width: 50%;
 }
 
 .right {

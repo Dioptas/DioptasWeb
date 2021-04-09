@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ContentChild, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ContentChild, Input, OnInit, TemplateRef, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'app-vertical-splitter',
@@ -6,6 +6,7 @@ import {AfterViewInit, Component, ContentChild, OnInit, TemplateRef, ViewChild} 
   styleUrls: ['./vertical-splitter.component.css']
 })
 export class VerticalSplitterComponent implements OnInit, AfterViewInit {
+  @Input() leftSize = '50%';
   @ContentChild('left', {read: TemplateRef}) left: TemplateRef<any>;
   @ContentChild('right', {read: TemplateRef}) right: TemplateRef<any>;
 

@@ -6,13 +6,8 @@
 }
 
 .block {
-  height: 50%;
+  /*height: 50%;*/
   overflow:auto;
-}
-
-.top {
-  overflow: auto;
-  height: 50%;
 }
 
 .bottom {

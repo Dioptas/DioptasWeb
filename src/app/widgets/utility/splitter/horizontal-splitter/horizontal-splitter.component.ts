@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ContentChild, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ContentChild, OnInit, TemplateRef, ViewChild, Input} from '@angular/core';
 
 @Component({
   selector: 'app-horizontal-splitter',
@@ -6,6 +6,7 @@ import {AfterViewInit, Component, ContentChild, OnInit, TemplateRef, ViewChild} 
   styleUrls: ['./horizontal-splitter.component.css']
 })
 export class HorizontalSplitterComponent implements OnInit, AfterViewInit {
+  @Input() topSize = '30%';
   @ContentChild('top', {read: TemplateRef}) top: TemplateRef<any>;
   @ContentChild('bottom', {read: TemplateRef}) bottom: TemplateRef<any>;
 
