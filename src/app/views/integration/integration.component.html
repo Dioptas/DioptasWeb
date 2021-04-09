@@ -9,7 +9,10 @@
           <app-integration-control></app-integration-control>
         </ng-template>
         <ng-template #bottom>
-          <app-pattern-plot></app-pattern-plot>
+          <div class="patternContainer">
+            <app-pattern-top-menu></app-pattern-top-menu>
+            <app-pattern-plot></app-pattern-plot>
+          </div>
         </ng-template>
       </app-horizontal-splitter>
     </ng-template>

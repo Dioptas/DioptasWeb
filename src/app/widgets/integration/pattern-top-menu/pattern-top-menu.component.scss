@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  padding: 5px 6px 4px 6px;
+  align-items: center
+}
+
+.container > *:not(:last-child) {
+  margin-right: 5px;
+}
+
+$button-size: 24px;
+$button-padding: 2px;
+$icon-size: 15px;
+$font-size: 12px;
+
+
+.save {
+  width: $button-size;
+  height: $button-size;
+}
+
+.save {
+  min-width: $button-size;
+  line-height: $button-size;
+  padding: $button-padding;
+  border-radius: 3px;
+}
+
+.save_icon {
+  font-size: $icon-size;
+  width: $icon-size;
+  margin: auto;
+}
+
+.text_button {
+  height: $button-size;
+  line-height: 5px;
+  font-size: $font-size;
+  min-width: unset!important;
+  padding: 0 10px;
+  margin: auto;
+}
+
+.calibration_name {
+}
+
+.horizontal-spacer {
+  flex-grow: 1;
+}

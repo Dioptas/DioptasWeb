@@ -4,3 +4,18 @@
   height: 100%;
   width: 100%;
 }
+
+.patternContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.patternContainer:last-child {
+  flex-grow: 1;
+}
+
+app-pattern-plot {
+  height: 100%;
+}
