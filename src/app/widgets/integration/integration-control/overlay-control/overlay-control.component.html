@@ -17,6 +17,7 @@
       <button mat-raised-button class="reset"
               matTooltip="Remove all overlays"
               matTooltipShowDelay="1000"
+              (click)="overlayService.clearOverlays()"
       >
         <mat-icon>close</mat-icon>
       </button>

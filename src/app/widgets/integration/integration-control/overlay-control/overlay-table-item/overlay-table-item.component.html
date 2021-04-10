@@ -20,6 +20,7 @@
     <input matInput class="form-control"
            type="number" name="scale" [step]="scaleStep"
            [(ngModel)]="overlayItem.scaling"
+           (ngModelChange)="overlayService.setOverlayScaling(index, $event)"
     >
   </mat-form-field>
 
@@ -30,6 +31,7 @@
     <input matInput class="form-control"
            type="number" name="offset" [step]="offsetStep"
            [(ngModel)]="overlayItem.offset"
+           (ngModelChange)="overlayService.setOverlayOffset(index, $event)"
     >
   </mat-form-field>
 </div>

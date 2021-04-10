@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {OverlayService} from '../../../shared/model/overlay.service';
 
 @Component({
   selector: 'app-pattern-top-menu',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PatternTopMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(public overlayService: OverlayService) { }
 
   ngOnInit(): void {
   }

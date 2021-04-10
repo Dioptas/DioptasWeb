@@ -3,7 +3,7 @@
     <div class="left-header"></div>
     <div class="name">Name</div>
     <div class="scale">Scale</div>
-    <div class="step">Step</div>
+    <div class="offset">Step</div>
   </div>
   <div class="horizontal-line"></div>
   <div *ngFor="let overlay of overlays; let i=index" class="overlay-item">
@@ -13,6 +13,7 @@
       [highlighted]="selectedOverlayIndex===i"
       [scaleStep]="scaleStep"
       [offsetStep]="offsetStep"
+      [index]="i"
     ></app-overlay-table-item>
   </div>
 

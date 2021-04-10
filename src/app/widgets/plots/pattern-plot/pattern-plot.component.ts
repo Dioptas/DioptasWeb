@@ -6,6 +6,7 @@ import VerticalLineItem from '../../../lib/plotting/items/verticalLineItem';
 import {MousePositionService} from '../../../shared/mouse/mouse-position.service';
 import {PatternService} from '../../../shared/model/pattern.service';
 import {OverlayService} from '../../../shared/model/overlay.service';
+import {OverlayInterface} from '../../../shared/overlay';
 
 @Component({
   selector: 'app-pattern-plot',
@@ -66,16 +67,23 @@ export class PatternPlotComponent implements OnInit, AfterViewInit {
   }
 
   _initOverlays(): void {
-    this.overlayService.overlays.subscribe((overlays) => {
-      for (const overlay of this.overlays) {
-        this.plot.removeItem(overlay);
-      }
-      for (const overlay of overlays) {
-        const newOverlayItem = new LineItem(overlay.color);
-        this.plot.addItem(newOverlayItem);
-        newOverlayItem.setData(overlay.x, overlay.y);
-        newOverlayItem.autoRanged = true;
-      }
+    this.overlayService.overlayAdded.subscribe((overlay: OverlayInterface) => {
+      const newOverlayItem = new LineItem(overlay.color);
+      this.plot.addItem(newOverlayItem);
+      this.overlays.push(newOverlayItem);
+      newOverlayItem.setData(overlay.x, overlay.y);
+      newOverlayItem.autoRanged = true;
+    });
+
+    this.overlayService.overlayChanged.subscribe((payload: {index: number, overlay: OverlayInterface}) => {
+      const index = payload.index;
+      const overlay = payload.overlay;
+      this.overlays[index].setData(overlay.x, overlay.y);
+    });
+
+    this.overlayService.overlayRemoved.subscribe((index) => {
+      this.plot.removeItem(this.overlays[index]);
+      this.overlays.splice(index, 1);
     });
   }
 

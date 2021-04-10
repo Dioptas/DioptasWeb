@@ -5,7 +5,11 @@
   >
     <mat-icon class="save_icon">save</mat-icon>
   </button>
-  <button mat-raised-button class="text_button">
+  <button
+    mat-raised-button
+    class="text_button"
+    (click)="overlayService.patternAsOverlay()"
+  >
     As Overlay
   </button>
   <div class="horizontal-spacer"></div>
